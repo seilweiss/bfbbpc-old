@@ -10,4 +10,6 @@ struct tag_iFile
 	int length;
 };
 
+void iFileInit();
+
 #endif

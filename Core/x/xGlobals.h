@@ -4,6 +4,7 @@
 #include "xCamera.h"
 #include "xPad.h"
 #include "xUpdateCull.h"
+#include "iFog.h"
 
 struct xGlobals
 {

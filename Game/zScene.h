@@ -26,4 +26,6 @@ struct zScene : xScene
 	_zEnv *zen;
 };
 
+void zSceneMemLvlChkCB();
+
 #endif

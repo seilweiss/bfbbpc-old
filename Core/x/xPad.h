@@ -51,4 +51,6 @@ struct _tagxPad
 	analog_data analog[2];
 };
 
+int xPadInit();
+
 #endif

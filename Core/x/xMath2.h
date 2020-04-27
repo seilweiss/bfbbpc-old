@@ -7,4 +7,13 @@ struct xVec2
 	float y;
 };
 
+template <class T>
+struct basic_rect
+{
+	T x;
+	T y;
+	T w;
+	T h;
+};
+
 #endif

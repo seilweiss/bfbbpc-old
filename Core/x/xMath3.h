@@ -64,4 +64,17 @@ struct xCylinder
 	float h;
 };
 
+extern xVec3 g_O3;
+extern xVec3 g_X3;
+extern xVec3 g_Y3;
+extern xVec3 g_Z3;
+extern xVec3 g_NX3;
+extern xVec3 g_NY3;
+extern xVec3 g_NZ3;
+extern xVec3 g_Onez;
+extern xMat4x3 g_I3;
+extern xQuat g_IQ;
+
+void xMath3Init();
+
 #endif

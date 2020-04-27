@@ -1,17 +1,57 @@
 #include "zMain.h"
 
 #include "zGlobals.h"
+#include "iSystem.h"
+#include "iTime.h"
+#include "zVar.h"
+#include "zAssetTypes.h"
 
 #include <windows.h>
 
 zGlobals globals;
 xGlobals *xglobals = &globals;
 
+static void zMainOutputMgrSetup();
+static void zMainMemLvlChkCB();
+static void zMainInitGlobals();
+
 int main(int argc, char **argv)
 {
+    unsigned int options;
+
     memset(&globals, 0, sizeof(globals));
+    globals.firstStartPressed = 1;
+
+    options = 0;
+    iSystemInit(options);
+
+    zMainOutputMgrSetup();
+    xMemRegisterBaseNotifyFunc(zMainMemLvlChkCB);
+    zMainInitGlobals();
+    var_init();
+    zAssetStartup();
 
     return 0;
+}
+
+void zMainOutputMgrSetup()
+{
+    iTimeDiffSec(iTimeGet());
+    iTimeGet();
+}
+
+void zMainInitGlobals()
+{
+    memset(&globals, 0, sizeof(globals));
+    globals.sceneFirst = 1;
+
+    iTimeDiffSec(iTimeGet());
+    iTimeGet();
+}
+
+void zMainMemLvlChkCB()
+{
+    zSceneMemLvlChkCB();
 }
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

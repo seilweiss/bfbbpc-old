@@ -93,7 +93,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(RWGSDK)/lib/d3d9/debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>rwcore.lib;rpworld.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>rwcore.lib;rpworld.lib;rpcollis.lib;rpskin.lib;rphanim.lib;rpmatfx.lib;rpusrdat.lib;rpptank.lib;rtanim.lib;rtquat.lib;rtfsyst.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -124,7 +124,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(RWGSDK)/lib/d3d9/release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>rwcore.lib;rpworld.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>rwcore.lib;rpworld.lib;rpcollis.lib;rpskin.lib;rphanim.lib;rpmatfx.lib;rpusrdat.lib;rpptank.lib;rtanim.lib;rtquat.lib;rtfsyst.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -144,17 +144,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Core\p2\iColor.h" />
     <ClInclude Include="Core\p2\iEnv.h" />
     <ClInclude Include="Core\p2\iFile.h" />
+    <ClInclude Include="Core\p2\iFog.h" />
+    <ClInclude Include="Core\p2\iMath3.h" />
+    <ClInclude Include="Core\p2\iMemMgr.h" />
     <ClInclude Include="Core\p2\iPad.h" />
+    <ClInclude Include="Core\p2\iSystem.h" />
+    <ClInclude Include="Core\p2\iTime.h" />
     <ClInclude Include="Core\x\iCamera.h" />
     <ClInclude Include="Core\x\xAnim.h" />
     <ClInclude Include="Core\x\xBase.h" />
+    <ClInclude Include="Core\x\xbinio.h" />
     <ClInclude Include="Core\x\xBound.h" />
     <ClInclude Include="Core\x\xCamera.h" />
     <ClInclude Include="Core\x\xClumpColl.h" />
     <ClInclude Include="Core\x\xCollide.h" />
     <ClInclude Include="Core\x\xCutscene.h" />
+    <ClInclude Include="Core\x\xDebug.h" />
     <ClInclude Include="Core\x\xEnt.h" />
     <ClInclude Include="Core\x\xEntBoulder.h" />
     <ClInclude Include="Core\x\xEntDrive.h" />
@@ -162,27 +170,38 @@
     <ClInclude Include="Core\x\xEnv.h" />
     <ClInclude Include="Core\x\xFFX.h" />
     <ClInclude Include="Core\x\xFile.h" />
+    <ClInclude Include="Core\x\xFont.h" />
+    <ClInclude Include="Core\x\xFX.h" />
     <ClInclude Include="Core\x\xGlobals.h" />
     <ClInclude Include="Core\x\xGrid.h" />
     <ClInclude Include="Core\x\xGroup.h" />
+    <ClInclude Include="Core\x\xhipio.h" />
     <ClInclude Include="Core\x\xJSP.h" />
     <ClInclude Include="Core\x\xLightKit.h" />
     <ClInclude Include="Core\x\xLinkAsset.h" />
+    <ClInclude Include="Core\x\xMath.h" />
     <ClInclude Include="Core\x\xMath2.h" />
     <ClInclude Include="Core\x\xMath3.h" />
     <ClInclude Include="Core\x\xMemMgr.h" />
     <ClInclude Include="Core\x\xModel.h" />
     <ClInclude Include="Core\x\xModelBucket.h" />
     <ClInclude Include="Core\x\xMovePoint.h" />
+    <ClInclude Include="Core\x\xordarray.h" />
     <ClInclude Include="Core\x\xPad.h" />
+    <ClInclude Include="Core\x\xpkrsvc.h" />
     <ClInclude Include="Core\x\xQuickCull.h" />
     <ClInclude Include="Core\x\xRumble.h" />
     <ClInclude Include="Core\x\xScene.h" />
+    <ClInclude Include="Core\x\xShadow.h" />
     <ClInclude Include="Core\x\xShadowSimple.h" />
+    <ClInclude Include="Core\x\xSnd.h" />
     <ClInclude Include="Core\x\xSpline.h" />
+    <ClInclude Include="Core\x\xstransvc.h" />
+    <ClInclude Include="Core\x\xString.h" />
     <ClInclude Include="Core\x\xSurface.h" />
     <ClInclude Include="Core\x\xUpdateCull.h" />
     <ClInclude Include="Core\x\xVec3.h" />
+    <ClInclude Include="Game\zAssetTypes.h" />
     <ClInclude Include="Game\zCutsceneMgr.h" />
     <ClInclude Include="Game\zEnt.h" />
     <ClInclude Include="Game\zEntHangable.h" />
@@ -191,14 +210,68 @@
     <ClInclude Include="Game\zGlobals.h" />
     <ClInclude Include="Game\zLasso.h" />
     <ClInclude Include="Game\zMain.h" />
+    <ClInclude Include="Game\zNPCTypeAmbient.h" />
+    <ClInclude Include="Game\zNPCTypeBoss.h" />
+    <ClInclude Include="Game\zNPCTypeBossPatrick.h" />
+    <ClInclude Include="Game\zNPCTypeBossPlankton.h" />
+    <ClInclude Include="Game\zNPCTypeBossSandy.h" />
+    <ClInclude Include="Game\zNPCTypeBossSB1.h" />
+    <ClInclude Include="Game\zNPCTypeBossSB2.h" />
+    <ClInclude Include="Game\zNPCTypeCommon.h" />
+    <ClInclude Include="Game\zNPCTypeDuplotron.h" />
+    <ClInclude Include="Game\zNPCTypeDutchman.h" />
+    <ClInclude Include="Game\zNPCTypeKingJelly.h" />
+    <ClInclude Include="Game\zNPCTypePrawn.h" />
+    <ClInclude Include="Game\zNPCTypeRobot.h" />
+    <ClInclude Include="Game\zNPCTypeTest.h" />
+    <ClInclude Include="Game\zNPCTypeTiki.h" />
+    <ClInclude Include="Game\zNPCTypeVillager.h" />
     <ClInclude Include="Game\zPickupTable.h" />
     <ClInclude Include="Game\zPlatform.h" />
     <ClInclude Include="Game\zPortal.h" />
     <ClInclude Include="Game\zScene.h" />
+    <ClInclude Include="Game\zVar.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\p2\iFile.cpp" />
+    <ClCompile Include="Core\p2\iMath3.cpp" />
+    <ClCompile Include="Core\p2\iMemMgr.cpp" />
+    <ClCompile Include="Core\p2\iSystem.cpp" />
+    <ClCompile Include="Core\p2\iTime.cpp" />
+    <ClCompile Include="Core\x\xDebug.cpp" />
     <ClCompile Include="Core\x\xEnt.cpp" />
+    <ClCompile Include="Core\x\xFont.cpp" />
+    <ClCompile Include="Core\x\xFX.cpp" />
+    <ClCompile Include="Core\x\xhipio.cpp" />
+    <ClCompile Include="Core\x\xMath.cpp" />
+    <ClCompile Include="Core\x\xMath3.cpp" />
+    <ClCompile Include="Core\x\xMemMgr.cpp" />
+    <ClCompile Include="Core\x\xPad.cpp" />
+    <ClCompile Include="Core\x\xpkrsvc.cpp" />
+    <ClCompile Include="Core\x\xShadow.cpp" />
+    <ClCompile Include="Core\x\xSnd.cpp" />
+    <ClCompile Include="Core\x\xstransvc.cpp" />
+    <ClCompile Include="Core\x\xString.cpp" />
+    <ClCompile Include="Game\zAssetTypes.cpp" />
     <ClCompile Include="Game\zMain.cpp" />
+    <ClCompile Include="Game\zNPCTypeAmbient.cpp" />
+    <ClCompile Include="Game\zNPCTypeBoss.cpp" />
+    <ClCompile Include="Game\zNPCTypeBossPatrick.cpp" />
+    <ClCompile Include="Game\zNPCTypeBossSandy.cpp" />
+    <ClCompile Include="Game\zNPCTypeBossPlankton.cpp" />
+    <ClCompile Include="Game\zNPCTypeBossSB1.cpp" />
+    <ClCompile Include="Game\zNPCTypeBossSB2.cpp" />
+    <ClCompile Include="Game\zNPCTypeCommon.cpp" />
+    <ClCompile Include="Game\zNPCTypeDuplotron.cpp" />
+    <ClCompile Include="Game\zNPCTypeDutchman.cpp" />
+    <ClCompile Include="Game\zNPCTypeKingJelly.cpp" />
+    <ClCompile Include="Game\zNPCTypePrawn.cpp" />
+    <ClCompile Include="Game\zNPCTypeRobot.cpp" />
+    <ClCompile Include="Game\zNPCTypeTest.cpp" />
+    <ClCompile Include="Game\zNPCTypeTiki.cpp" />
+    <ClCompile Include="Game\zNPCTypeVillager.cpp" />
+    <ClCompile Include="Game\zScene.cpp" />
+    <ClCompile Include="Game\zVar.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
