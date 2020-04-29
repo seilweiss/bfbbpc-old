@@ -5,6 +5,8 @@
 #include "iTime.h"
 #include "zVar.h"
 #include "zAssetTypes.h"
+#include "xutil.h"
+#include "xstransvc.h"
 
 #include <windows.h>
 
@@ -14,6 +16,7 @@ xGlobals *xglobals = &globals;
 static void zMainOutputMgrSetup();
 static void zMainMemLvlChkCB();
 static void zMainInitGlobals();
+static void zMainLoadFontHIP();
 
 int main(int argc, char **argv)
 {
@@ -30,17 +33,18 @@ int main(int argc, char **argv)
     zMainInitGlobals();
     var_init();
     zAssetStartup();
+    zMainLoadFontHIP();
 
     return 0;
 }
 
-void zMainOutputMgrSetup()
+static void zMainOutputMgrSetup()
 {
     iTimeDiffSec(iTimeGet());
     iTimeGet();
 }
 
-void zMainInitGlobals()
+static void zMainInitGlobals()
 {
     memset(&globals, 0, sizeof(globals));
     globals.sceneFirst = 1;
@@ -49,9 +53,23 @@ void zMainInitGlobals()
     iTimeGet();
 }
 
-void zMainMemLvlChkCB()
+static void zMainMemLvlChkCB()
 {
     zSceneMemLvlChkCB();
+}
+
+// STUB
+static void zMainLoadFontHIP()
+{
+    iTime t;
+
+    xMemPushBase();
+
+    t = iTimeGet();
+    xUtil_idtag2string('FONT', 0);
+    iTimeDiffSec(t);
+
+    xSTPreLoadScene('FONT', NULL, 1);
 }
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

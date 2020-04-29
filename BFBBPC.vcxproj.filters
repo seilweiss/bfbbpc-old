@@ -276,6 +276,9 @@
     <ClInclude Include="Game\zNPCTypeBossPatrick.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\x\xutil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\zMain.cpp">
@@ -393,6 +396,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\zNPCTypeBossPatrick.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\x\xutil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\x\xbinio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\x\xFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

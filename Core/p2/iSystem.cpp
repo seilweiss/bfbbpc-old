@@ -14,15 +14,24 @@
 #include <rwcore.h>
 #include <rpworld.h>
 #include <rpcollis.h>
+
+#ifndef BFBB_RWSRC
 #include <rpskin.h>
 #include <rphanim.h>
 #include <rpmatfx.h>
 #include <rpusrdat.h>
 #include <rpptank.h>
+#endif
 
 #include <windows.h>
 
 RwVideoMode sVideoMode;
+static RwMemoryFunctions MemoryFunctions;
+
+RwMemoryFunctions *psGetMemoryFunctions()
+{
+    return &MemoryFunctions;
+}
 
 // STUB
 static void iTRCInit()
@@ -33,9 +42,12 @@ static void iTRCInit()
 static unsigned int iRenderWareInit();
 static unsigned int RWAttachPlugins();
 static RwTexture *TextureRead(const RwChar *name, const RwChar *maskName);
+static unsigned int InitMemorySystem(RwMemoryFunctions *memoryFuncs);
 
 void iSystemInit(unsigned int options)
 {
+    InitMemorySystem(&MemoryFunctions);
+
     xDebugInit();
     xMemInit();
     iFileInit();
@@ -60,6 +72,7 @@ static unsigned int RWAttachPlugins()
         return 1;
     }
 
+#ifndef BFBB_RWSRC
     if (!RpSkinPluginAttach())
     {
         return 1;
@@ -84,15 +97,48 @@ static unsigned int RWAttachPlugins()
     {
         return 1;
     }
+#endif
 
     return 0;
+}
+
+// RenderWare's memory functions are broken, so here are some dumb wrappers :)
+
+static void *bfbbmalloc(size_t size, RwUInt32 hint)
+{
+    return malloc(size);
+}
+
+static void bfbbfree(void *mem)
+{
+    free(mem);
+}
+
+static void *bfbbrealloc(void *mem, size_t newSize, RwUInt32 hint)
+{
+    return realloc(mem, newSize);
+}
+
+static void *bfbbcalloc(size_t numObj, size_t sizeObj, RwUInt32 hint)
+{
+    return calloc(numObj, sizeObj);
+}
+
+static unsigned int InitMemorySystem(RwMemoryFunctions *memoryFuncs)
+{
+    memoryFuncs->rwmalloc = bfbbmalloc;
+    memoryFuncs->rwcalloc = bfbbcalloc;
+    memoryFuncs->rwrealloc = bfbbrealloc;
+    memoryFuncs->rwfree = bfbbfree;
+
+    return 1;
 }
 
 static unsigned int iRenderWareInit()
 {
     RwEngineOpenParams openParams;
 
-    if (!RwEngineInit(NULL, 0, 0))
+    if (!RwEngineInit(psGetMemoryFunctions(), 0, 0))
     {
         return 1;
     }

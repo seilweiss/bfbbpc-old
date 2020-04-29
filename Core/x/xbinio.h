@@ -21,23 +21,23 @@ enum en_FIOERRCODES
 
 struct st_FILELOADINFO
 {
-	void(*destroy)(st_FILELOADINFO *);
-	int(*readBytes)(st_FILELOADINFO *, char *, int);
-	int(*readMShorts)(st_FILELOADINFO *, short *, int);
-	int(*readMLongs)(st_FILELOADINFO *, int *, int);
-	int(*readMFloats)(st_FILELOADINFO *, float *, int);
-	int(*readMDoubles)(st_FILELOADINFO *, double *, int);
-	int(*readIShorts)(st_FILELOADINFO *, short *, int);
-	int(*readILongs)(st_FILELOADINFO *, int *, int);
-	int(*readIFloats)(st_FILELOADINFO *, float *, int);
-	int(*readIDoubles)(st_FILELOADINFO *, double *, int);
-	int(*skipBytes)(st_FILELOADINFO *, int);
-	int(*seekSpot)(st_FILELOADINFO *, int);
-	void(*setDoubleBuf)(st_FILELOADINFO *, char *, int);
-	void(*discardDblBuf)(st_FILELOADINFO *);
-	int(*asyncIRead)(st_FILELOADINFO *, int, char *, int, int);
-	int(*asyncMRead)(st_FILELOADINFO *, int, char *, int, int);
-	en_BIO_ASYNC_ERRCODES(*asyncReadStatus)(st_FILELOADINFO *);
+	void(*destroy)(st_FILELOADINFO *fli);
+	int(*readBytes)(st_FILELOADINFO *fli, char *data, int count);
+	int(*readMShorts)(st_FILELOADINFO *fli, short *data, int count);
+	int(*readMLongs)(st_FILELOADINFO *fli, int *data, int count);
+	int(*readMFloats)(st_FILELOADINFO *fli, float *data, int count);
+	int(*readMDoubles)(st_FILELOADINFO *fli, double *data, int count);
+	int(*readIShorts)(st_FILELOADINFO *fli, short *data, int count);
+	int(*readILongs)(st_FILELOADINFO *fli, int *data, int count);
+	int(*readIFloats)(st_FILELOADINFO *fli, float *data, int count);
+	int(*readIDoubles)(st_FILELOADINFO *fli, double *data, int count);
+	int(*skipBytes)(st_FILELOADINFO *fli, int fwd);
+	int(*seekSpot)(st_FILELOADINFO *fli, int pos);
+	void(*setDoubleBuf)(st_FILELOADINFO *fli, char *dblbuffer, int bufsize);
+	void(*discardDblBuf)(st_FILELOADINFO *fli);
+	int(*asyncIRead)(st_FILELOADINFO *fli, int offset, char *data, int size, int n);
+	int(*asyncMRead)(st_FILELOADINFO *fli, int offset, char *data, int size, int n);
+	en_BIO_ASYNC_ERRCODES(*asyncReadStatus)(st_FILELOADINFO *fli);
 	unsigned int lockid;
 	en_FIOERRCODES error;
 	unsigned int basesector;
@@ -48,5 +48,7 @@ struct st_FILELOADINFO
 	int remain;
 	int position;
 };
+
+st_FILELOADINFO *xBinioLoadCreate(const char *filename);
 
 #endif

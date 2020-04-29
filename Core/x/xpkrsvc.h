@@ -95,7 +95,7 @@ struct st_PKR_ASSET_TOCINFO
 struct st_PACKER_READ_FUNCS
 {
 	unsigned int api_ver;
-	st_PACKER_READ_DATA *(*Init)(void *userdata, char *pkgfile, unsigned int opts,
+	st_PACKER_READ_DATA *(*Init)(void *userdata, const char *pkgfile, unsigned int opts,
 								 int *cltver, st_PACKER_ASSETTYPE *typelist);
 	void(*Done)(st_PACKER_READ_DATA *pr);
 	int(*LoadLayer)(st_PACKER_READ_DATA *, en_LAYER_TYPE);

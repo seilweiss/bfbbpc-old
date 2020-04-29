@@ -45,6 +45,13 @@ struct xMemHeap_tag
 	xMemBlock_tag *lastblk;
 };
 
+#define XMEMHEAP_UNK100   0x100
+#define XMEMHEAP_UNK10000 0x10000
+
+#define xMemHeapFlagsGetAlign(flags) (1 << (((flags) & 0x3e00) >> 9))
+#define xMemHeapFlagsGetMaxBlks(flags) (1 << (((flags) & 0x4000) >> 14))
+#define xMemHeapFlagsGetUnk8000(flags) (((flags) & 0x8000) >> 15)
+
 struct xMemPool;
 
 typedef void(*xMemPoolInitCallBack)(xMemPool *, void *);
@@ -71,6 +78,11 @@ extern xMemHeap_tag gxHeap[3];
 void xMemInitHeap(xMemHeap_tag *heap, unsigned int base, unsigned int size,
 				  unsigned int flags);
 void xMemInit();
+void *xMemAlloc(unsigned int heapID, unsigned int size, int align);
+void *xMemPushTemp(unsigned int size);
+void xMemPopTemp(void *addr);
+int xMemPushBase(unsigned int heapID);
+int xMemPushBase();
 void xMemRegisterBaseNotifyFunc(xMemBaseNotifyFunc func);
 
 #endif

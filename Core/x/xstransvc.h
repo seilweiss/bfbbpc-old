@@ -21,5 +21,6 @@ struct st_STRAN_DATA
 };
 
 int xSTStartup(st_PACKER_ASSETTYPE *handlers);
+int xSTPreLoadScene(unsigned int sid, void *userdata, int flg_hiphop);
 
 #endif

@@ -1,5 +1,11 @@
 #include "xhipio.h"
 
+#include <stdlib.h>
+#include <string.h>
+
+static unsigned int g_loadlock;
+static st_HIPLOADDATA g_hiploadinst[8];
+
 en_READ_ASYNC_STATUS HIPLPollRead(st_HIPLOADDATA *lddata);
 void HIPLSetSpot(st_HIPLOADDATA *lddata, int spot);
 int HIPLSetBypass(st_HIPLOADDATA *lddata, int enable, int use_async);
@@ -38,17 +44,89 @@ st_HIPLOADFUNCS *get_HIPLFuncs()
 
 st_HIPLOADDATA *HIPLCreate(const char *filename, char *dblbuf, int bufsize)
 {
-    return 0;
+    st_HIPLOADDATA *lddata = NULL;
+    st_FILELOADINFO *fli;
+    st_HIPLOADBLOCK *tmp_blk;
+    int i;
+    int uselock = -1;
+
+    for (i = 0; i < 8; i++)
+    {
+        if (!(g_loadlock & (1 << i)))
+        {
+            uselock = i;
+            g_loadlock |= (1 << i);
+
+            lddata = &g_hiploadinst[i];
+            break;
+        }
+    }
+
+    if (lddata)
+    {
+        memset(lddata, 0, sizeof(st_HIPLOADDATA));
+
+        lddata->lockid = uselock;
+        lddata->top = -1;
+        lddata->base_sector = 0;
+        lddata->use_async = 0;
+        lddata->asyn_stat = HIP_RDSTAT_NONE;
+        lddata->pos = 0;
+        lddata->readTop = 0;
+
+        for (i = 0; i < 8; i++)
+        {
+            tmp_blk = &lddata->stk[i];
+            tmp_blk->endpos = 0;
+            tmp_blk->blk_id = 0;
+            tmp_blk->blk_remain = 0;
+            tmp_blk->flags = 0;
+        }
+
+        fli = xBinioLoadCreate(filename);
+
+        if (fli)
+        {
+            lddata->fli = fli;
+            lddata->base_sector = fli->basesector;
+
+            if (dblbuf && bufsize > 0)
+            {
+                fli->setDoubleBuf(fli, dblbuf, bufsize);
+            }
+        }
+        else
+        {
+            HIPLDestroy(lddata);
+            lddata = NULL;
+        }
+    }
+
+    return lddata;
 }
 
 void HIPLDestroy(st_HIPLOADDATA *lddata)
 {
+    int lockid;
 
+    if (lddata)
+    {
+        if (lddata->fli)
+        {
+            lddata->fli->destroy(lddata->fli);
+        }
+
+        lockid = lddata->lockid;
+
+        memset(lddata, 0, sizeof(st_HIPLOADDATA));
+
+        g_loadlock &= ~(1 << lockid);
+    }
 }
 
 unsigned int HIPLBaseSector(st_HIPLOADDATA *lddata)
 {
-    return 0;
+    return lddata->base_sector;
 }
 
 int HIPLSetBypass(st_HIPLOADDATA *lddata, int enable, int use_async)

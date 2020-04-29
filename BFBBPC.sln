@@ -7,12 +7,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BFBBPC", "BFBBPC.vcxproj", 
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_rwsrc|x64 = Debug_rwsrc|x64
+		Debug_rwsrc|x86 = Debug_rwsrc|x86
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6EA949D3-EDB6-40AF-A86D-034616238767}.Debug_rwsrc|x64.ActiveCfg = Debug_rwsrc|x64
+		{6EA949D3-EDB6-40AF-A86D-034616238767}.Debug_rwsrc|x64.Build.0 = Debug_rwsrc|x64
+		{6EA949D3-EDB6-40AF-A86D-034616238767}.Debug_rwsrc|x86.ActiveCfg = Debug_rwsrc|Win32
+		{6EA949D3-EDB6-40AF-A86D-034616238767}.Debug_rwsrc|x86.Build.0 = Debug_rwsrc|Win32
 		{6EA949D3-EDB6-40AF-A86D-034616238767}.Debug|x64.ActiveCfg = Debug|x64
 		{6EA949D3-EDB6-40AF-A86D-034616238767}.Debug|x64.Build.0 = Debug|x64
 		{6EA949D3-EDB6-40AF-A86D-034616238767}.Debug|x86.ActiveCfg = Debug|Win32
