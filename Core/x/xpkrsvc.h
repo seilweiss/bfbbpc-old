@@ -39,6 +39,8 @@ struct st_PACKER_ATOC_NODE
 	st_HIPLOADDATA *ownpkg;
 	st_PACKER_READ_DATA *ownpr;
 	char basename[32];
+
+	const char *Name() const;
 };
 
 struct st_PACKER_READ_DATA
@@ -82,6 +84,18 @@ enum en_LAYER_TYPE
 	PKR_LTYPE_NOMORE
 };
 
+struct st_PACKER_LTOC_NODE
+{
+	en_LAYER_TYPE laytyp;
+	st_XORDEREDARRAY assref;
+	int flg_ldstat;
+	int danglecnt;
+	unsigned int chksum;
+	int laysize;
+	char *laymem;
+	char *laytru;
+};
+
 struct st_PKR_ASSET_TOCINFO
 {
 	unsigned int aid;
@@ -119,5 +133,7 @@ struct st_PACKER_READ_FUNCS
 
 st_PACKER_READ_FUNCS *PKRGetReadFuncs(int apiver);
 int PKRStartup();
+int PKRShutdown();
+int PKRLoadStep();
 
 #endif

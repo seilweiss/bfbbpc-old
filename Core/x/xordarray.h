@@ -9,4 +9,6 @@ struct st_XORDEREDARRAY
 	int warnlvl;
 };
 
+void XOrdDone(st_XORDEREDARRAY *array, int wasTempAlloc);
+
 #endif

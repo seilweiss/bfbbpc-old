@@ -59,12 +59,16 @@ static int g_memalloc_pair;
 static int g_memalloc_runtot;
 static int g_memalloc_runfree;
 
+static int PKR_LoadStep_Async();
 static void PKR_alloc_chkidx();
 static void *PKR_getmem(unsigned int id, int amount, unsigned int, int align, int isTemp,
                         char **memtru);
 static int PKR_parse_TOC(st_HIPLOADDATA *pkg, st_PACKER_READ_DATA *pr);
 static void PKR_relmem(unsigned int id, int blksize, void *memptr, unsigned int,
                        int isTemp);
+static void PKR_LayerMemRelease(st_PACKER_READ_DATA *pr, st_PACKER_LTOC_NODE *layer);
+static void PKR_kiilpool_anode(st_PACKER_READ_DATA *pr);
+static void PKR_oldlaynode(st_PACKER_LTOC_NODE *laynode);
 
 st_PACKER_READ_FUNCS *PKRGetReadFuncs(int apiver)
 {
@@ -87,6 +91,18 @@ int PKRStartup()
     }
 
     return g_packinit;
+}
+
+int PKRShutdown()
+{
+    g_packinit--;
+    return g_packinit;
+}
+
+int PKRLoadStep()
+{
+    int more_todo = PKR_LoadStep_Async();
+    return more_todo;
 }
 
 static st_PACKER_READ_DATA *PKR_ReadInit(void *userdata, const char *pkgfile,
@@ -168,21 +184,155 @@ static st_PACKER_READ_DATA *PKR_ReadInit(void *userdata, const char *pkgfile,
     return pr;
 }
 
-// STUB
 static void PKR_ReadDone(st_PACKER_READ_DATA *pr)
 {
+    int i;
+    int j;
+    int lockid;
+    st_PACKER_ATOC_NODE *assnode;
+    st_PACKER_LTOC_NODE *laynode;
+    st_XORDEREDARRAY *tmplist;
 
+    if (pr)
+    {
+        for (j = pr->laytoc.cnt - 1; j >= 0; j--)
+        {
+            laynode = (st_PACKER_LTOC_NODE *)pr->laytoc.list[j];
+
+            for (i = laynode->assref.cnt - 1; i >= 0; i--)
+            {
+                assnode = (st_PACKER_ATOC_NODE *)laynode->assref.list[i];
+
+                if (assnode->typeref &&
+                    assnode->typeref->assetUnloaded &&
+                    !(assnode->loadflag & 0x100000))
+                {
+                    assnode->typeref->assetUnloaded(assnode->memloc, assnode->aid);
+                }
+            }
+        }
+
+        for (j = 0; j < pr->laytoc.cnt; j++)
+        {
+            laynode = (st_PACKER_LTOC_NODE *)pr->laytoc.list[j];
+
+            if (laynode->laymem)
+            {
+                PKR_LayerMemRelease(pr, laynode);
+                laynode->laymem = NULL;
+            }
+        }
+
+        PKR_kiilpool_anode(pr);
+
+        for (j = 0; j < pr->laytoc.cnt; j++)
+        {
+            laynode = (st_PACKER_LTOC_NODE *)pr->laytoc.list[j];
+
+            PKR_oldlaynode(laynode);
+        }
+
+        XOrdDone(&pr->asstoc, 0);
+        XOrdDone(&pr->laytoc, 0);
+
+        for (i = 0; i < (sizeof(pr->typelist) / sizeof(st_XORDEREDARRAY)); i++)
+        {
+            tmplist = &pr->typelist[i];
+
+            if (tmplist->max)
+            {
+                XOrdDone(tmplist, 0);
+            }
+        }
+
+        if (pr->pkg)
+        {
+            g_hiprf->destroy(pr->pkg);
+            pr->pkg = NULL;
+        }
+
+        lockid = pr->lockid;
+
+        memset(pr, 0, sizeof(st_PACKER_READ_DATA));
+
+        g_loadlock &= ~(1 << lockid);
+    }
 }
 
 static int PKR_SetActive(st_PACKER_READ_DATA *pr, en_LAYER_TYPE layer)
 {
-    return 0;
+    int result = 1;
+    int rc;
+    int i;
+    int j;
+    st_PACKER_ATOC_NODE *assnode;
+    st_PACKER_LTOC_NODE *laynode;
+
+    if (!pr)
+    {
+        rc = 0;
+    }
+    else
+    {
+        for (i = 0; i < pr->laytoc.cnt; i++)
+        {
+            laynode = (st_PACKER_LTOC_NODE *)&pr->laytoc.list[i];
+
+            if (layer <= PKR_LTYPE_DEFAULT || laynode->laytyp == layer)
+            {
+                for (j = 0; j < laynode->assref.cnt; j++)
+                {
+                    assnode = (st_PACKER_ATOC_NODE *)&laynode->assref.list[j];
+
+                    if (!(assnode->loadflag & 0x10000) &&
+                        (assnode->loadflag & 0x80000))
+                    {
+                        if (!assnode->typeref)
+                        {
+                            // probably printing something here...
+                            // WARNING: asset <name> missing typeref
+                            assnode->Name();
+                            xUtil_idtag2string(assnode->asstype, 0);
+                        }
+                        else if (assnode->typeref->assetLoaded)
+                        {
+                            if (!assnode->typeref->assetLoaded(pr->userdata,
+                                    assnode->aid, assnode->memloc, assnode->d_size))
+                            {
+                                result = 0;
+                            }
+                            else
+                            {
+                                assnode->loadflag |= 0x1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        rc = result;
+    }
+
+    return rc;
 }
 
 // STUB
 static int PKR_parse_TOC(st_HIPLOADDATA *pkg, st_PACKER_READ_DATA *pr)
 {
     return 0;
+}
+
+// STUB
+static int PKR_LoadStep_Async()
+{
+    return 0;
+}
+
+// STUB
+static void PKR_LayerMemRelease(st_PACKER_READ_DATA *pr, st_PACKER_LTOC_NODE *layer)
+{
+
 }
 
 static int PKR_LoadLayer(st_PACKER_READ_DATA *, en_LAYER_TYPE)
@@ -253,6 +403,18 @@ static int PKR_PkgHasAsset(st_PACKER_READ_DATA *pr, unsigned int aid)
     return 0;
 }
 
+// STUB
+static void PKR_kiilpool_anode(st_PACKER_READ_DATA *pr)
+{
+
+}
+
+// STUB
+static void PKR_oldlaynode(st_PACKER_LTOC_NODE *laynode)
+{
+
+}
+
 static void PKR_alloc_chkidx()
 {
     return;
@@ -314,4 +476,9 @@ static void PKR_relmem(unsigned int id, int blksize, void *memptr, unsigned int,
                        int isTemp)
 {
 
+}
+
+const char *st_PACKER_ATOC_NODE::Name() const
+{
+    return "<unknown>";
 }
