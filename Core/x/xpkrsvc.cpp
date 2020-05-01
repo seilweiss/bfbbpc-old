@@ -1329,7 +1329,7 @@ static int OrdComp_R_Asset(void *vkey, void *vitem)
 static int OrdTest_R_AssetID(const void *vkey, void *vitem)
 {
     int rc;
-    unsigned int key = *(const unsigned int *)vkey;
+    unsigned int key = (unsigned int)vkey;
 
     if (key < ((st_PACKER_ATOC_NODE *)vitem)->aid)
     {
