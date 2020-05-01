@@ -70,7 +70,7 @@ struct st_PACKER_READ_DATA
 enum en_LAYER_TYPE
 {
 	PKR_LTYPE_ALL = 0xffffffff,
-	PKR_LTYPE_DEFAULT,
+	PKR_LTYPE_DEFAULT = 0,
 	PKR_LTYPE_TEXTURE,
 	PKR_LTYPE_BSP,
 	PKR_LTYPE_MODEL,
@@ -114,13 +114,13 @@ struct st_PACKER_READ_FUNCS
 	void(*Done)(st_PACKER_READ_DATA *pr);
 	int(*LoadLayer)(st_PACKER_READ_DATA *, en_LAYER_TYPE);
 	unsigned int(*GetAssetSize)(st_PACKER_READ_DATA *pr, unsigned int aid);
-	void *(*LoadAsset)(st_PACKER_READ_DATA *pr, unsigned int aid, char *, void *);
+	void *(*LoadAsset)(st_PACKER_READ_DATA *pr, unsigned int aid, const char *, void *);
 	void *(*AssetByType)(st_PACKER_READ_DATA *pr, unsigned int type, int idx,
 						 unsigned int *size);
 	int(*AssetCount)(st_PACKER_READ_DATA *pr, unsigned int type);
 	int(*IsAssetReady)(st_PACKER_READ_DATA *pr, unsigned int aid);
 	int(*SetActive)(st_PACKER_READ_DATA *pr, en_LAYER_TYPE layer);
-	char *(*AssetName)(st_PACKER_READ_DATA *pr, unsigned int aid);
+	const char *(*AssetName)(st_PACKER_READ_DATA *pr, unsigned int aid);
 	unsigned int(*GetBaseSector)(st_PACKER_READ_DATA *pr);
 	int(*GetAssetInfo)(st_PACKER_READ_DATA *pr, unsigned int aid,
 					   st_PKR_ASSET_TOCINFO *tocinfo);
@@ -135,5 +135,6 @@ st_PACKER_READ_FUNCS *PKRGetReadFuncs(int apiver);
 int PKRStartup();
 int PKRShutdown();
 int PKRLoadStep();
+unsigned int PKRAssetIDFromInst(void *asset_inst);
 
 #endif

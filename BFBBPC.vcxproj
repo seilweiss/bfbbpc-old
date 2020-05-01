@@ -317,6 +317,7 @@
     <ClCompile Include="Core\x\xMath.cpp" />
     <ClCompile Include="Core\x\xMath3.cpp" />
     <ClCompile Include="Core\x\xMemMgr.cpp" />
+    <ClCompile Include="Core\x\xordarray.cpp" />
     <ClCompile Include="Core\x\xPad.cpp" />
     <ClCompile Include="Core\x\xpkrsvc.cpp" />
     <ClCompile Include="Core\x\xShadow.cpp" />

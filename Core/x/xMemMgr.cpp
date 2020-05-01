@@ -244,7 +244,41 @@ int xMemPushBase()
     return xMemPushBase(gActiveHeap);
 }
 
+int xMemPopBase(unsigned int heapID, int depth)
+{
+    xMemHeap_tag *heap = &gxHeap[heapID];
+
+    if (depth < 0)
+    {
+        depth += heap->state_idx;
+    }
+
+    heap->state_idx = depth;
+
+    if (sMemBaseNotifyFunc)
+    {
+        sMemBaseNotifyFunc();
+    }
+
+    return heap->state_idx;
+}
+
+int xMemPopBase(int depth)
+{
+    return xMemPopBase(gActiveHeap, depth);
+}
+
+int xMemGetBase(unsigned int heapID)
+{
+    return gxHeap[heapID].state_idx;
+}
+
 void xMemRegisterBaseNotifyFunc(xMemBaseNotifyFunc func)
 {
     sMemBaseNotifyFunc = func;
+}
+
+int xMemGetBase()
+{
+    return xMemGetBase(gActiveHeap);
 }

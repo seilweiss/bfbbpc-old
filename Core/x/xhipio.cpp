@@ -41,7 +41,7 @@ static st_HIPLOADFUNCS g_map_HIPL_funcmap =
     HIPLPollRead
 };
 
-static st_HIPLOADFUNCS *get_HIPLFuncs()
+st_HIPLOADFUNCS *get_HIPLFuncs()
 {
     return &g_map_HIPL_funcmap;
 }

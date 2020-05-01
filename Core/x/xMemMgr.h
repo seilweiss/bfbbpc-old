@@ -83,6 +83,10 @@ void *xMemPushTemp(unsigned int size);
 void xMemPopTemp(void *addr);
 int xMemPushBase(unsigned int heapID);
 int xMemPushBase();
+int xMemPopBase(unsigned int heapID, int depth);
+int xMemPopBase(int depth);
+int xMemGetBase(unsigned int heapID);
 void xMemRegisterBaseNotifyFunc(xMemBaseNotifyFunc func);
+int xMemGetBase();
 
 #endif

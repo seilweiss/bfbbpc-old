@@ -276,7 +276,7 @@ static int ReadRaw(st_FILELOADINFO *fli, void *data, int size, int count)
 
 static int ReadBytes(st_FILELOADINFO *fli, char *data, int count)
 {
-	int act = ReadRaw(fli, data, sizeof(short), count);
+	int act = ReadRaw(fli, data, sizeof(char), count);
 
 	return act;
 }

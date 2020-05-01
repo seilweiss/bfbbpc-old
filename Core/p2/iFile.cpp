@@ -96,6 +96,7 @@ unsigned int iFileRead(tag_xFile *file, void *buf, unsigned int size)
 {
     tag_iFile *ps = &file->ps;
     DWORD num = -1;
+    BOOL status;
 
     ps->overlapped.Internal = 0;
     ps->overlapped.InternalHigh = 0;
@@ -103,7 +104,9 @@ unsigned int iFileRead(tag_xFile *file, void *buf, unsigned int size)
     ps->overlapped.OffsetHigh = 0;
     ps->overlapped.hEvent = 0;
 
-    if (ReadFile(ps->handle, buf, size, NULL, &ps->overlapped))
+    status = ReadFile(ps->handle, buf, size, NULL, &ps->overlapped);
+
+    if (status || GetLastError() == ERROR_IO_PENDING)
     {
         while (!GetOverlappedResult(ps->handle, &ps->overlapped, &num, TRUE))
         {
@@ -113,6 +116,10 @@ unsigned int iFileRead(tag_xFile *file, void *buf, unsigned int size)
                 break;
             }
         }
+    }
+    else
+    {
+        num = -1;
     }
 
     return num;
