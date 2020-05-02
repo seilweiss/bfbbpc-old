@@ -128,7 +128,7 @@ basic_rect<int> find_bounds(const iColor_tag *bits, const basic_rect<int> &r, in
     const iColor_tag *endp = bits + pitch * r.h;
     const iColor_tag *p = bits;
 
-    int pmode = (p->r == p->g && p->g && p->b && p->r >= 240) ? 1 : 0;
+    int pmode = (p->r == p->g && p->g == p->b && p->r >= 240) ? 1 : 0;
 
     int minx = r.x + r.w;
     int maxx = r.x - 1;
@@ -144,7 +144,7 @@ basic_rect<int> find_bounds(const iColor_tag *bits, const basic_rect<int> &r, in
 
         while (p != endline)
         {
-            if ((pmode && p->a) || (!pmode || p->r))
+            if ((pmode && p->a) || (!pmode && p->r))
             {
                 minx = (x < minx) ? x : minx;
                 maxx = (x > maxx) ? x : maxx;
