@@ -25,5 +25,6 @@ int xSTPreLoadScene(unsigned int sid, void *userdata, int flg_hiphop);
 int xSTQueueSceneAssets(unsigned int sid, int flg_hiphop);
 float xSTLoadStep(unsigned int sid);
 void xSTDisconnect(unsigned int sid, int flg_hiphop);
+void *xSTFindAsset(unsigned int aid, unsigned int *size);
 
 #endif

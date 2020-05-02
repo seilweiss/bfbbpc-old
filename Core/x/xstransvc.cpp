@@ -19,6 +19,8 @@ static int XST_PreLoadScene(st_STRAN_SCENE *sdata, const char *fname);
 static char *XST_translate_sid(unsigned int sid, const char *ext);
 static void XST_unlock(st_STRAN_SCENE *sdata);
 static st_STRAN_SCENE *XST_find_bySID(unsigned int sid, int findTheHOP);
+static int XST_cnt_locked();
+static st_STRAN_SCENE *XST_nth_locked(int n);
 
 int xSTStartup(st_PACKER_ASSETTYPE *handlers)
 {
@@ -179,6 +181,57 @@ void xSTDisconnect(unsigned int sid, int flg_hiphop)
     }
 }
 
+void *xSTFindAsset(unsigned int aid, unsigned int *size)
+{
+    void *memloc = NULL;
+    st_STRAN_SCENE *sdata;
+    int ready;
+    int scncnt;
+    int i;
+    int rc;
+
+    if (!aid)
+    {
+        return NULL;
+    }
+
+    scncnt = XST_cnt_locked();
+
+    for (i = 0; i < scncnt; i++)
+    {
+        sdata = XST_nth_locked(i);
+
+        rc = g_pkrf->PkgHasAsset(sdata->spkg, aid);
+
+        if (rc)
+        {
+            memloc = g_pkrf->LoadAsset(sdata->spkg, aid, NULL, NULL);
+            ready = g_pkrf->IsAssetReady(sdata->spkg, aid);
+
+            if (!ready)
+            {
+                memloc = NULL;
+
+                if (size)
+                {
+                    *size = 0;
+                }
+            }
+            else
+            {
+                if (size)
+                {
+                    *size = g_pkrf->GetAssetSize(sdata->spkg, aid);
+                }
+            }
+
+            break;
+        }
+    }
+
+    return memloc;
+}
+
 // Returns cltver
 static int XST_PreLoadScene(st_STRAN_SCENE *sdata, const char *fname)
 {
@@ -269,6 +322,45 @@ static void XST_unlock(st_STRAN_SCENE *sdata)
             memset(sdata, 0, sizeof(st_STRAN_SCENE));
         }
     }
+}
+
+static int XST_cnt_locked()
+{
+    int i;
+    int cnt = 0;
+
+    for (i = 0; i < 16; i++)
+    {
+        if (g_xstdata.loadlock & (1 << i))
+        {
+            cnt++;
+        }
+    }
+
+    return cnt;
+}
+
+static st_STRAN_SCENE *XST_nth_locked(int n)
+{
+    st_STRAN_SCENE *sdata = NULL;
+    int i;
+    int cnt = 0;
+    
+    for (i = 0; i < 16; i++)
+    {
+        if (g_xstdata.loadlock & (1 << i))
+        {
+            if (cnt == n)
+            {
+                sdata = &g_xstdata.hipscn[i];
+                break;
+            }
+
+            cnt++;
+        }
+    }
+
+    return sdata;
 }
 
 static st_STRAN_SCENE *XST_find_bySID(unsigned int sid, int findTheHOP)

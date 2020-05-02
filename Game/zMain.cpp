@@ -7,6 +7,7 @@
 #include "zAssetTypes.h"
 #include "xutil.h"
 #include "xstransvc.h"
+#include "xFont.h"
 
 #include <windows.h>
 
@@ -34,6 +35,7 @@ int main(int argc, char **argv)
     var_init();
     zAssetStartup();
     zMainLoadFontHIP();
+    xfont::init();
 
     return 0;
 }

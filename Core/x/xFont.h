@@ -13,6 +13,8 @@ struct xfont
 	float space;
 	iColor_tag color;
 	basic_rect<float> clip;
+
+	static void init();
 };
 
 struct xtextbox

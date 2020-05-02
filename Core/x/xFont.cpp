@@ -1,6 +1,413 @@
 #include "xFont.h"
 
+#include "xstransvc.h"
+#include "xModel.h"
+#include "xMemMgr.h"
+
 #include <rwcore.h>
+#include <string.h>
+
+namespace
+{
+struct font_asset
+{
+	unsigned int tex_id;
+	unsigned short u;
+	unsigned short v;
+	unsigned char du;
+	unsigned char dv;
+	unsigned char line_size;
+	unsigned char baseline;
+	struct
+	{
+		short x;
+		short y;
+	} space;
+	unsigned int flags;
+	unsigned char char_set[128];
+	struct
+	{
+		unsigned char offset;
+		unsigned char size;
+	} char_pos[127];
+};
+
+struct font_data
+{
+	font_asset *asset;
+	unsigned int index_max;
+	unsigned char char_index[256];
+	float iwidth;
+	float iheight;
+	basic_rect<float> tex_bounds[127];
+	basic_rect<float> bounds[127];
+	xVec2 dstfrac[127];
+	RwTexture *texture;
+	RwRaster *raster;
+};
+
+struct model_pool
+{
+	RwMatrix mat[8];
+	xModelInstance model[8];
+};
+
+struct model_cache_entry
+{
+	unsigned int id;
+	unsigned int order;
+	xModelInstance *model;
+};
+
+const char *default_font_texture[] =
+{
+	"font_sb",
+	"font1_sb",
+	"font_numbers"
+};
+
+font_asset default_font_assets[] =
+{
+	1, 0, 0, 18, 22, 14, 0, { 0, 0 }, 0x1,
+	{
+		'~', '{', '}', '#', 'A', 'B', 'C', 'D',
+		'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+		'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+		'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1',
+		'2', '3', '4', '5', '6', '7', '8', '9',
+		'?', '!', '.', ',', '-', ':', '_', '"',
+		'\'','&', '(', ')', '<', '>', '/', '%',
+		'ü', 'û', 'ù', 'â', 'ä', 'à', 'ê', 'è',
+		'é', 'î', 'ö', 'ô', 'ç', 'ß', '+'
+	}, {},
+
+	0, 0, 0, 18, 22, 14, 0, { 1, 0 }, 0,
+	{
+		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+		'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+		'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+		'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+		'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+		'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+		'w', 'x', 'y', 'z', '0', '1', '2', '3',
+		'4', '5', '6', '7', '8', '9', '?', '!',
+		'.', ',', ';', ':', '+', '-', '=', '/',
+		'&', '(', ')', '%', '"', '\'','_', '<',
+		'>', '*', '[', ']', 'Ü', 'Û', 'Ù', 'Â',
+		'Ä', 'À', 'Ê', 'È', 'É', 'Î', 'Ö', 'Ô',
+		'Ç', 'ß', 'ü', 'û', 'ù', 'â', 'ä', 'à',
+		'ê', 'è', 'é', 'î', 'ö', 'ô', 'ç', '~',
+		'©', '®', '™', '@', '|'
+	}, {},
+
+	1, 148, 232, 6, 8, 18, 0, { 0, 0 }, 0x9,
+	{
+		'0', '1', '2', '3', '4', '5', '6', '7',
+		'8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+		'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+		'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+		'W', 'X', 'Y', 'Z', ',', '.', '/', '*',
+		'+', '-', '=', ':', ';', '%', '<', '>',
+		'[', ']', '|', '(', ')', '_'
+	}, {},
+
+	2, 0, 0, 32, 32, 4, 0, { 0, 0 }, 0,
+	{
+		'1', '2', '3', '4', '5', '6', '7', '8',
+		'9', '0', '/'
+	}, {}
+};
+
+font_data active_fonts[4];
+unsigned int active_fonts_size;
+
+basic_rect<int> find_bounds(const iColor_tag *bits, const basic_rect<int> &r, int pitch)
+{
+	int diff = pitch - r.w;
+
+	const iColor_tag *endp = bits + pitch * r.h;
+	const iColor_tag *p = bits;
+
+	int pmode = (p->r == p->g && p->g && p->b && p->r >= 240) ? 1 : 0;
+
+	int minx = r.x + r.w;
+	int maxx = r.x - 1;
+	int miny = r.y + r.h;
+	int maxy = r.y - 1;
+
+	int y = r.y;
+
+	while (p != endp)
+	{
+		const iColor_tag *endline = p + r.w;
+		int x = r.x;
+
+		while (p != endline)
+		{
+			if ((pmode && p->a) || (!pmode || p->r))
+			{
+				minx = (x < minx) ? x : minx;
+				maxx = (x > maxx) ? x : maxx;
+				miny = (y < miny) ? y : miny;
+				maxy = (y > maxy) ? y : maxy;
+			}
+
+			p++;
+			x++;
+		}
+
+		p += diff;
+		y++;
+	}
+
+	basic_rect<int> b;
+	b.x = minx;
+	b.y = miny;
+	b.w = maxx + 1 - minx;
+	b.h = maxy + 1 - miny;
+
+	return b;
+}
+
+unsigned char reset_font_spacing(font_asset &a)
+{
+	RwTexture *tex = (RwTexture *)xSTFindAsset(a.tex_id, NULL);
+
+	if (!tex)
+	{
+		return 0;
+	}
+
+	basic_rect<int> char_bounds;
+	char_bounds.w = a.du;
+	char_bounds.h = a.dv;
+
+	unsigned char baseline_count[256];
+
+	memset(baseline_count, 0, sizeof(baseline_count));
+
+	a.baseline = 0;
+
+	int width = tex->raster->width;
+	RwImage *image = RwImageCreate(width, tex->raster->height, 32);
+
+	if (!image)
+	{
+		return 0;
+	}
+
+	RwImageAllocatePixels(image);
+	RwImageSetFromRaster(image, tex->raster);
+
+	iColor_tag *bits = (iColor_tag *)image->cpPixels;
+
+	for (int i = 0; a.char_set[i] != 0; i++)
+	{
+		if (a.flags & 0x4)
+		{
+			char_bounds.x = a.u + char_bounds.w * (i / a.line_size);
+			char_bounds.y = a.v + char_bounds.h * (i - ((i / a.line_size) * a.line_size));
+		}
+		else
+		{
+			char_bounds.x = a.u + char_bounds.w * (i - ((i / a.line_size) * a.line_size));
+			char_bounds.y = a.v + char_bounds.h * (i / a.line_size);
+		}
+
+		basic_rect<int> r = find_bounds(&bits[width * char_bounds.y + char_bounds.x],
+										char_bounds, width);
+
+		if (a.flags & 0x8)
+		{
+			a.char_pos[i].offset = 0;
+			a.char_pos[i].size = char_bounds.w;
+		}
+		else
+		{
+			a.char_pos[i].offset = r.x - char_bounds.x;
+			a.char_pos[i].size = r.w;
+		}
+
+		int baseline = r.h + (char_bounds.y - r.y + 1);
+
+		if (++baseline_count[baseline] > baseline_count[a.baseline])
+		{
+			a.baseline = baseline;
+		}
+	}
+
+	RwImageDestroy(image);
+	return 1;
+}
+
+basic_rect<float> get_tex_bounds(const font_data &fd, unsigned char char_index)
+{
+	font_asset &a = *fd.asset;
+	basic_rect<float> b;
+
+	if (a.flags & 0x4)
+	{
+		b.x = char_index / a.line_size;
+		b.y = char_index - (char_index / a.line_size) * a.line_size;
+	}
+	else
+	{
+		b.y = char_index / a.line_size;
+		b.x = char_index - (char_index / a.line_size) * a.line_size;
+	}
+
+	b.x = a.char_pos[char_index * 2].offset;
+	b.y = a.dv * b.y + a.v;
+	b.w = a.char_pos[char_index * 2].size - 0.5f;
+	b.h = a.dv - 0.5f;
+
+	b.scale(fd.iwidth, fd.iheight);
+
+	return b;
+}
+
+basic_rect<float> get_bounds(const font_data &fd, unsigned char char_index)
+{
+	font_asset &a = *fd.asset;
+	basic_rect<float> b;
+
+	b.x = 0.0f;
+	b.y = (float)-a.baseline / a.dv;
+	b.w = (float)(a.char_pos[char_index * 2].size + a.space.x) / (a.du + a.space.x);
+	b.h = 1.0f;
+
+	return b;
+}
+
+unsigned char init_font_data(font_data &fd)
+{
+	font_asset &a = *fd.asset;
+
+	fd.texture = (RwTexture *)xSTFindAsset(a.tex_id, NULL);
+
+	if (!fd.texture)
+	{
+		return 0;
+	}
+
+	RwTextureSetFilterMode(fd.texture, rwFILTERLINEAR);
+
+	fd.raster = RwTextureGetRaster(fd.texture);
+	fd.iwidth = 1.0f / RwRasterGetWidth(fd.raster);
+	fd.iheight = 1.0f / RwRasterGetHeight(fd.raster);
+
+	memset(&fd.char_index, 0xFF, sizeof(fd.char_index));
+
+	fd.index_max = 0;
+
+	while (a.char_set[fd.index_max])
+	{
+		unsigned char i = fd.index_max;
+		unsigned char c = a.char_set[i];
+
+		fd.char_index[c] = fd.index_max;
+
+		if ((a.flags & 0x1) && c >= 'A' && c <= 'Z')
+		{
+			fd.char_index[c + 32] = i;
+		}
+		else if ((a.flags & 0x2) && c >= 'a' && c <= 'z')
+		{
+			fd.char_index[c - 32] = i;
+		}
+
+		fd.tex_bounds[i] = get_tex_bounds(fd, i);
+		fd.bounds[i] = get_bounds(fd, i);
+
+		fd.dstfrac[i].x = (float)a.char_pos[i].size / (a.char_pos[i].size + a.space.x);
+		fd.dstfrac[i].y = (float)a.dv / (a.dv + a.space.y);
+
+		fd.index_max++;
+	}
+
+	unsigned int tail_index = fd.index_max;
+
+	if (fd.char_index[' '] == 0xFF)
+	{
+		fd.char_index[' '] = tail_index;
+		fd.tex_bounds[tail_index].assign(0.0f, 0.0f, 0.0f, 0.0f);
+		fd.bounds[tail_index].assign(0.0f, (float)-a.baseline / a.dv,
+		                             (a.flags & 0x8) ? 1.0f : 0.5f, 1.0f);
+
+		tail_index++;
+	}
+
+	if (fd.char_index['\n'] == 0xFF)
+	{
+		fd.char_index['\n'] = tail_index;
+		fd.tex_bounds[tail_index].assign(0.0f, 0.0f, 0.0f, 0.0f);
+		fd.bounds[tail_index].assign(0.0f, (float)-a.baseline / a.dv,
+									 0.0f, 1.0f);
+	}
+
+	return 1;
+}
+
+model_cache_entry model_cache[8];
+unsigned char model_cache_inited;
+
+void init_model_cache()
+{
+	model_cache_inited = 1;
+
+	void *data = xMemAlloc(gActiveHeap, sizeof(model_pool), 16);
+	memset(data, 0, sizeof(model_pool));
+
+	model_pool &pool = *(model_pool *)data;
+
+	for (int i = 0; i < 8; i++)
+	{
+		xModelInstance &model = pool.model[i];
+		model_cache_entry &e = model_cache[i];
+
+		e.order = 0;
+		e.id = 0;
+		e.model = &model;
+		e.model->Mat = &pool.mat[i];
+		e.model->Flags = 0x1;
+		e.model->BoneCount = 1;
+		e.model->shadowID = 0xDEADBEEF;
+	}
+}
+}
+
+void xfont::init()
+{
+	active_fonts_size = 0;
+
+	for (unsigned int i = 0;
+		 i < (sizeof(default_font_assets) / sizeof(font_asset));
+		 i++)
+	{
+		font_asset &fa = default_font_assets[i];
+
+		if (fa.tex_id < (sizeof(default_font_texture) / sizeof(char *)))
+		{
+			fa.tex_id = xStrHash(default_font_texture[fa.tex_id]);
+		}
+
+		xSTFindAsset(fa.tex_id, NULL);
+
+		if (reset_font_spacing(fa))
+		{
+			font_data &fd = active_fonts[active_fonts_size];
+
+			fd.asset = &fa;
+
+			if (init_font_data(fd))
+			{
+				active_fonts_size++;
+			}
+		}
+	}
+
+	init_model_cache();
+}
 
 #define SUBSTR(text) (text), sizeof((text)) - 1
 
