@@ -224,6 +224,11 @@ IFILE_READSECTOR_STATUS iFileReadAsyncStatus(int key, int *amtToFar)
     return request->status;
 }
 
+void iFileAsyncService()
+{
+    return;
+}
+
 unsigned int iFileClose(tag_xFile *file)
 {
     if (!CloseHandle(file->ps.handle))

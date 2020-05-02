@@ -58,7 +58,6 @@ static void zMainMemLvlChkCB()
     zSceneMemLvlChkCB();
 }
 
-// STUB
 static void zMainLoadFontHIP()
 {
     iTime t;
@@ -69,7 +68,25 @@ static void zMainLoadFontHIP()
     xUtil_idtag2string('FONT', 0);
     iTimeDiffSec(t);
 
-    xSTPreLoadScene('FONT', NULL, 1);
+    xSTPreLoadScene('FONT', NULL, 0x1);
+
+    t = iTimeGet();
+    xUtil_idtag2string('FONT', 0);
+    iTimeDiffSec(t);
+
+    xSTQueueSceneAssets('FONT', 0x1);
+
+    t = iTimeGet();
+    xUtil_idtag2string('FONT', 0);
+    iTimeDiffSec(t);
+
+    while (xSTLoadStep('FONT') < 1.0f) { }
+
+    xSTDisconnect('FONT', 0x1);
+
+    t = iTimeGet();
+    xUtil_idtag2string('FONT', 0);
+    iTimeDiffSec(t);
 }
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

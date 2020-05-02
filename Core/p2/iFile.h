@@ -44,6 +44,7 @@ int iFileSeek(tag_xFile *file, int offset, int whence);
 int iFileReadAsync(tag_xFile *file, void *buf, unsigned int aSize,
 				   iFileReadCallBack callback, int priority);
 IFILE_READSECTOR_STATUS iFileReadAsyncStatus(int key, int *amtToFar);
+void iFileAsyncService();
 void iFileSetPath(char *path);
 unsigned int iFileFind(const char *name, tag_xFile *file);
 void iFileGetInfo(tag_xFile *file, unsigned int *offset, unsigned int *length);

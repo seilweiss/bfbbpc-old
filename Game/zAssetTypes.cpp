@@ -16,27 +16,27 @@ struct AnimTableList
     unsigned int id;
 };
 
-void *Curve_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
-                 unsigned int *outsize);
-void *SndInfoRead(void *, unsigned int assetid, void *indata, unsigned int insize,
-                  unsigned int *outsize);
-void MovePoint_Unload(void *userdata, unsigned int);
-void *ATBL_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
-                unsigned int *outsize);
-void LightKit_Unload(void *userdata, unsigned int);
-void TextureRW3_Unload(void *userdata, unsigned int);
-void *RWTX_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
-                unsigned int *outsize);
-void Anim_Unload(void *userdata, unsigned int);
-void Model_Unload(void *userdata, unsigned int);
-void *Model_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
-                 unsigned int *outsize);
-void JSP_Unload(void *userdata, unsigned int);
-void *JSP_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
-                 unsigned int *outsize);
-void BSP_Unload(void *userdata, unsigned int);
-void *BSP_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
-               unsigned int *outsize);
+static void *Curve_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
+                        unsigned int *outsize);
+static void *SndInfoRead(void *, unsigned int assetid, void *indata, unsigned int insize,
+                         unsigned int *outsize);
+static void MovePoint_Unload(void *userdata, unsigned int);
+static void *ATBL_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
+                       unsigned int *outsize);
+static void LightKit_Unload(void *userdata, unsigned int);
+static void TextureRW3_Unload(void *userdata, unsigned int);
+static void *RWTX_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
+                       unsigned int *outsize);
+static void Anim_Unload(void *userdata, unsigned int);
+static void Model_Unload(void *userdata, unsigned int);
+static void *Model_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
+                        unsigned int *outsize);
+static void JSP_Unload(void *userdata, unsigned int);
+static void *JSP_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
+                      unsigned int *outsize);
+static void BSP_Unload(void *userdata, unsigned int);
+static void *BSP_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
+                      unsigned int *outsize);
 
 static st_PACKER_ASSETTYPE assetTypeHandlers[] =
 {
@@ -174,7 +174,9 @@ AnimTableList animTable[] =
     "ZNPC_AnimTable_BossPatrick", ZNPC_AnimTable_BossPatrick, 0
 };
 
-void ATBL_Init();
+static void ATBL_Init();
+
+static RwTexture *TexCB(RwTexture *texture, void *data);
 
 void zAssetStartup()
 {
@@ -183,65 +185,133 @@ void zAssetStartup()
 }
 
 // STUB
-void *Model_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
-                 unsigned int *outsize)
+static void *Model_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
+                        unsigned int *outsize)
 {
     return NULL;
 }
 
 // STUB
-void *Curve_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
-                 unsigned int *outsize)
+static void *Curve_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
+                        unsigned int *outsize)
 {
     return NULL;
 }
 
 // STUB
-void Model_Unload(void *userdata, unsigned int)
+static void Model_Unload(void *userdata, unsigned int)
 {
 
 }
 
 // STUB
-void *BSP_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
-               unsigned int *outsize)
+static void *BSP_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
+                      unsigned int *outsize)
 {
     return NULL;
 }
 
 // STUB
-void BSP_Unload(void *userdata, unsigned int)
+static void BSP_Unload(void *userdata, unsigned int)
 {
 
 }
 
 // STUB
-void *JSP_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
-               unsigned int *outsize)
+static void *JSP_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
+                      unsigned int *outsize)
 {
     return NULL;
 }
 
 // STUB
-void JSP_Unload(void *userdata, unsigned int)
+static void JSP_Unload(void *userdata, unsigned int)
 {
 
 }
 
-// STUB
-void *RWTX_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
-                unsigned int *outsize)
+static RwTexture *TexCB(RwTexture *texture, void *data)
 {
+    RwTexture **texFound = (RwTexture **)data;
+
+    if (!*texFound)
+    {
+        *texFound = texture;
+    }
+
+    return texture;
+}
+
+static void *RWTX_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
+                       unsigned int *outsize)
+{
+    RwTexDictionary *txd;
+    RwMemory rwmem;
+    RwStream *stream;
+    RwTexture *tex = NULL;
+    RwError error;
+
+    if (insize)
+    {
+        rwmem.start = (RwUInt8 *)indata;
+        rwmem.length = insize;
+
+        stream = RwStreamOpen(rwSTREAMMEMORY, rwSTREAMREAD, &rwmem);
+
+        if (stream)
+        {
+            if (!RwStreamFindChunk(stream, rwID_TEXDICTIONARY, NULL, NULL))
+            {
+                RwErrorGet(&error);
+                RwStreamFindChunk(stream, rwID_TEXDICTIONARY, NULL, NULL);
+                RwStreamClose(stream, NULL);
+            }
+            else
+            {
+                txd = RwTexDictionaryStreamRead(stream);
+
+                RwStreamClose(stream, NULL);
+
+                if (txd)
+                {
+                    RwTexDictionaryForAllTextures(txd, TexCB, &tex);
+
+                    if (!tex)
+                    {
+                        RwTexDictionaryDestroy(txd);
+                    }
+                    else
+                    {
+                        RwTexDictionaryRemoveTexture(tex);
+                        RwTexDictionaryDestroy(txd);
+
+                        RwTextureAddRef(tex);
+                        RwTextureSetFilterMode(tex, rwFILTERLINEARMIPLINEAR);
+
+                        *outsize = sizeof(RwTexture);
+                        return tex;
+                    }
+                }
+            }
+        }
+    }
+
+    *outsize = insize;
     return NULL;
 }
 
-// STUB
-void TextureRW3_Unload(void *userdata, unsigned int)
+static void TextureRW3_Unload(void *userdata, unsigned int)
 {
+    RwTexture *tex = (RwTexture *)userdata;
 
+    if (tex)
+    {
+        tex->refCount = 1;
+        RwTextureDestroy(tex);
+    }
 }
 
-void ATBL_Init()
+static void ATBL_Init()
 {
     for (int i = 0; i < sizeof(animTable) / sizeof(AnimTableList); i++)
     {
@@ -250,32 +320,32 @@ void ATBL_Init()
 }
 
 // STUB
-void *ATBL_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
-                unsigned int *outsize)
+static void *ATBL_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
+                       unsigned int *outsize)
 {
     return NULL;
 }
 
-void Anim_Unload(void *userdata, unsigned int)
+static void Anim_Unload(void *userdata, unsigned int)
 {
     return;
 }
 
 // STUB
-void LightKit_Unload(void *userdata, unsigned int)
+static void LightKit_Unload(void *userdata, unsigned int)
 {
 
 }
 
 // STUB
-void MovePoint_Unload(void *userdata, unsigned int)
+static void MovePoint_Unload(void *userdata, unsigned int)
 {
 
 }
 
 // STUB
-void *SndInfoRead(void *, unsigned int assetid, void *indata, unsigned int insize,
-                  unsigned int *outsize)
+static void *SndInfoRead(void *, unsigned int assetid, void *indata, unsigned int insize,
+                         unsigned int *outsize)
 {
     return NULL;
 }

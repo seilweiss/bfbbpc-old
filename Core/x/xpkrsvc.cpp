@@ -6,6 +6,7 @@
 
 #include <rwcore.h>
 #include <string.h>
+#include <stdio.h>
 
 enum en_PKR_LAYER_LOAD_DEST
 {
@@ -167,7 +168,7 @@ int PKRShutdown()
     return g_packinit;
 }
 
-int PKRLoadStep()
+int PKRLoadStep(int)
 {
     int more_todo = PKR_LoadStep_Async();
     return more_todo;
@@ -714,9 +715,9 @@ static int PKR_findNextLayerToLoad(st_PACKER_READ_DATA **work_on_pkg,
     {
         for (j = 0; j < 16; j++)
         {
-            tmppr = &g_readdatainst[i];
+            tmppr = &g_readdatainst[j];
 
-            if ((g_loadlock & (1 << j)) && tmppr == *work_on_pkg)
+            if ((g_loadlock & (1 << j)) && tmppr != *work_on_pkg)
             {
                 for (i = 0; i < tmppr->laytoc.cnt; i++)
                 {

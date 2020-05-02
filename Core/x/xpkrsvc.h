@@ -134,7 +134,7 @@ struct st_PACKER_READ_FUNCS
 st_PACKER_READ_FUNCS *PKRGetReadFuncs(int apiver);
 int PKRStartup();
 int PKRShutdown();
-int PKRLoadStep();
+int PKRLoadStep(int);
 unsigned int PKRAssetIDFromInst(void *asset_inst);
 
 #endif

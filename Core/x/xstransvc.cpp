@@ -2,6 +2,7 @@
 
 #include "xpkrsvc.h"
 #include "xutil.h"
+#include "iFile.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -17,6 +18,7 @@ static char *XST_translate_sid_path(unsigned int sid, const char *ext);
 static int XST_PreLoadScene(st_STRAN_SCENE *sdata, const char *fname);
 static char *XST_translate_sid(unsigned int sid, const char *ext);
 static void XST_unlock(st_STRAN_SCENE *sdata);
+static st_STRAN_SCENE *XST_find_bySID(unsigned int sid, int findTheHOP);
 
 int xSTStartup(st_PACKER_ASSETTYPE *handlers)
 {
@@ -125,6 +127,58 @@ int xSTPreLoadScene(unsigned int sid, void *userdata, int flg_hiphop)
     return result;
 }
 
+int xSTQueueSceneAssets(unsigned int sid, int flg_hiphop)
+{
+    int result = 1;
+    st_STRAN_SCENE *sdata;
+
+    sdata = XST_find_bySID(sid, ((flg_hiphop & 0x3) == 0x2) ? 1 : 0);
+
+    if (!sdata)
+    {
+        result = 0;
+    }
+    else if (sdata->spkg)
+    {
+        g_pkrf->LoadLayer(sdata->spkg, PKR_LTYPE_ALL);
+    }
+
+    return result;
+}
+
+float xSTLoadStep(unsigned int sid)
+{
+    float pct;
+    int rc;
+
+    rc = PKRLoadStep(0);
+
+    if (rc)
+    {
+        pct = 0.0f;
+    }
+    else
+    {
+        pct = 1.00001f;
+    }
+
+    iFileAsyncService();
+
+    return pct;
+}
+
+void xSTDisconnect(unsigned int sid, int flg_hiphop)
+{
+    st_STRAN_SCENE *sdata;
+
+    sdata = XST_find_bySID(sid, ((flg_hiphop & 0x3) == 0x2) ? 1 : 0);
+
+    if (sdata)
+    {
+        g_pkrf->PkgDisconnect(sdata->spkg);
+    }
+}
+
 // Returns cltver
 static int XST_PreLoadScene(st_STRAN_SCENE *sdata, const char *fname)
 {
@@ -215,4 +269,28 @@ static void XST_unlock(st_STRAN_SCENE *sdata)
             memset(sdata, 0, sizeof(st_STRAN_SCENE));
         }
     }
+}
+
+static st_STRAN_SCENE *XST_find_bySID(unsigned int sid, int findTheHOP)
+{
+    st_STRAN_SCENE *da_sdata = NULL;
+    int i;
+
+    for (i = 0; i < 16; i++)
+    {
+        if (g_xstdata.loadlock & (1 << i))
+        {
+            if (g_xstdata.hipscn[i].scnid == sid)
+            {
+                if ((findTheHOP || !g_xstdata.hipscn[i].isHOP) &&
+                    !findTheHOP || g_xstdata.hipscn[i].isHOP)
+                {
+                    da_sdata = &g_xstdata.hipscn[i];
+                    break;
+                }
+            }
+        }
+    }
+
+    return da_sdata;
 }
