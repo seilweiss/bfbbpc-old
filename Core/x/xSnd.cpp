@@ -1,7 +1,8 @@
 #include "xSnd.h"
 
-// STUB
+#include "print.h"
+
 void xSndInit()
 {
-
+    BFBBSTUB("xSndInit");
 }

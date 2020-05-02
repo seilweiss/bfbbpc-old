@@ -5,6 +5,8 @@
 #include "xAnim.h"
 #include "xString.h"
 
+#include "print.h"
+
 #include <rwcore.h>
 
 typedef xAnimTable *(*AnimTableConstructor)();
@@ -184,50 +186,47 @@ void zAssetStartup()
     ATBL_Init();
 }
 
-// STUB
 static void *Model_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
                         unsigned int *outsize)
 {
+    BFBBSTUB("Model_Read");
     return NULL;
 }
 
-// STUB
 static void *Curve_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
                         unsigned int *outsize)
 {
+    BFBBSTUB("Curve_Read");
     return NULL;
 }
 
-// STUB
 static void Model_Unload(void *userdata, unsigned int)
 {
-
+    BFBBSTUB("Model_Unload");
 }
 
-// STUB
 static void *BSP_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
                       unsigned int *outsize)
 {
+    BFBBSTUB("BSP_Read");
     return NULL;
 }
 
-// STUB
 static void BSP_Unload(void *userdata, unsigned int)
 {
-
+    BFBBSTUB("BSP_Unload");
 }
 
-// STUB
 static void *JSP_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
                       unsigned int *outsize)
 {
+    BFBBSTUB("JSP_Read");
     return NULL;
 }
 
-// STUB
 static void JSP_Unload(void *userdata, unsigned int)
 {
-
+    BFBBSTUB("JSP_Unload");
 }
 
 static RwTexture *TexCB(RwTexture *texture, void *data)
@@ -319,33 +318,32 @@ static void ATBL_Init()
     }
 }
 
-// STUB
 static void *ATBL_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
                        unsigned int *outsize)
 {
+    BFBBSTUB("ATBL_Read");
     return NULL;
 }
 
 static void Anim_Unload(void *userdata, unsigned int)
 {
+    BFBBSTUB("Anim_Unload");
     return;
 }
 
-// STUB
 static void LightKit_Unload(void *userdata, unsigned int)
 {
-
+    BFBBSTUB("LightKit_Unload");
 }
 
-// STUB
 static void MovePoint_Unload(void *userdata, unsigned int)
 {
-
+    BFBBSTUB("MovePoint_Unload");
 }
 
-// STUB
 static void *SndInfoRead(void *, unsigned int assetid, void *indata, unsigned int insize,
                          unsigned int *outsize)
 {
+    BFBBSTUB("SndInfoRead");
     return NULL;
 }

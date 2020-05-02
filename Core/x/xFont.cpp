@@ -4,6 +4,8 @@
 #include "xModel.h"
 #include "xMemMgr.h"
 
+#include "print.h"
+
 #include <rwcore.h>
 #include <string.h>
 
@@ -506,326 +508,280 @@ void parse_tag_pop(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
 void parse_tag_timer(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti);
 
-// STUB
 void parse_tag_alpha(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_alpha");
 }
 
-// STUB
 void reset_tag_alpha(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_alpha");
 }
 
-// STUB
 void parse_tag_red(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                    const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_red");
 }
 
-// STUB
 void reset_tag_red(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                    const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_red");
 }
 
-// STUB
 void parse_tag_green(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_green");
 }
 
-// STUB
 void reset_tag_green(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_green");
 }
 
-// STUB
 void parse_tag_blue(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                     const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_blue");
 }
 
-// STUB
 void reset_tag_blue(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                     const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_blue");
 }
 
-// STUB
 void parse_tag_width(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_width");
 }
 
-// STUB
 void reset_tag_width(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_width");
 }
 
-// STUB
 void parse_tag_height(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                       const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_height");
 }
 
-// STUB
 void reset_tag_height(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                       const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_height");
 }
 
-// STUB
 void parse_tag_left_indent(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                            const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_left_indent");
 }
 
-// STUB
 void reset_tag_left_indent(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                            const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_left_indent");
 }
 
-// STUB
 void parse_tag_right_indent(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                             const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_right_indent");
 }
 
-// STUB
 void reset_tag_right_indent(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                             const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_right_indent");
 }
 
-// STUB
 void parse_tag_tab_stop(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                         const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_tab_stop");
 }
 
-// STUB
 void reset_tag_tab_stop(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                         const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_tab_stop");
 }
 
-// STUB
 void parse_tag_xspace(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                       const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_xspace");
 }
 
-// STUB
 void reset_tag_xspace(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                       const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_xspace");
 }
 
-// STUB
 void parse_tag_yspace(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                       const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_yspace");
 }
 
-// STUB
 void reset_tag_yspace(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                       const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_yspace");
 }
 
-// STUB
 void reset_tag_all(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                    const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_all");
 }
 
-// STUB
 void parse_tag_color(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_color");
 }
 
-// STUB
 void reset_tag_color(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_color");
 }
 
-// STUB
 void parse_tag_font(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                     const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_font");
 }
 
-// STUB
 void reset_tag_font(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                     const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_font");
 }
 
-// STUB
 void parse_tag_wrap(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                     const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_wrap");
 }
 
-// STUB
 void reset_tag_wrap(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                     const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_wrap");
 }
 
-// STUB
 void parse_tag_xjustify(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                         const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_xjustify");
 }
 
-// STUB
 void reset_tag_xjustify(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                         const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_xjustify");
 }
 
-// STUB
 void parse_tag_yjustify(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                         const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_yjustify");
 }
 
-// STUB
 void reset_tag_yjustify(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                         const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_yjustify");
 }
 
-// STUB
 void parse_tag_open_curly(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                           const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_open_curly");
 }
 
-// STUB
 void parse_tag_newline(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                        const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_newline");
 }
 
-// STUB
 void parse_tag_tab(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                    const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_tab");
 }
 
-// STUB
 void parse_tag_word_break(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                           const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_word_break");
 }
 
-// STUB
 void parse_tag_page_break(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                           const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_page_break");
 }
 
-// STUB
 void parse_tag_model(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_model");
 }
 
-// STUB
 void reset_tag_model(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_model");
 }
 
-// STUB
 void parse_tag_tex(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                    const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_tex");
 }
 
-// STUB
 void reset_tag_tex(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                    const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("reset_tag_tex");
 }
 
-// STUB
 void parse_tag_insert(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                       const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_insert");
 }
 
-// STUB
 void parse_tag_insert_hash(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                            const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_insert_hash");
 }
 
-// STUB
 void parse_tag_pop(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                    const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_pop");
 }
 
-// STUB
 void parse_tag_timer(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti)
 {
-
+    BFBBSTUB("parse_tag_timer");
 }
 
 xtextbox::tag_type format_tags_buffer[2][128] =

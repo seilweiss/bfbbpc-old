@@ -11,6 +11,8 @@
 #include "xShadow.h"
 #include "xFX.h"
 
+#include "print.h"
+
 #include <rwcore.h>
 #include <rpworld.h>
 #include <rpcollis.h>
@@ -33,10 +35,9 @@ RwMemoryFunctions *psGetMemoryFunctions()
     return &MemoryFunctions;
 }
 
-// STUB
 static void iTRCInit()
 {
-
+    BFBBSTUB("iTRCInit");
 }
 
 static unsigned int iRenderWareInit();
@@ -177,8 +178,8 @@ static unsigned int iRenderWareInit()
     return 0;
 }
 
-// STUB
 static RwTexture *TextureRead(const RwChar *name, const RwChar *maskName)
 {
+    BFBBSTUB("TextureRead");
     return NULL;
 }

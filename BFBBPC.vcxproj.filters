@@ -279,6 +279,9 @@
     <ClInclude Include="Core\x\xutil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\p2\print.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\zMain.cpp">
@@ -408,6 +411,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\x\xordarray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\p2\print.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

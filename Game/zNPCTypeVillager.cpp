@@ -1,19 +1,21 @@
 #include "zNPCTypeVillager.h"
 
-// STUB
+#include "print.h"
+
 xAnimTable *ZNPC_AnimTable_Villager()
 {
+    BFBBSTUB("ZNPC_AnimTable_Villager");
     return 0;
 }
 
-// STUB
 xAnimTable *ZNPC_AnimTable_BalloonBoy()
 {
+    BFBBSTUB("ZNPC_AnimTable_BalloonBoy");
     return 0;
 }
 
-// STUB
 xAnimTable *ZNPC_AnimTable_SuperFriend()
 {
+    BFBBSTUB("ZNPC_AnimTable_SuperFriend");
     return 0;
 }

@@ -2,13 +2,14 @@
 
 #include "xFont.h"
 
+#include "print.h"
+
 namespace
 {
-// STUB
 void parse_tag_var(xtextbox::jot &, const xtextbox &, const xtextbox &,
                    const xtextbox::split_tag &)
 {
-
+    BFBBSTUB("parse_tag_var");
 }
 }
 

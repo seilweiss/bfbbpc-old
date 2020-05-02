@@ -1,7 +1,8 @@
 #include "xShadow.h"
 
-// STUB
+#include "print.h"
+
 void xShadowInit()
 {
-
+    BFBBSTUB("xShadowInit");
 }

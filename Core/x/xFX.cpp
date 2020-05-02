@@ -1,7 +1,8 @@
 #include "xFX.h"
 
-// STUB
+#include "print.h"
+
 void xFXInit()
 {
-
+    BFBBSTUB("xFXInit");
 }

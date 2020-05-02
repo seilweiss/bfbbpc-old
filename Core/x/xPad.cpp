@@ -1,7 +1,9 @@
 #include "xPad.h"
 
-// STUB
+#include "print.h"
+
 int xPadInit()
 {
+    BFBBSTUB("xPadInit");
     return 1;
 }
