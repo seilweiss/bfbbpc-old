@@ -8,18 +8,18 @@
 
 struct xJSPNodeInfo
 {
-	int originalMatIndex;
-	int nodeFlags;
+    int originalMatIndex;
+    int nodeFlags;
 };
 
 struct xJSPHeader
 {
-	char idtag[4];
-	unsigned int version;
-	unsigned int jspNodeCount;
-	RpClump *clump;
-	xClumpCollBSPTree *colltree;
-	xJSPNodeInfo *jspNodeList;
+    char idtag[4];
+    unsigned int version;
+    unsigned int jspNodeCount;
+    RpClump *clump;
+    xClumpCollBSPTree *colltree;
+    xJSPNodeInfo *jspNodeList;
 };
 
 #endif

@@ -3,38 +3,38 @@
 
 struct xVec2
 {
-	float x;
-	float y;
+    float x;
+    float y;
 };
 
 template <class T>
 struct basic_rect
 {
-	T x;
-	T y;
-	T w;
-	T h;
+    T x;
+    T y;
+    T w;
+    T h;
 
-	void scale(T x, T y, T w, T h)
-	{
-		this->x *= x;
-		this->y *= y;
-		this->w *= w;
-		this->h *= h;
-	}
+    void scale(T x, T y, T w, T h)
+    {
+        this->x *= x;
+        this->y *= y;
+        this->w *= w;
+        this->h *= h;
+    }
 
-	void scale(T x, T y)
-	{
-		scale(x, y, x, y);
-	}
+    void scale(T x, T y)
+    {
+        scale(x, y, x, y);
+    }
 
-	void assign(T x, T y, T w, T h)
-	{
-		this->x = x;
-		this->y = y;
-		this->w = w;
-		this->h = h;
-	}
+    void assign(T x, T y, T w, T h)
+    {
+        this->x = x;
+        this->y = y;
+        this->w = w;
+        this->h = h;
+    }
 };
 
 #endif

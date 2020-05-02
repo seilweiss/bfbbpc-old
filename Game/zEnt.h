@@ -6,7 +6,7 @@
 
 struct zEnt : xEnt
 {
-	xAnimTable *atbl;
+    xAnimTable *atbl;
 };
 
 #endif

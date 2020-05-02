@@ -3,10 +3,10 @@
 
 struct st_XORDEREDARRAY
 {
-	void **list;
-	int cnt;
-	int max;
-	int warnlvl;
+    void **list;
+    int cnt;
+    int max;
+    int warnlvl;
 };
 
 typedef int(*XOrdTestCallBack)(const void *vkey, void *vitem);

@@ -3,8 +3,8 @@
 
 struct zAssetPickupTable
 {
-	unsigned int Magic;
-	unsigned int Count;
+    unsigned int Magic;
+    unsigned int Count;
 };
 
 #endif

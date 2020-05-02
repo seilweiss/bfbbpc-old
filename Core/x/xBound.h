@@ -6,16 +6,16 @@
 
 struct xBound
 {
-	xQCData qcd;
-	unsigned char type;
-	unsigned char pad[3];
-	union
-	{
-		xSphere sph;
-		xBBox box;
-		xCylinder cyl;
-	};
-	xMat4x3 *mat;
+    xQCData qcd;
+    unsigned char type;
+    unsigned char pad[3];
+    union
+    {
+        xSphere sph;
+        xBBox box;
+        xCylinder cyl;
+    };
+    xMat4x3 *mat;
 };
 
 #endif

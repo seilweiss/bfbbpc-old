@@ -5,10 +5,10 @@
 
 struct xBaseAsset
 {
-	unsigned int id;
-	unsigned char baseType;
-	unsigned char linkCount;
-	unsigned short baseFlags;
+    unsigned int id;
+    unsigned char baseType;
+    unsigned char linkCount;
+    unsigned short baseFlags;
 };
 
 struct xBase;
@@ -17,12 +17,12 @@ typedef int(*xBaseEventCallBack)(xBase *, xBase *, unsigned int, float *, xBase 
 
 struct xBase
 {
-	unsigned int id;
-	unsigned char baseType;
-	unsigned char linkCount;
-	unsigned short baseFlags;
-	xLinkAsset *link;
-	xBaseEventCallBack eventFunc;
+    unsigned int id;
+    unsigned char baseType;
+    unsigned char linkCount;
+    unsigned short baseFlags;
+    xLinkAsset *link;
+    xBaseEventCallBack eventFunc;
 };
 
 #endif

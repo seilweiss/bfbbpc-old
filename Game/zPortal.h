@@ -5,15 +5,15 @@
 
 struct xPortalAsset : xBaseAsset
 {
-	unsigned int assetCameraID;
-	unsigned int assetMarkerID;
-	float ang;
-	unsigned int sceneID;
+    unsigned int assetCameraID;
+    unsigned int assetMarkerID;
+    float ang;
+    unsigned int sceneID;
 };
 
 struct _zPortal : xBase
 {
-	xPortalAsset *passet;
+    xPortalAsset *passet;
 };
 
 #endif

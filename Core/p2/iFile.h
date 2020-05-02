@@ -11,23 +11,23 @@
 
 struct tag_iFile
 {
-	unsigned int flags;
-	char path[256];
-	HANDLE handle;
-	OVERLAPPED overlapped;
-	int asynckey;
-	int offset;
-	int length;
+    unsigned int flags;
+    char path[256];
+    HANDLE handle;
+    OVERLAPPED overlapped;
+    int asynckey;
+    int offset;
+    int length;
 };
 
 enum IFILE_READSECTOR_STATUS
 {
-	IFILE_RDSTAT_NOOP,
-	IFILE_RDSTAT_INPROG,
-	IFILE_RDSTAT_DONE,
-	IFILE_RDSTAT_FAIL,
-	IFILE_RDSTAT_QUEUED,
-	IFILE_RDSTAT_EXPIRED
+    IFILE_RDSTAT_NOOP,
+    IFILE_RDSTAT_INPROG,
+    IFILE_RDSTAT_DONE,
+    IFILE_RDSTAT_FAIL,
+    IFILE_RDSTAT_QUEUED,
+    IFILE_RDSTAT_EXPIRED
 };
 
 struct tag_xFile;
@@ -42,7 +42,7 @@ unsigned int iFileRead(tag_xFile *file, void *buf, unsigned int size);
 unsigned int iFileClose(tag_xFile *file);
 int iFileSeek(tag_xFile *file, int offset, int whence);
 int iFileReadAsync(tag_xFile *file, void *buf, unsigned int aSize,
-				   iFileReadCallBack callback, int priority);
+                   iFileReadCallBack callback, int priority);
 IFILE_READSECTOR_STATUS iFileReadAsyncStatus(int key, int *amtToFar);
 void iFileAsyncService();
 void iFileSetPath(char *path);

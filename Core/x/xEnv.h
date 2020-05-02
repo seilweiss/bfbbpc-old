@@ -6,9 +6,9 @@
 
 struct xEnv
 {
-	iEnv *geom;
-	iEnv ienv;
-	xLightKit *lightKit;
+    iEnv *geom;
+    iEnv ienv;
+    xLightKit *lightKit;
 };
 
 #endif

@@ -3,7 +3,7 @@
 
 struct _tagiPad
 {
-	int port;
+    int port;
 };
 
 #endif

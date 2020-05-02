@@ -5,16 +5,16 @@
 
 struct xQCData
 {
-	char xmin;
-	char ymin;
-	char zmin;
-	char zmin_dup;
-	char xmax;
-	char ymax;
-	char zmax;
-	char zmax_dup;
-	xVec3 min;
-	xVec3 max;
+    char xmin;
+    char ymin;
+    char zmin;
+    char zmin_dup;
+    char xmax;
+    char ymax;
+    char zmax;
+    char zmax_dup;
+    xVec3 min;
+    xVec3 max;
 };
 
 #endif

@@ -5,13 +5,13 @@
 
 struct iFogParams
 {
-	RwFogType type;
-	float start;
-	float stop;
-	float density;
-	RwRGBA fogcolor;
-	RwRGBA bgcolor;
-	unsigned char *table;
+    RwFogType type;
+    float start;
+    float stop;
+    float density;
+    RwRGBA fogcolor;
+    RwRGBA bgcolor;
+    unsigned char *table;
 };
 
 #endif

@@ -3,9 +3,9 @@
 
 struct xVec3
 {
-	float x;
-	float y;
-	float z;
+    float x;
+    float y;
+    float z;
 };
 
 #endif

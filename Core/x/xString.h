@@ -3,8 +3,8 @@
 
 struct substr
 {
-	const char *text;
-	unsigned int size;
+    const char *text;
+    unsigned int size;
 };
 
 unsigned int xStrHash(const char *str);
