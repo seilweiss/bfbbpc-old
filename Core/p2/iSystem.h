@@ -6,5 +6,6 @@ struct RwMemoryFunctions;
 RwMemoryFunctions *psGetMemoryFunctions();
 
 void iSystemInit(unsigned int options);
+void iVSync();
 
 #endif

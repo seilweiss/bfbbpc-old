@@ -221,6 +221,7 @@
     <ClInclude Include="Core\p2\iMath3.h" />
     <ClInclude Include="Core\p2\iMemMgr.h" />
     <ClInclude Include="Core\p2\iPad.h" />
+    <ClInclude Include="Core\p2\iScrFX.h" />
     <ClInclude Include="Core\p2\iSystem.h" />
     <ClInclude Include="Core\p2\iTime.h" />
     <ClInclude Include="Core\p2\print.h" />
@@ -308,9 +309,11 @@
     <ClCompile Include="Core\p2\iFile.cpp" />
     <ClCompile Include="Core\p2\iMath3.cpp" />
     <ClCompile Include="Core\p2\iMemMgr.cpp" />
+    <ClCompile Include="Core\p2\iScrFX.cpp" />
     <ClCompile Include="Core\p2\iSystem.cpp" />
     <ClCompile Include="Core\p2\iTime.cpp" />
     <ClCompile Include="Core\p2\print.cpp" />
+    <ClCompile Include="Core\x\iCamera.cpp" />
     <ClCompile Include="Core\x\xbinio.cpp" />
     <ClCompile Include="Core\x\xDebug.cpp" />
     <ClCompile Include="Core\x\xEnt.cpp" />
@@ -319,6 +322,7 @@
     <ClCompile Include="Core\x\xFX.cpp" />
     <ClCompile Include="Core\x\xhipio.cpp" />
     <ClCompile Include="Core\x\xMath.cpp" />
+    <ClCompile Include="Core\x\xMath2.cpp" />
     <ClCompile Include="Core\x\xMath3.cpp" />
     <ClCompile Include="Core\x\xMemMgr.cpp" />
     <ClCompile Include="Core\x\xordarray.cpp" />
@@ -329,6 +333,7 @@
     <ClCompile Include="Core\x\xstransvc.cpp" />
     <ClCompile Include="Core\x\xString.cpp" />
     <ClCompile Include="Core\x\xutil.cpp" />
+    <ClCompile Include="Core\x\xVec3.cpp" />
     <ClCompile Include="Game\zAssetTypes.cpp" />
     <ClCompile Include="Game\zMain.cpp" />
     <ClCompile Include="Game\zNPCTypeAmbient.cpp" />

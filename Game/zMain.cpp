@@ -11,6 +11,8 @@
 
 #include <windows.h>
 
+static basic_rect<float> screen_bounds = { 0.0f, 0.0f, 1.0f, 1.0f };
+
 zGlobals globals;
 xGlobals *xglobals = &globals;
 
@@ -37,6 +39,8 @@ int main(int argc, char **argv)
     zMainLoadFontHIP();
     xfont::init();
 
+    zMainFirstScreen(1);
+
     return 0;
 }
 
@@ -58,6 +62,55 @@ static void zMainInitGlobals()
 static void zMainMemLvlChkCB()
 {
     zSceneMemLvlChkCB();
+}
+
+void zMainFirstScreen(int mode)
+{
+    RwCamera *cam = iCameraCreate(640, 480, 0);
+    RwRGBA bg = { 0, 0, 0, 0 };
+
+    for (int i = 0; i < 2; i++)
+    {
+        RwCameraClear(cam, &bg, rwCAMERACLEARIMAGE | rwCAMERACLEARZ);
+
+        RwCameraBeginUpdate(cam);
+
+        if (mode != 0)
+        {
+            xfont font = xfont::create(1, NSCREENX(19.0f), NSCREENY(22.0f), 0.0f,
+                                       { 255, 230, 0, 200 }, screen_bounds);
+            xtextbox textbox = xtextbox::create(font, screen_bounds, 0x2,
+                                                0.0f, 0.0f, 0.0f, 0.0f);
+
+            textbox.set_text(
+                "Game and Software © 2003 THQ Inc. © 2003 Viacom International Inc. "
+                "All rights reserved.\n\n"
+                "Nickelodeon, SpongeBob SquarePants and all related titles, logos, and "
+                "characters are trademarks of Viacom International Inc. Created by "
+                "Stephen Hillenburg.\n\n"
+                "Exclusively published by THQ Inc. Developed by Heavy Iron. Portions of "
+                "this software are Copyright 1998 - 2003 Criterion Software Ltd. and "
+                "its Licensors. THQ, Heavy Iron and the THQ logo are trademarks and/or "
+                "registered trademarks of THQ Inc. All rights reserved.\n\n"
+                "All other trademarks, logos and copyrights are property of their "
+                "respective owners.");
+
+            textbox.bounds = screen_bounds;
+            textbox.bounds.contract(0.1f);
+            textbox.bounds.h = textbox.yextent(true);
+            textbox.bounds.y = -(0.5f * textbox.bounds.h - 0.5f);
+
+            textbox.render(true);
+        }
+
+        RwCameraEndUpdate(cam);
+
+        RwCameraShowRaster(cam, GetActiveWindow(), 0);
+    }
+
+    Sleep(3000);
+
+    iCameraDestroy(cam);
 }
 
 static void zMainLoadFontHIP()

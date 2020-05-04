@@ -15,14 +15,17 @@ struct xfont
     basic_rect<float> clip;
 
     static void init();
+    basic_rect<float> bounds(char c) const;
+    static xfont create(unsigned int id, float width, float height, float space,
+                        iColor_tag color, const basic_rect<float> &clip);
 };
 
 struct xtextbox
 {
     struct jot;
 
-    typedef void(*render_callback)(jot &, xtextbox &, float, float);
-    typedef void(*update_callback)(jot &, xtextbox &, xtextbox &);
+    typedef void(*render_callback)(const jot &j, const xtextbox &tb, float x, float y);
+    typedef void(*update_callback)(jot &j, xtextbox &tb, const xtextbox &ctb);
 
     struct callback
     {
@@ -36,28 +39,45 @@ struct xtextbox
     struct jot
     {
         substr s;
-        struct
+
+        union
         {
-            bool invisible  : 1;
-            bool ethereal   : 1;
-            bool merge      : 1;
-            bool word_break : 1;
-            bool word_end   : 1;
-            bool line_break : 1;
-            bool stop       : 1;
-            bool tab        : 1;
-            bool insert     : 1;
-            bool dynamic    : 1;
-            bool page_break : 1;
-            bool stateful   : 1;
-            unsigned short dummy : 4;
+            struct
+            {
+                bool invisible : 1;
+                bool ethereal : 1;
+                bool merge : 1;
+                bool word_break : 1;
+                bool word_end : 1;
+                bool line_break : 1;
+                bool stop : 1;
+                bool tab : 1;
+                bool insert : 1;
+                bool dynamic : 1;
+                bool page_break : 1;
+                bool stateful : 1;
+            };
+            unsigned short dummy;
         } flag;
+
         unsigned short context_size;
         void *context;
         basic_rect<float> bounds;
         basic_rect<float> render_bounds;
         callback *cb;
         tag_type *tag;
+
+        void intersect_flags(const jot &a);
+        void reset_flags();
+    };
+
+    struct jot_line
+    {
+        basic_rect<float> bounds;
+        float baseline;
+        unsigned int first;
+        unsigned int last;
+        bool page_break;
     };
 
     struct split_tag
@@ -79,6 +99,8 @@ struct xtextbox
         void *context;
     };
 
+    struct layout;
+
     xfont font;
     basic_rect<float> bounds;
     unsigned int flags;
@@ -88,13 +110,65 @@ struct xtextbox
     float right_indent;
     callback *cb;
     void *context;
-    char **texts;
-    unsigned int *text_sizes;
+    const char **texts;
+    const unsigned int *text_sizes;
     unsigned int texts_size;
     substr text;
     unsigned int text_hash;
 
+    static callback text_cb;
+
+    static tag_type *find_format_tag(const substr &s);
+    static tag_type *find_format_tag(const substr &s, int &index);
+    static void text_render(const jot &j, const xtextbox &tb, float x, float y);
+    void set_text(const char *text);
+    void set_text(const char *text, unsigned int size);
+    void set_text(const char **texts, unsigned int size);
+    void set_text(const char **texts, const unsigned int *text_sizes, unsigned int size);
+    layout &temp_layout(bool cache) const;
+    void render(bool cache) const;
+    void render(layout &l, int begin_jot, int end_jot) const;
+    float yextent(bool cache) const;
+    float yextent(const layout &l, int begin_jot, int end_jot) const;
+    float yextent(float max, int &size, const layout &l, int begin_jot, int end_jot) const;
+    static xtextbox create(const xfont &font, const basic_rect<float> &bounds,
+                           unsigned int flags, float line_space, float tab_stop,
+                           float left_indent, float right_indent);
     static void register_tags(const tag_type *t, unsigned int size);
 };
+
+struct xtextbox::layout
+{
+    xtextbox tb;
+    jot _jots[512];
+    unsigned int _jots_size;
+    jot_line _lines[128];
+    unsigned int _lines_size;
+    unsigned char context_buffer[1024];
+    unsigned int context_buffer_size;
+    unsigned short dynamics[64];
+    unsigned int dynamics_size;
+
+    bool changed(const xtextbox &ctb);
+    void refresh(const xtextbox &tb, bool force);
+    float yextent(float max, int &size, int begin_jot, int end_jot) const;
+    void calc(const xtextbox &ctb, unsigned int start_text);
+    void erase_jots(unsigned int begin_jot, unsigned int end_jot);
+    void trim_line(jot_line &line);
+    void merge_line(jot_line &line);
+    void bound_line(jot_line &line);
+    bool fit_line();
+    void next_line();
+};
+
+inline float NSCREENX(float x)
+{
+    return (1.0f / 640) * x;
+}
+
+inline float NSCREENY(float y)
+{
+    return (1.0f / 480) * y;
+}
 
 #endif

@@ -35,6 +35,11 @@ RwMemoryFunctions *psGetMemoryFunctions()
     return &MemoryFunctions;
 }
 
+void iVSync()
+{
+    BFBBSTUB("iVSync");
+}
+
 static void iTRCInit()
 {
     BFBBSTUB("iTRCInit");

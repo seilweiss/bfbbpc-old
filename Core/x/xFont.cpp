@@ -3,11 +3,14 @@
 #include "xstransvc.h"
 #include "xModel.h"
 #include "xMemMgr.h"
+#include "iTime.h"
 
 #include "print.h"
 
 #include <rwcore.h>
 #include <string.h>
+
+#define SUBSTR(text) (text), sizeof((text)) - 1
 
 namespace
 {
@@ -46,19 +49,6 @@ struct font_data
     xVec2 dstfrac[127];
     RwTexture *texture;
     RwRaster *raster;
-};
-
-struct model_pool
-{
-    RwMatrix mat[8];
-    xModelInstance model[8];
-};
-
-struct model_cache_entry
-{
-    unsigned int id;
-    unsigned int order;
-    xModelInstance *model;
 };
 
 const char *default_font_texture[] =
@@ -334,7 +324,7 @@ unsigned char init_font_data(font_data &fd)
         fd.char_index[' '] = tail_index;
         fd.tex_bounds[tail_index].assign(0.0f, 0.0f, 0.0f, 0.0f);
         fd.bounds[tail_index].assign(0.0f, (float)-a.baseline / a.dv,
-                                     (a.flags & 0x8) ? 1.0f : 0.5f, 1.0f);
+            (a.flags & 0x8) ? 1.0f : 0.5f, 1.0f);
 
         tail_index++;
     }
@@ -349,6 +339,19 @@ unsigned char init_font_data(font_data &fd)
 
     return 1;
 }
+
+struct model_pool
+{
+    RwMatrix mat[8];
+    xModelInstance model[8];
+};
+
+struct model_cache_entry
+{
+    unsigned int id;
+    unsigned int order;
+    xModelInstance *model;
+};
 
 model_cache_entry model_cache[8];
 unsigned char model_cache_inited;
@@ -376,7 +379,251 @@ void init_model_cache()
         e.model->shadowID = 0xDEADBEEF;
     }
 }
+
+substr text_delims = { SUBSTR(" \t\n{}=*+:;,") };
+
+unsigned int parse_split_tag(xtextbox::split_tag &ti)
+{
+    ti.value.size = 0;
+    ti.action.size = 0;
+    ti.name.size = 0;
+
+    substr s;
+    s.text = ti.tag.text;
+    s.size = ti.tag.size;
+    s.text = ti.tag.text + 1;
+    s.size = ti.tag.size - 1;
+
+    ti.name.text = skip_ws(s);
+
+    s.text = find_char(s, text_delims);
+
+    if (!s.text)
+    {
+        return 0;
+    }
+
+    ti.name.size = s.text - ti.name.text;
+    s.size -= ti.name.size;
+    ti.action.text = skip_ws(s);
+
+    if (!s.size)
+    {
+        return 0;
+    }
+
+    char c = *s.text;
+
+    if (c == '\0' || c == '{')
+    {
+        return 0;
+    }
+
+    s.text++;
+    s.size--;
+
+    if (c == '}')
+    {
+        return ti.tag.size - s.size;
+    }
+
+    ti.action.size = 1;
+    ti.value.text = skip_ws(s);
+
+    s.text = find_char(s, '}');
+
+    unsigned int size = s.text - ti.value.text;
+    s.size -= size;
+
+    if (!s.text)
+    {
+        return 0;
+    }
+
+    ti.value.size = size;
+
+    rskip_ws(ti.value);
+
+    s.text++;
+    s.size--;
+
+    return ti.tag.size - s.size;
 }
+
+const char *parse_next_tag_jot(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
+                               const char *text, unsigned int text_size)
+{
+    xtextbox::split_tag ti = {};
+    ti.tag.text = text;
+    ti.tag.size = text_size;
+
+    unsigned int size = parse_split_tag(ti);
+
+    if (!size)
+    {
+        return NULL;
+    }
+
+    a.s.text = text;
+    a.s.size = size;
+    a.flag.invisible = a.flag.ethereal = true;
+
+    if ((icompare(ti.name, substr::create("~", 1)) == 0) ||
+        (icompare(ti.name, substr::create("reset", 5)) == 0))
+    {
+        a.tag = xtextbox::find_format_tag(ti.value);
+
+        if (a.tag && a.tag->reset_tag)
+        {
+            a.tag->reset_tag(a, tb, ctb, ti);
+        }
+    }
+    else
+    {
+        a.tag = xtextbox::find_format_tag(ti.name);
+
+        if (a.tag && a.tag->parse_tag)
+        {
+            a.tag->parse_tag(a, tb, ctb, ti);
+        }
+    }
+
+    return text + size;
+}
+
+const char *parse_next_text_jot(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
+                                const char *text, unsigned int text_size)
+{
+    char c = *text;
+
+    a.s.text = text;
+    a.s.size = 1;
+    a.flag.merge = true;
+
+    if (c == '\n')
+    {
+        a.flag.line_break = true;
+    }
+    else if (c == '\t')
+    {
+        a.flag.tab = true;
+    }
+    else if (c == '-')
+    {
+        a.flag.word_end = true;
+    }
+
+    if (is_ws(c))
+    {
+        a.flag.invisible = a.flag.word_break = true;
+    }
+
+    a.bounds = tb.font.bounds(c);
+    a.cb = &xtextbox::text_cb;
+    a.context = NULL;
+    a.context_size = 0;
+
+    return a.s.text + a.s.size;
+}
+
+const char *parse_next_jot(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
+                           const char *text, unsigned int text_size)
+{
+    const char *r3;
+
+    if ((*text != '{') ||
+        !(r3 = parse_next_tag_jot(a, tb, ctb, text, text_size)))
+    {
+        r3 = parse_next_text_jot(a, tb, ctb, text, text_size);
+    }
+
+    a.flag.merge = (a.flag.merge && !(tb.flags & 0x80));
+
+    return r3;
+}
+
+struct tex_args
+{
+    RwRaster *raster;
+    float rot;
+    basic_rect<float> src;
+    basic_rect<float> dst;
+    xVec2 off;
+    enum
+    {
+        SCALE_FONT,
+        SCALE_SCREEN,
+        SCALE_SIZE,
+        SCALE_FONT_WIDTH,
+        SCALE_FONT_HEIGHT,
+        SCALE_SCREEN_WIDTH,
+        SCALE_SCREEN_HEIGHT
+    } scale;
+};
+
+tex_args def_tex_args;
+
+void reset_tex_args(tex_args &ta)
+{
+    ta.raster = NULL;
+    ta.rot = 0.0f;
+    ta.src = ta.dst = basic_rect<float>::m_Unit;
+    ta.off.x = ta.off.y = 1.0f;
+    ta.scale = tex_args::SCALE_FONT;
+}
+
+struct model_args
+{
+    xModelInstance *model;
+    xVec3 rot;
+    basic_rect<float> dst;
+    xVec2 off;
+    enum
+    {
+        SCALE_FONT,
+        SCALE_SCREEN,
+        SCALE_SIZE
+    } scale;
+};
+
+model_args def_model_args;
+
+void reset_model_args(model_args &ma)
+{
+    ma.model = NULL;
+    ma.rot = xVec3::m_Null;
+    ma.dst = basic_rect<float>::m_Unit;
+    ma.off.x = ma.off.y = 1.0f;
+    ma.scale = model_args::SCALE_FONT;
+}
+
+void start_layout(const xtextbox &tb)
+{
+    reset_tex_args(def_tex_args);
+    reset_model_args(def_model_args);
+}
+
+void stop_layout(const xtextbox &tb)
+{
+    return;
+}
+
+struct tl_cache_entry
+{
+    unsigned int used;
+    iTime last_used;
+    xtextbox::layout tl;
+};
+
+tl_cache_entry tl_cache[3];
+}
+
+xtextbox::callback xtextbox::text_cb =
+{
+    xtextbox::text_render,
+    NULL,
+    NULL
+};
 
 void xfont::init()
 {
@@ -411,7 +658,693 @@ void xfont::init()
     init_model_cache();
 }
 
-#define SUBSTR(text) (text), sizeof((text)) - 1
+basic_rect<float> xfont::bounds(char c) const
+{
+    font_data &fd = active_fonts[id];
+    basic_rect<float> r;
+
+    if (fd.char_index[c] == 0xFF)
+    {
+        r = basic_rect<float>::m_Null;
+    }
+    else
+    {
+        r.x = fd.bounds[c].x;
+        r.y = fd.bounds[c].y;
+        r.w = fd.bounds[c].w;
+        r.h = fd.bounds[c].h;
+
+        r.scale(width, height);
+    }
+
+    return r;
+}
+
+xfont xfont::create(unsigned int id, float width, float height, float space,
+                    iColor_tag color, const basic_rect<float> &clip)
+{
+    xfont r;
+    r.id = id;
+    r.width = width;
+    r.height = height;
+    r.space = space;
+    r.color = color;
+    r.clip = clip;
+
+    return r;
+}
+
+void xtextbox::jot::intersect_flags(const jot &a)
+{
+    flag.dummy &= a.flag.dummy;
+}
+
+void xtextbox::jot::reset_flags()
+{
+    flag.dummy = 0;
+}
+
+xtextbox xtextbox::create(const xfont &font, const basic_rect<float> &bounds,
+                          unsigned int flags, float line_space, float tab_stop,
+                          float left_indent, float right_indent)
+{
+    xtextbox r;
+    r.font = font;
+    r.bounds = bounds;
+    r.flags = flags;
+    r.line_space = line_space;
+    r.tab_stop = tab_stop;
+    r.left_indent = left_indent;
+    r.right_indent = right_indent;
+    r.texts_size = 0;
+    r.text_hash = 0;
+    r.cb = &text_cb;
+
+    return r;
+}
+
+void xtextbox::text_render(const jot &j, const xtextbox &tb, float x, float y)
+{
+    BFBBSTUB("xtextbox::text_render");
+}
+
+void xtextbox::set_text(const char *text)
+{
+    set_text(text, 0x4000);
+}
+
+void xtextbox::set_text(const char *text, unsigned int size)
+{
+    if (text && size)
+    {
+        this->text.text = text;
+        this->text.size = size;
+
+        set_text(&text, &size, 1);
+    }
+    else
+    {
+        texts_size = 0;
+        text_hash = 0;
+    }
+}
+
+void xtextbox::set_text(const char **texts, unsigned int size)
+{
+    set_text(texts, NULL, size);
+}
+
+void xtextbox::set_text(const char **texts, const unsigned int *text_sizes,
+                        unsigned int size)
+{
+    if (size)
+    {
+        this->texts = texts;
+        this->text_sizes = text_sizes;
+
+        if (!text_sizes)
+        {
+            for (unsigned int i = 0; i < size; i++)
+            {
+                text_hash = text_hash * 131 + xStrHash(texts[i]);
+            }
+        }
+        else
+        {
+            for (unsigned int i = 0; i < size; i++)
+            {
+                text_hash = text_hash * 131 + xStrHash(texts[i], text_sizes[i]);
+            }
+        }
+    }
+}
+
+namespace tweaker
+{
+namespace
+{
+void log_cache(bool r3)
+{
+    return;
+}
+}
+}
+
+xtextbox::layout &xtextbox::temp_layout(bool cache) const
+{
+    BFBBSTUB("xtextbox::temp_layout");
+
+    //int min_used;
+    //unsigned int i;
+    //int used;
+
+    iTime cur_time = iTimeGet();
+    bool refresh = false;
+
+    unsigned int index = 0;
+
+    if (cache)
+    {
+        if (tl_cache[0].tl.changed(*this))
+        {
+            index = 1;
+        }
+    }
+    else
+    {
+        index = 1;
+    }
+
+    //tweaker::log_cache(???);
+
+    if (index >= 1)
+    {
+        refresh = true;
+        index = 0;
+
+        // ...
+    }
+
+    tl_cache_entry &e = tl_cache[index];
+
+    if (refresh)
+    {
+        e.used = 0;
+        e.tl.refresh(*this, true);
+    }
+    else
+    {
+        e.tl.tb = *this;
+    }
+
+    if (cache)
+    {
+        e.used++;
+        e.last_used = cur_time;
+    }
+
+    return e.tl;
+}
+
+void xtextbox::render(bool cache) const
+{
+    render(temp_layout(cache), 0, -1);
+}
+
+void xtextbox::render(layout &l, int begin_jot, int end_jot) const
+{
+    BFBBSTUB("xtextbox::render");
+}
+
+float xtextbox::yextent(bool cache) const
+{
+    return yextent(temp_layout(cache), 0, -1);
+}
+
+float xtextbox::yextent(const layout &l, int begin_jot, int end_jot) const
+{
+    int size;
+    return yextent(1e+38f, size, l, begin_jot, end_jot);
+}
+
+float xtextbox::yextent(float max, int &size, const layout &l, int begin_jot, int end_jot) const
+{
+    return l.yextent(max, size, begin_jot, end_jot);
+}
+
+void xtextbox::layout::refresh(const xtextbox &tb, bool force)
+{
+    if (force || changed(tb))
+    {
+        this->tb = tb;
+        calc(tb, 0);
+    }
+}
+
+void xtextbox::layout::trim_line(jot_line &line)
+{
+    for (int i = line.last - 1; i >= line.first; i--)
+    {
+        jot &a = _jots[i];
+
+        if (!a.flag.ethereal)
+        {
+            if (a.flag.invisible)
+            {
+                erase_jots(i, i + 1);
+                line.last--;
+            }
+
+            break;
+        }
+    }
+
+    for (unsigned int i = line.first; i < line.last; i++)
+    {
+        jot &a = _jots[i];
+
+        if (!a.flag.ethereal)
+        {
+            if (a.flag.invisible)
+            {
+                erase_jots(i, i + 1);
+            }
+
+            break;
+        }
+    }
+}
+
+void xtextbox::layout::erase_jots(unsigned int begin_jot, unsigned int end_jot)
+{
+    if (end_jot >= _jots_size)
+    {
+        _jots_size = begin_jot;
+    }
+    else
+    {
+        unsigned int size = end_jot - begin_jot;
+
+        for (int i = begin_jot; i < _jots_size; i++)
+        {
+            _jots[i] = _jots[i + size];
+        }
+    }
+}
+
+void xtextbox::layout::merge_line(jot_line &line)
+{
+    unsigned int d = line.first;
+
+    for (unsigned int i = line.first + 1; i != line.last; i++)
+    {
+        jot &a1 = _jots[d];
+        jot &a2 = _jots[i];
+
+        if (!a1.flag.ethereal && !a2.flag.ethereal &&
+            a1.flag.merge && a2.flag.merge &&
+            a1.cb == a2.cb)
+        {
+            a1.s.size = a2.s.size + (a2.s.text - a1.s.text);
+            a1.bounds |= a2.bounds;
+            a1.intersect_flags(a2);
+        }
+        else
+        {
+            d++;
+
+            if (d != i)
+            {
+                _jots[d] = _jots[i];
+            }
+        }
+    }
+
+    erase_jots(d + 1, line.last);
+    line.last = d + 1;
+}
+
+void xtextbox::layout::bound_line(jot_line &line)
+{
+    line.baseline = 0.0f;
+    line.bounds.w = line.bounds.h = 0.0f;
+
+    for (unsigned int i = line.first; i != line.last; i++)
+    {
+        jot &a = _jots[i];
+
+        if (!a.flag.ethereal)
+        {
+            if (-a.bounds.y > line.baseline)
+            {
+                line.baseline = -a.bounds.y;
+            }
+        }
+    }
+
+    for (unsigned int i = line.first; i != line.last; i++)
+    {
+        jot &a = _jots[i];
+
+        if (!a.flag.ethereal)
+        {
+            a.bounds.x = line.bounds.w;
+            line.bounds.w += a.bounds.w;
+
+            float total_height = a.bounds.h + line.baseline + a.bounds.y;
+
+            if (total_height > line.bounds.h)
+            {
+                line.bounds.h = total_height;
+            }
+        }
+    }
+
+    line.page_break = (line.last > line.first) && (_jots[line.last - 1].flag.page_break);
+}
+
+bool xtextbox::layout::fit_line()
+{
+    jot_line &line = _lines[_lines_size];
+
+    if (line.bounds.w > tb.bounds.w)
+    {
+        switch (tb.flags & 0x30)
+        {
+        case 0x10:
+        {
+            if (line.last > (line.first + 1))
+            {
+                line.last--;
+            }
+
+            break;
+        }
+
+        case 0x20:
+        {
+            return false;
+        }
+
+        default:
+        {
+            for (int i = line.last - 1; i > line.first; i--)
+            {
+                if (_jots[i].flag.word_break)
+                {
+                    line.last = i + 1;
+                    break;
+                }
+
+                if (_jots[i - 1].flag.word_end)
+                {
+                    line.last = i;
+                    break;
+                }
+            }
+
+            if (line.last <= line.first)
+            {
+                line.last = line.first + 1;
+            }
+
+            trim_line(line);
+        }
+        }
+    }
+
+    merge_line(line);
+    bound_line(line);
+
+    return true;
+}
+
+void xtextbox::layout::next_line()
+{
+    jot_line &prev_line = _lines[_lines_size++];
+    jot_line &line = _lines[_lines_size];
+
+    line.first = prev_line.last;
+    line.last = _jots_size;
+    line.bounds.x = 0.0f;
+    line.bounds.y = prev_line.bounds.y + prev_line.bounds.h;
+
+    bound_line(line);
+}
+
+void xtextbox::layout::calc(const xtextbox &ctb, unsigned int start_text)
+{
+    if (start_text == 0)
+    {
+        dynamics_size = 0;
+        context_buffer_size = 0;
+        _lines_size = 0;
+        _jots_size = 0;
+    }
+
+    if (tb.texts_size)
+    {
+        start_layout(ctb);
+
+        jot_line &first_line = _lines[_lines_size];
+
+        struct
+        {
+            const char *s;
+            const char *end;
+        } text_stack[16];
+
+        unsigned int text_stack_size = 0;
+
+        first_line.first = 0;
+        first_line.bounds.w = 0.0f;
+        first_line.bounds.x = 0.0f;
+        first_line.bounds.y = 0.0f;
+        first_line.baseline = 0.0f;
+
+        unsigned int text_index = start_text + 1;
+        const char *s = tb.texts[start_text];
+        const char *end = s + ((!tb.text_sizes) ? 0x4000 : tb.text_sizes[start_text]);
+
+        while (true)
+        {
+            jot &a = _jots[_jots_size];
+            jot_line &line = _lines[_lines_size];
+
+            a.context = context_buffer;
+            a.context_size = 0;
+            a.reset_flags();
+            a.cb = NULL;
+            a.tag = NULL;
+
+            if (s == end || *s == '\0')
+            {
+                if (text_stack_size)
+                {
+                    text_stack_size--;
+                    s = text_stack[text_stack_size].s;
+                    end = text_stack[text_stack_size].end;
+                }
+                else if (text_index < tb.texts_size)
+                {
+                    s = tb.texts[text_index];
+                    end = s + ((!tb.text_sizes) ? 0x4000 : tb.text_sizes[text_index]);
+                    text_index++;
+                }
+                else
+                {
+                    break;
+                }
+
+                a.flag.invisible = a.flag.ethereal = true;
+                a.s = substr::create(NULL, 0);
+
+                _jots_size++;
+            }
+            else
+            {
+                const char *r25 = parse_next_jot(a, tb, ctb, s, end - s);
+
+                if (a.context == &context_buffer[context_buffer_size])
+                {
+                    context_buffer_size += (a.context_size + 3) & ~3;
+                }
+
+                _jots_size++;
+
+                if (a.cb && a.cb->layout_update)
+                {
+                    a.cb->layout_update(a, tb, ctb);
+                }
+
+                if (!a.flag.stop)
+                {
+                    if (!a.flag.ethereal)
+                    {
+                        a.bounds.x += line.bounds.w;
+                        line.bounds.w += a.bounds.w;
+
+                        if (line.bounds.w >= tb.bounds.w)
+                        {
+                            line.last = _jots_size;
+
+                            if (fit_line())
+                            {
+                                next_line();
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+                    if (a.flag.line_break || a.flag.page_break)
+                    {
+                        line.last = _jots_size;
+
+                        if (fit_line())
+                        {
+                            next_line();
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    s = r25;
+
+                    if (a.flag.insert)
+                    {
+                        text_stack[text_stack_size].s = r25;
+                        text_stack[text_stack_size].end = end;
+
+                        text_stack_size++;
+                        s = (const char *)a.context;
+                        end = s + a.context_size;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        jot_line &last_line = _lines[_lines_size];
+
+        if (last_line.first < _jots_size)
+        {
+            last_line.last = _jots_size;
+
+            if (fit_line())
+            {
+                _lines_size++;
+            }
+        }
+
+        for (unsigned int i = 0; i < _jots_size; i++)
+        {
+            if (_jots[i].flag.dynamic)
+            {
+                dynamics[dynamics_size++] = i;
+            }
+        }
+
+        stop_layout(ctb);
+    }
+}
+
+float xtextbox::layout::yextent(float max, int &size, int begin_jot, int end_jot) const
+{
+    size = 0;
+
+    if (begin_jot < 0)
+    {
+        begin_jot = 0;
+    }
+
+    if (end_jot < begin_jot)
+    {
+        end_jot = _jots_size;
+    }
+
+    if (begin_jot >= end_jot)
+    {
+        return 0.0f;
+    }
+
+    int begin_line = 0;
+
+    while (true)
+    {
+        if (begin_line >= _lines_size)
+        {
+            return 0.0f;
+        }
+
+        if (_lines[begin_line].last > begin_jot)
+        {
+            break;
+        }
+
+        begin_line++;
+    }
+
+    float top = max + _lines[begin_line].bounds.y;
+    int i = begin_line;
+
+    while (i != _lines_size)
+    {
+        const jot_line &line = _lines[i];
+
+        if ((line.bounds.y + line.bounds.h) > top)
+        {
+            i--;
+            break;
+        }
+
+        if (line.last >= end_jot)
+        {
+            break;
+        }
+
+        if (line.page_break)
+        {
+            break;
+        }
+
+        i++;
+    }
+
+    if (i < begin_line)
+    {
+        return 0.0f;
+    }
+
+    const jot_line &line = _lines[i];
+
+    size = ((line.last >= end_jot) ? end_jot : line.last) - begin_jot;
+
+    return line.bounds.y + line.bounds.h - _lines[begin_line].bounds.y;
+}
+
+bool xtextbox::layout::changed(const xtextbox &ctb)
+{
+    unsigned int flags1 = tb.flags & 0x70;
+    unsigned int flags2 = ctb.flags & 0x70;
+
+    if (tb.text_hash == ctb.text_hash &&
+        tb.font.id == ctb.font.id &&
+        tb.font.width == ctb.font.width &&
+        tb.font.height == ctb.font.height &&
+        tb.font.space == ctb.font.space &&
+        tb.bounds.w == ctb.bounds.w &&
+        flags1 == flags2 &&
+        tb.line_space == ctb.line_space)
+    {
+        for (int i = dynamics_size; i > 0; i--)
+        {
+            jot &j = _jots[dynamics[i - 1]];
+
+            unsigned int oldval = xStrHash((const char *)j.context, j.context_size);
+
+            parse_next_jot(j, tb, ctb, j.s.text, j.s.size);
+
+            unsigned int val = xStrHash((const char *)j.context, j.context_size);
+
+            if (val != oldval)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    return true;
+}
 
 namespace
 {
@@ -891,4 +1824,40 @@ void xtextbox::register_tags(const tag_type *t, unsigned int size)
     }
 
     format_tags_size = (unsigned int)(d - format_tags);
+}
+
+xtextbox::tag_type *xtextbox::find_format_tag(const substr &s)
+{
+    int index;
+    return find_format_tag(s, index);
+}
+
+xtextbox::tag_type *xtextbox::find_format_tag(const substr &s, int &index)
+{
+    int start = 0;
+    int end = format_tags_size;
+
+    while (start != end)
+    {
+        index = (start + end) / 2;
+
+        tag_type &t = format_tags[index];
+        int c = icompare(s, t.name);
+
+        if (c < 0)
+        {
+            end = index;
+        }
+        else if (c > 0)
+        {
+            start = index + 1;
+        }
+        else
+        {
+            return &t;
+        }
+    }
+
+    index = -1;
+    return NULL;
 }
