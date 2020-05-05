@@ -66,7 +66,7 @@ static void zMainMemLvlChkCB()
 
 void zMainFirstScreen(int mode)
 {
-    RwCamera *cam = iCameraCreate(SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+    RwCamera *cam = iCameraCreate(SCREEN_WIDTH, SCREEN_HEIGHT, 0, true);
     RwRGBA bg = { 0, 0, 0, 0 };
 
     for (int i = 0; i < 2; i++)
@@ -83,7 +83,7 @@ void zMainFirstScreen(int mode)
                                                 0.0f, 0.0f, 0.0f, 0.0f);
 
             textbox.set_text(
-                "Game and Software © 2003 THQ Inc. © 2003 Viacom International Inc. "
+                "Game and Software Â© 2003 THQ Inc. Â© 2003 Viacom International Inc. "
                 "All rights reserved.\n\n"
                 "Nickelodeon, SpongeBob SquarePants and all related titles, logos, and "
                 "characters are trademarks of Viacom International Inc. Created by "
