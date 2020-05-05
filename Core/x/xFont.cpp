@@ -4,6 +4,7 @@
 #include "xModel.h"
 #include "xMemMgr.h"
 #include "iTime.h"
+#include "iSystem.h"
 
 #include "print.h"
 
@@ -113,6 +114,12 @@ font_asset default_font_assets[] =
 font_data active_fonts[4];
 unsigned int active_fonts_size;
 
+RwIm2DVertex vert_buffer[120];
+unsigned int vert_buffer_used;
+
+float rcz;
+float nsz;
+
 basic_rect<int> find_bounds(const iColor_tag *bits, const basic_rect<int> &r, int pitch)
 {
     int diff = pitch - r.w;
@@ -220,7 +227,7 @@ unsigned char reset_font_spacing(font_asset &a)
             a.char_pos[i].size = r.w;
         }
 
-        int baseline = r.h + (char_bounds.y - r.y + 1);
+        int baseline = r.h + (r.y - char_bounds.y + 1);
 
         if (++baseline_count[baseline] > baseline_count[a.baseline])
         {
@@ -248,9 +255,9 @@ basic_rect<float> get_tex_bounds(const font_data &fd, unsigned char char_index)
         b.x = char_index - (char_index / a.line_size) * a.line_size;
     }
 
-    b.x = a.char_pos[char_index * 2].offset;
+    b.x = a.char_pos[char_index].offset + a.du * b.x + a.u;
     b.y = a.dv * b.y + a.v;
-    b.w = a.char_pos[char_index * 2].size - 0.5f;
+    b.w = a.char_pos[char_index].size - 0.5f;
     b.h = a.dv - 0.5f;
 
     b.scale(fd.iwidth, fd.iheight);
@@ -265,7 +272,7 @@ basic_rect<float> get_bounds(const font_data &fd, unsigned char char_index)
 
     b.x = 0.0f;
     b.y = (float)-a.baseline / a.dv;
-    b.w = (float)(a.char_pos[char_index * 2].size + a.space.x) / (a.du + a.space.x);
+    b.w = (float)(a.char_pos[char_index].size + a.space.x) / (a.du + a.space.x);
     b.h = 1.0f;
 
     return b;
@@ -340,6 +347,95 @@ unsigned char init_font_data(font_data &fd)
     return 1;
 }
 
+void start_tex_render(unsigned int id)
+{
+    rcz = 1.0f / RwCameraGetNearClipPlane(RwCameraGetCurrentCamera());
+    nsz = RwIm2DGetNearScreenZ();
+
+    xfont::set_render_state(active_fonts[id].raster);
+}
+
+void tex_flush()
+{
+    if (vert_buffer_used)
+    {
+        RwIm2DRenderPrimitive(rwPRIMTYPETRILIST, vert_buffer, vert_buffer_used);
+        vert_buffer_used = 0;
+    }
+}
+
+void stop_tex_render()
+{
+    tex_flush();
+    xfont::restore_render_state();
+}
+
+void set_vert(RwIm2DVertex &vert, float x, float y, float u, float v,
+              iColor_tag color)
+{
+    RwIm2DVertexSetScreenX(&vert, x);
+    RwIm2DVertexSetScreenY(&vert, y);
+    RwIm2DVertexSetScreenZ(&vert, nsz);
+    RwIm2DVertexSetU(&vert, u);
+    RwIm2DVertexSetV(&vert, v);
+    RwIm2DVertexSetIntRGBA(&vert, color.r, color.g, color.b, color.a);
+}
+
+void tex_render(const basic_rect<float> &src, const basic_rect<float> &dst,
+                const basic_rect<float> &clip, iColor_tag color)
+{
+    basic_rect<float> r = dst;
+    basic_rect<float> rt = src;
+
+    clip.clip(r, rt);
+
+    if (!r.empty())
+    {
+        if (vert_buffer_used == 120)
+        {
+            RwIm2DRenderPrimitive(rwPRIMTYPETRILIST, vert_buffer, 120);
+            vert_buffer_used = 0;
+        }
+
+        RwIm2DVertex *vert = vert_buffer + vert_buffer_used;
+
+        r.scale(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        set_vert(vert[0],
+                 r.x,
+                 r.y,
+                 rt.x,
+                 rt.y,
+                 color);
+
+        set_vert(vert[1],
+                 r.x,
+                 r.y + r.h,
+                 rt.x,
+                 rt.y + rt.h,
+                 color);
+
+        set_vert(vert[2],
+                 r.x + r.w,
+                 r.y,
+                 rt.x + rt.w,
+                 rt.y,
+                 color);
+
+        vert[3] = vert[2];
+        vert[4] = vert[1];
+
+        set_vert(vert[5],
+                 r.x + r.w,
+                 r.y + r.h,
+                 rt.x + rt.w,
+                 rt.y + rt.h,
+                 color);
+
+        vert_buffer_used += 6;
+    }
+}
+
 struct model_pool
 {
     RwMatrix mat[8];
@@ -377,6 +473,55 @@ void init_model_cache()
         e.model->Flags = 0x1;
         e.model->BoneCount = 1;
         e.model->shadowID = 0xDEADBEEF;
+    }
+}
+
+struct
+{
+    RwBool fogenable;
+    RwBool vertexalphaenable;
+    RwBool zwriteenable;
+    RwBool ztestenable;
+    RwBlendFunction srcblend;
+    RwBlendFunction destblend;
+    RwShadeMode shademode;
+    RwRaster *textureraster;
+    RwTextureFilterMode filter;
+} oldrs;
+
+RwRaster *set_tex_raster(RwRaster *raster)
+{
+    RwRaster *oldraster;
+
+    RwRenderStateGet(rwRENDERSTATETEXTURERASTER, (void *)&oldraster);
+
+    if (raster == oldraster)
+    {
+        return raster;
+    }
+
+    tex_flush();
+    RwRenderStateSet(rwRENDERSTATETEXTURERASTER, (void *)&raster);
+
+    return oldraster;
+}
+
+void char_render(unsigned char c, unsigned int font_id, const basic_rect<float> &bounds,
+                 const basic_rect<float> &clip, iColor_tag color)
+{
+    font_data &fd = active_fonts[font_id];
+    unsigned int charIndex = fd.char_index[c];
+
+    if (charIndex < fd.index_max)
+    {
+        basic_rect<float> dst = fd.bounds[charIndex];
+        dst.scale(bounds.w, bounds.h);
+        dst.x += bounds.x;
+        dst.y += bounds.y;
+        dst.w *= fd.dstfrac[charIndex].x;
+        dst.h *= fd.dstfrac[charIndex].y;
+
+        tex_render(fd.tex_bounds[charIndex], dst, clip, color);
     }
 }
 
@@ -608,6 +753,16 @@ void stop_layout(const xtextbox &tb)
     return;
 }
 
+void start_render(const xtextbox &tb)
+{
+    tb.font.start_render();
+}
+
+void stop_render(const xtextbox &tb)
+{
+    tb.font.stop_render();
+}
+
 struct tl_cache_entry
 {
     unsigned int used;
@@ -658,26 +813,112 @@ void xfont::init()
     init_model_cache();
 }
 
+void xfont::set_render_state(RwRaster *raster)
+{
+    RwRenderStateGet(rwRENDERSTATEFOGENABLE, (void *)&oldrs.fogenable);
+    RwRenderStateGet(rwRENDERSTATESRCBLEND, (void *)&oldrs.srcblend);
+    RwRenderStateGet(rwRENDERSTATEDESTBLEND, (void *)&oldrs.destblend);
+    RwRenderStateGet(rwRENDERSTATEVERTEXALPHAENABLE, (void *)&oldrs.vertexalphaenable);
+    RwRenderStateGet(rwRENDERSTATETEXTURERASTER, (void *)&oldrs.textureraster);
+    RwRenderStateGet(rwRENDERSTATESHADEMODE, (void *)&oldrs.shademode);
+    RwRenderStateGet(rwRENDERSTATEZWRITEENABLE, (void *)&oldrs.zwriteenable);
+    RwRenderStateGet(rwRENDERSTATEZTESTENABLE, (void *)&oldrs.ztestenable);
+    RwRenderStateGet(rwRENDERSTATETEXTUREFILTER, (void *)&oldrs.filter);
+
+    RwRenderStateSet(rwRENDERSTATEFOGENABLE, (void *)FALSE);
+    RwRenderStateSet(rwRENDERSTATESRCBLEND, (void *)rwBLENDSRCALPHA);
+    RwRenderStateSet(rwRENDERSTATEDESTBLEND, (void *)rwBLENDINVSRCALPHA);
+    RwRenderStateSet(rwRENDERSTATEVERTEXALPHAENABLE, (void *)TRUE);
+    RwRenderStateSet(rwRENDERSTATETEXTURERASTER, (void *)raster);
+    RwRenderStateSet(rwRENDERSTATESHADEMODE, (void *)rwSHADEMODEFLAT);
+    RwRenderStateSet(rwRENDERSTATEZWRITEENABLE, (void *)FALSE);
+    RwRenderStateSet(rwRENDERSTATEZTESTENABLE, (void *)FALSE);
+    RwRenderStateSet(rwRENDERSTATETEXTUREFILTER, (void *)rwFILTERLINEAR);
+}
+
+void xfont::restore_render_state()
+{
+    RwRenderStateSet(rwRENDERSTATEFOGENABLE, (void *)oldrs.fogenable);
+    RwRenderStateSet(rwRENDERSTATESRCBLEND, (void *)oldrs.srcblend);
+    RwRenderStateSet(rwRENDERSTATEDESTBLEND, (void *)oldrs.destblend);
+    RwRenderStateSet(rwRENDERSTATEVERTEXALPHAENABLE, (void *)oldrs.vertexalphaenable);
+    RwRenderStateSet(rwRENDERSTATETEXTURERASTER, (void *)oldrs.textureraster);
+    RwRenderStateSet(rwRENDERSTATESHADEMODE, (void *)oldrs.shademode);
+    RwRenderStateSet(rwRENDERSTATEZWRITEENABLE, (void *)oldrs.zwriteenable);
+    RwRenderStateSet(rwRENDERSTATEZTESTENABLE, (void *)oldrs.ztestenable);
+    RwRenderStateSet(rwRENDERSTATETEXTUREFILTER, (void *)oldrs.filter);
+}
+
 basic_rect<float> xfont::bounds(char c) const
 {
     font_data &fd = active_fonts[id];
     basic_rect<float> r;
 
-    if (fd.char_index[c] == 0xFF)
+    unsigned int charIndex = fd.char_index[c];
+
+    if (charIndex == 0xFF)
     {
         r = basic_rect<float>::m_Null;
     }
     else
     {
-        r.x = fd.bounds[c].x;
-        r.y = fd.bounds[c].y;
-        r.w = fd.bounds[c].w;
-        r.h = fd.bounds[c].h;
+        r.x = fd.bounds[charIndex].x;
+        r.y = fd.bounds[charIndex].y;
+        r.w = fd.bounds[charIndex].w;
+        r.h = fd.bounds[charIndex].h;
 
         r.scale(width, height);
     }
 
     return r;
+}
+
+void xfont::start_render() const
+{
+    start_tex_render(id);
+}
+
+void xfont::stop_render() const
+{
+    stop_tex_render();
+}
+
+void xfont::irender(const char *text, float x, float y) const
+{
+    irender(text, 0x4000, x, y);
+}
+
+void xfont::irender(const char *text, unsigned int text_size, float x, float y) const
+{
+    if (text)
+    {
+        font_data &fd = active_fonts[id];
+
+        set_tex_raster(fd.raster);
+
+        basic_rect<float> bounds;
+        bounds.x = x;
+        bounds.y = y;
+        bounds.w = width;
+        bounds.h = height;
+
+        for (unsigned int i = 0; i < text_size; i++)
+        {
+            if (text[i] == '\0')
+            {
+                break;
+            }
+
+            char_render(text[i], id, bounds, clip, color);
+
+            unsigned int charIndex = fd.char_index[text[i]];
+
+            if (charIndex != 0xFF)
+            {
+                bounds.x += fd.bounds[charIndex].w * width + space;
+            }
+        }
+    }
 }
 
 xfont xfont::create(unsigned int id, float width, float height, float space,
@@ -725,7 +966,7 @@ xtextbox xtextbox::create(const xfont &font, const basic_rect<float> &bounds,
 
 void xtextbox::text_render(const jot &j, const xtextbox &tb, float x, float y)
 {
-    BFBBSTUB("xtextbox::text_render");
+    tb.font.irender(j.s.text, j.s.size, x, y);
 }
 
 void xtextbox::set_text(const char *text)
@@ -740,7 +981,7 @@ void xtextbox::set_text(const char *text, unsigned int size)
         this->text.text = text;
         this->text.size = size;
 
-        set_text(&text, &size, 1);
+        set_text(&this->text.text, &this->text.size, 1);
     }
     else
     {
@@ -757,6 +998,8 @@ void xtextbox::set_text(const char **texts, unsigned int size)
 void xtextbox::set_text(const char **texts, const unsigned int *text_sizes,
                         unsigned int size)
 {
+    texts_size = size;
+
     if (size)
     {
         this->texts = texts;
@@ -853,7 +1096,7 @@ void xtextbox::render(bool cache) const
 
 void xtextbox::render(layout &l, int begin_jot, int end_jot) const
 {
-    BFBBSTUB("xtextbox::render");
+    l.render(*this, begin_jot, end_jot);
 }
 
 float xtextbox::yextent(bool cache) const
@@ -924,6 +1167,7 @@ void xtextbox::layout::erase_jots(unsigned int begin_jot, unsigned int end_jot)
     else
     {
         unsigned int size = end_jot - begin_jot;
+        _jots_size -= size;
 
         for (int i = begin_jot; i < _jots_size; i++)
         {
@@ -1233,6 +1477,96 @@ void xtextbox::layout::calc(const xtextbox &ctb, unsigned int start_text)
         }
 
         stop_layout(ctb);
+    }
+}
+
+void xtextbox::layout::render(const xtextbox &ctb, int begin_jot, int end_jot)
+{
+    if (begin_jot < 0)
+    {
+        begin_jot = 0;
+    }
+
+    if (end_jot < begin_jot)
+    {
+        end_jot = _jots_size;
+    }
+
+    if (begin_jot < end_jot)
+    {
+        tb = ctb;
+
+        start_render(ctb);
+
+        for (int begin_line = 0; begin_line < _lines_size; begin_line++)
+        {
+            if (_lines[begin_line].last > begin_jot)
+            {
+                for (int i = 0; i < begin_jot; i++)
+                {
+                    jot &j = _jots[i];
+
+                    if (j.cb && j.cb->render_update)
+                    {
+                        j.cb->render_update(j, tb, ctb);
+                    }
+                }
+
+                float top = _lines[begin_line].bounds.y;
+                unsigned int li = begin_line - 1;
+                int line_last = -1;
+                float x, y;
+
+                for (int i = begin_jot; i < end_jot; i++)
+                {
+                    if (i >= line_last)
+                    {
+                        jot_line &line = _lines[++li];
+
+                        line_last = line.last;
+                        x = tb.bounds.x + line.bounds.x;
+                        y = line.baseline + tb.bounds.y + line.bounds.y - top;
+
+                        unsigned int xj = tb.flags & 0x3;
+
+                        if (xj == 2)
+                        {
+                            x += 0.5f * (tb.bounds.w - line.bounds.w);
+                        }
+                        else if (xj == 1)
+                        {
+                            x += tb.bounds.w - line.bounds.w;
+                        }
+
+                        if (line.page_break && (end_jot > line_last))
+                        {
+                            end_jot = line_last;
+                        }
+                    }
+
+                    jot &j = _jots[i];
+                    
+                    if (j.cb)
+                    {
+                        if (j.cb->render_update)
+                        {
+                            j.cb->render_update(j, tb, ctb);
+                        }
+
+                        if (!j.flag.ethereal && !j.flag.invisible && j.cb->render)
+                        {
+                            j.cb->render(j, tb, x + j.bounds.x, y);
+                        }
+                    }
+                }
+
+                stop_render(ctb);
+                return;
+            }
+        }
+
+        stop_render(ctb);
+        return;
     }
 }
 

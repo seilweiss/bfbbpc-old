@@ -66,7 +66,7 @@ static void zMainMemLvlChkCB()
 
 void zMainFirstScreen(int mode)
 {
-    RwCamera *cam = iCameraCreate(640, 480, 0);
+    RwCamera *cam = iCameraCreate(SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     RwRGBA bg = { 0, 0, 0, 0 };
 
     for (int i = 0; i < 2; i++)
@@ -160,12 +160,26 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     RegisterClass(&wc);
 
+    RECT rect = {};
+    rect.left = 0;
+    rect.top = 0;
+    rect.right = SCREEN_WIDTH;
+    rect.bottom = SCREEN_HEIGHT;
+
+    if (!AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE))
+    {
+        return 0;
+    }
+
+    rect.right -= rect.left;
+    rect.bottom -= rect.top;
+
     hwnd = CreateWindowEx(
         0,
         CLASS_NAME,
         "SpongeBob SquarePants: Battle for Bikini Bottom",
         WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, CW_USEDEFAULT, 1024, 768,
+        CW_USEDEFAULT, CW_USEDEFAULT, rect.right, rect.bottom,
         NULL,
         NULL,
         hInstance,

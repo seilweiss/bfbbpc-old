@@ -5,6 +5,8 @@
 #include "xMath2.h"
 #include "iColor.h"
 
+#include <rwcore.h>
+
 struct xfont
 {
     unsigned int id;
@@ -14,8 +16,14 @@ struct xfont
     iColor_tag color;
     basic_rect<float> clip;
 
+    static void set_render_state(RwRaster *raster);
+    static void restore_render_state();
     static void init();
     basic_rect<float> bounds(char c) const;
+    void start_render() const;
+    void stop_render() const;
+    void irender(const char *text, unsigned int text_size, float x, float y) const;
+    void irender(const char *text, float x, float y) const;
     static xfont create(unsigned int id, float width, float height, float space,
                         iColor_tag color, const basic_rect<float> &clip);
 };
@@ -151,6 +159,7 @@ struct xtextbox::layout
 
     bool changed(const xtextbox &ctb);
     void refresh(const xtextbox &tb, bool force);
+    void render(const xtextbox &ctb, int begin_jot, int end_jot);
     float yextent(float max, int &size, int begin_jot, int end_jot) const;
     void calc(const xtextbox &ctb, unsigned int start_text);
     void erase_jots(unsigned int begin_jot, unsigned int end_jot);
@@ -160,15 +169,5 @@ struct xtextbox::layout
     bool fit_line();
     void next_line();
 };
-
-inline float NSCREENX(float x)
-{
-    return (1.0f / 640) * x;
-}
-
-inline float NSCREENY(float y)
-{
-    return (1.0f / 480) * y;
-}
 
 #endif

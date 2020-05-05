@@ -66,7 +66,48 @@ struct basic_rect
 
     void clip(basic_rect<T> &r1, basic_rect<T> &r2) const
     {
-        BFBBSTUB("basic_rect::clip");
+        float f5 = r2.w / r1.w;
+        float f0 = r2.h / r1.h;
+
+        if (r1.x < x)
+        {
+            float f2 = x - r1.x;
+            float f3 = f5 * f2;
+
+            r1.x = x;
+            r1.w -= f2;
+            r2.x += f3;
+            r2.y -= f3;
+        }
+
+        if (r1.y < y)
+        {
+            float f2 = x - r1.y;
+            float f3 = f0 * f2;
+
+            r1.y = y;
+            r1.h -= f2;
+            r2.y += f3;
+            r2.h -= f3;
+        }
+
+        float f3 = r1.x + r1.w;
+        float f4 = x + w;
+
+        if (f3 > f4)
+        {
+            r2.w -= f5 * (f3 - f4);
+            r1.w = f4 - r1.x;
+        }
+
+        f3 = r1.y + r1.h;
+        f4 = y + h;
+
+        if (f3 > f4)
+        {
+            r2.h -= f0 * (f3 - f4);
+            r1.h = f4 - r1.y;
+        }
     }
 
     void set_bounds(T x1, T y1, T x2, T y2)
