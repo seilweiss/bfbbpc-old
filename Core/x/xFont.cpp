@@ -375,7 +375,8 @@ void set_vert(RwIm2DVertex &vert, float x, float y, float u, float v,
 {
     RwIm2DVertexSetScreenX(&vert, x);
     RwIm2DVertexSetScreenY(&vert, y);
-    RwIm2DVertexSetScreenZ(&vert, nsz);
+    //RwIm2DVertexSetScreenZ(&vert, nsz);
+    RwIm2DVertexSetRecipCameraZ(&vert, rcz);
     RwIm2DVertexSetU(&vert, u);
     RwIm2DVertexSetV(&vert, v);
     RwIm2DVertexSetIntRGBA(&vert, color.r, color.g, color.b, color.a);

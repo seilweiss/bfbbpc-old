@@ -431,5 +431,8 @@
     <ClCompile Include="Core\x\xMath2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Core\p2\bacamval_hack.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -306,6 +306,7 @@
     <ClInclude Include="Game\zVar.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\p2\bacamval_hack.c" />
     <ClCompile Include="Core\p2\iFile.cpp" />
     <ClCompile Include="Core\p2\iMath3.cpp" />
     <ClCompile Include="Core\p2\iMemMgr.cpp" />
