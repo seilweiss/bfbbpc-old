@@ -10,7 +10,7 @@ float sCameraFarClip = 400.0f;
 
 static RwCamera *sMainGameCamera;
 
-RwCamera *iCameraCreate(int width, int height, int mainGameCamera)
+RwCamera *iCameraCreate(int width, int height, int mainGameCamera, bool scaleAspect)
 {
     RwV2d vw;
     RwCamera *camera;
@@ -23,9 +23,15 @@ RwCamera *iCameraCreate(int width, int height, int mainGameCamera)
     
     RwCameraSetFarClipPlane(camera, sCameraFarClip);
     RwCameraSetNearClipPlane(camera, sCameraNearClip);
+    
+    vw = 1.0f;
 
-    vw.x = 1.0f;
-    vw.y = 1.0f;
+    if (scaleAspect == true)
+    {
+        float aspectRatio = (float)width / (float)height;
+        vw *= (aspectRatio >= 4f / 3f ? (4f / 3f) / (4f / 3f) : aspectRatio / (4f / 3f));
+        vw.x *= aspectRatio / (4f / 3f);
+    }
 
     RwCameraSetViewWindow(camera, &vw);
 
