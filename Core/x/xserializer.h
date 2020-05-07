@@ -9,5 +9,6 @@ struct st_SERIAL_PERCID_SIZE
 
 int xSerialStartup(int count, st_SERIAL_PERCID_SIZE *sizeinfo);
 int xSerialShutdown();
+void xSerialWipeMainBuffer();
 
 #endif

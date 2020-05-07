@@ -19,3 +19,8 @@ void var_init()
 
     xtextbox::register_tags(&var_tag, 1);
 }
+
+void zVarNewGame()
+{
+    BFBBSTUB("zVarNewGame");
+}

@@ -402,6 +402,12 @@
     <ClInclude Include="Game\zNPCMgr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\p2\iModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\zGameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\zMain.cpp">
@@ -627,6 +633,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\zPickupTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\x\xModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\p2\iModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\zCutsceneMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\zGameState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

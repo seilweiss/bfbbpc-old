@@ -4,5 +4,6 @@
 void zMainFirstScreen(int mode);
 void zMainShowProgressBar();
 void zMainMemCardRenderText(const char *text, bool enabled);
+void zMainMemCardSpaceQuery();
 
 #endif

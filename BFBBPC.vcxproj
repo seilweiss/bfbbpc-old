@@ -223,6 +223,7 @@
     <ClInclude Include="Core\p2\iMath.h" />
     <ClInclude Include="Core\p2\iMath3.h" />
     <ClInclude Include="Core\p2\iMemMgr.h" />
+    <ClInclude Include="Core\p2\iModel.h" />
     <ClInclude Include="Core\p2\iPad.h" />
     <ClInclude Include="Core\p2\iScrFX.h" />
     <ClInclude Include="Core\p2\iSystem.h" />
@@ -310,6 +311,7 @@
     <ClInclude Include="Game\zEntPlayerOOBState.h" />
     <ClInclude Include="Game\zEnv.h" />
     <ClInclude Include="Game\zGame.h" />
+    <ClInclude Include="Game\zGameState.h" />
     <ClInclude Include="Game\zGlobals.h" />
     <ClInclude Include="Game\zLasso.h" />
     <ClInclude Include="Game\zLightning.h" />
@@ -353,6 +355,7 @@
     <ClCompile Include="Core\p2\iMath.cpp" />
     <ClCompile Include="Core\p2\iMath3.cpp" />
     <ClCompile Include="Core\p2\iMemMgr.cpp" />
+    <ClCompile Include="Core\p2\iModel.cpp" />
     <ClCompile Include="Core\p2\iScrFX.cpp" />
     <ClCompile Include="Core\p2\iSystem.cpp" />
     <ClCompile Include="Core\p2\iTime.cpp" />
@@ -372,6 +375,7 @@
     <ClCompile Include="Core\x\xMath2.cpp" />
     <ClCompile Include="Core\x\xMath3.cpp" />
     <ClCompile Include="Core\x\xMemMgr.cpp" />
+    <ClCompile Include="Core\x\xModel.cpp" />
     <ClCompile Include="Core\x\xordarray.cpp" />
     <ClCompile Include="Core\x\xPad.cpp" />
     <ClCompile Include="Core\x\xParMgr.cpp" />
@@ -390,12 +394,14 @@
     <ClCompile Include="Game\zAssetTypes.cpp" />
     <ClCompile Include="Game\zCamera.cpp" />
     <ClCompile Include="Game\zCameraTweak.cpp" />
+    <ClCompile Include="Game\zCutsceneMgr.cpp" />
     <ClCompile Include="Game\zDispatcher.cpp" />
     <ClCompile Include="Game\zEntPickup.cpp" />
     <ClCompile Include="Game\zEntPlayer.cpp" />
     <ClCompile Include="Game\zEntPlayerBungeeState.cpp" />
     <ClCompile Include="Game\zEntPlayerOOBState.cpp" />
     <ClCompile Include="Game\zGame.cpp" />
+    <ClCompile Include="Game\zGameState.cpp" />
     <ClCompile Include="Game\zMain.cpp" />
     <ClCompile Include="Game\zMenu.cpp" />
     <ClCompile Include="Game\zNPCMgr.cpp" />

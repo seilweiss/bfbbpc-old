@@ -21,3 +21,8 @@ int xSerialShutdown()
     g_serinit--;
     return g_serinit;
 }
+
+void xSerialWipeMainBuffer()
+{
+    BFBBSTUB("xSerialShutdown");
+}

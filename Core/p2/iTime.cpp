@@ -38,6 +38,11 @@ void iTimeSetGame(float time)
     sGameTime = time;
 }
 
+void iProfileClear(unsigned int sceneID)
+{
+    return;
+}
+
 void iFuncProfileParse(const char *, int)
 {
     return;

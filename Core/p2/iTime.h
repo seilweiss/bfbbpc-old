@@ -12,6 +12,7 @@ float iTimeDiffSec(iTime time);
 float iTimeDiffSec(iTime t0, iTime t1);
 void iTimeGameAdvance(float elapsed);
 void iTimeSetGame(float time);
+void iProfileClear(unsigned int sceneID);
 void iFuncProfileParse(const char *, int);
 
 #endif

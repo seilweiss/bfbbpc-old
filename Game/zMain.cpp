@@ -32,6 +32,8 @@
 #include "xDebug.h"
 #include "zNPCMgr.h"
 #include "zPickupTable.h"
+#include "zCutsceneMgr.h"
+#include "zGameState.h"
 
 #include <windows.h>
 #include <stdio.h>
@@ -824,6 +826,112 @@ static void zMainLoop()
     t = iTimeGet();
     xUtil_idtag2string('MNU5', 0);
     iTimeDiffSec(t);
+
+    xModelInit();
+    xModelPoolInit(32, 64);
+    xModelPoolInit(40, 8);
+    xModelPoolInit(56, 1);
+
+    static unsigned int preinit_bubble_matfx[] =
+    {
+        0xDBD033BC, /* bubble_shoeL.dff */
+        0x452279A2, /* bubble_shoeR.dff */
+        0xC17F4BCC, /* bubble_bowlingball */
+        0x0CF9267A, /* bubble_helmet.dff */
+        0x5C009D14, /* cruise_bubble_bind.dff */
+        0
+    };
+
+    unsigned int *preinit = preinit_bubble_matfx;
+
+    while (*preinit)
+    {
+        RpAtomic *modl = (RpAtomic *)xSTFindAsset(*preinit, NULL);
+
+        if (modl)
+        {
+            xFXPreAllocMatFX(RpAtomicGetClump(modl));
+        }
+
+        preinit++;
+    }
+
+    static unsigned int menuModeID = 'MNU3';
+
+    static unsigned int gameSceneID =
+        (globals.sceneStart[0] << 24) |
+        (globals.sceneStart[1] << 16) |
+        (globals.sceneStart[2] << 8) |
+        globals.sceneStart[3];
+
+    unsigned int newGameSceneID = gameSceneID;
+
+    xUtil_idtag2string(gameSceneID, 0);
+    xMemPushBase();
+
+    zMainShowProgressBar();
+
+    zMainMemCardSpaceQuery();
+
+    while (true)
+    {
+        zMainShowProgressBar();
+
+        xSerialWipeMainBuffer();
+        zCutSceneNamesTable_clearAll();
+
+        zMainShowProgressBar();
+
+        if (sShowMenuOnBoot)
+        {
+            zMenuInit(menuModeID);
+
+            zMainShowProgressBar();
+            zMainShowProgressBar();
+
+            zMenuSetup();
+
+            //xFX_SceneEnter(globals.sceneCur->env->geom->world);
+
+            newGameSceneID = zMenuLoop();
+
+            zMenuExit();
+        }
+        else
+        {
+            sShowMenuOnBoot = 1;
+            globals.firstStartPressed = 1;
+
+            zGameModeSwitch(eGameMode_Game);
+            zGameStateSwitch(eGameState_Unk00);
+        }
+
+        if (!newGameSceneID)
+        {
+            zVarNewGame();
+            iTimeSetGame(0.0f);
+
+            gameSceneID =
+                (globals.sceneStart[0] << 24) |
+                (globals.sceneStart[1] << 16) |
+                (globals.sceneStart[2] << 8) |
+                globals.sceneStart[3];
+        }
+        else
+        {
+            gameSceneID = newGameSceneID;
+            
+            iTimeSetGame(0.0f);
+        }
+
+        zGameInit(gameSceneID);
+        zGameSetup();
+
+        iProfileClear(gameSceneID);
+
+        zGameLoop();
+        zGameExit();
+    }
 }
 
 static void zMainReadINI()
@@ -969,6 +1077,11 @@ void zMainFirstScreen(int mode)
     //Sleep(3000);
 
     iCameraDestroy(cam);
+}
+
+void zMainMemCardSpaceQuery()
+{
+    BFBBSTUB("zMainMemCardSpaceQuery");
 }
 
 void zMainMemCardRenderText(const char *text, bool enabled)

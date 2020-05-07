@@ -67,4 +67,9 @@ struct xModelAssetParam
     unsigned char String[3];
 };
 
+extern int xModelPipeNumTables;
+
+void xModelInit();
+void xModelPoolInit(unsigned int count, unsigned int numMatrices);
+
 #endif

@@ -41,4 +41,6 @@ struct zCutsceneMgr : xCutsceneMgr
 {
 };
 
+void zCutSceneNamesTable_clearAll();
+
 #endif
