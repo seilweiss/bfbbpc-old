@@ -29,4 +29,6 @@ struct xShadowSimpleCache
     xVec3 corner[4];
 };
 
+void xShadowSimple_Init();
+
 #endif

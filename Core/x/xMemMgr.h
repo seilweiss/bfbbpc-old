@@ -78,6 +78,7 @@ extern xMemHeap_tag gxHeap[3];
 void xMemInitHeap(xMemHeap_tag *heap, unsigned int base, unsigned int size,
                   unsigned int flags);
 void xMemInit();
+void xMemExit();
 void *xMemAlloc(unsigned int heapID, unsigned int size, int align);
 void *xMemPushTemp(unsigned int size);
 void xMemPopTemp(void *addr);

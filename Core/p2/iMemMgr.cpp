@@ -43,6 +43,13 @@ void iMemInit()
     gMemInfo.SRAM.flags = 0x660;
 }
 
+void iMemExit()
+{
+    //free((void *)gMemInfo.DRAM.addr);
+    HeapFree(sHeap, 0, (void *)gMemInfo.DRAM.addr);
+    gMemInfo.DRAM.addr = NULL;
+}
+
 void null_func()
 {
     mem_base_alloc = (void *)((size_t)mem_base_alloc + sizeof(size_t));

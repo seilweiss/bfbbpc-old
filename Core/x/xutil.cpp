@@ -1,6 +1,26 @@
 #include "xutil.h"
 
+#include "print.h"
+
 #include <ctype.h>
+
+static int g_xutilinit;
+
+int xUtilStartup()
+{
+    if (!g_xutilinit++)
+    {
+        xUtil_crc_init();
+    }
+
+    return g_xutilinit;
+}
+
+int xUtilShutdown()
+{
+    g_xutilinit--;
+    return g_xutilinit;
+}
 
 char *xUtil_idtag2string(unsigned int srctag, int bufidx)
 {
@@ -64,4 +84,10 @@ char *xUtil_idtag2string(unsigned int srctag, int bufidx)
     }
 
     return strptr;
+}
+
+unsigned int xUtil_crc_init()
+{
+    BFBBSTUB("xUtil_crc_init");
+    return 0xFFFFFFFF;
 }

@@ -18,4 +18,6 @@ struct iEnv
     int memlvl;
 };
 
+void iEnvStartup();
+
 #endif

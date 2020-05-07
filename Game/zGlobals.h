@@ -271,4 +271,7 @@ struct zGlobals : xGlobals
 extern zGlobals globals;
 extern xGlobals *xglobals;
 
+extern float gSkipTimeCutscene;
+extern float gSkipTimeFlythrough;
+
 #endif

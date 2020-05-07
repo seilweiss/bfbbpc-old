@@ -1,6 +1,11 @@
 #include "xString.h"
 
+#define BFBB_NOPRINT
+
+#include "print.h"
+
 #include <stdlib.h>
+#include <string.h>
 
 namespace
 {
@@ -38,10 +43,34 @@ unsigned int xStrHash(const char *s, unsigned int size)
     for (i = 0; i < size; i++)
     {
         c = s[i];
+
+        if (c == '\0')
+        {
+            break;
+        }
+
         value = ((c - ((c & (c >> 1)) & 0x20)) & 0xFF) + (value * 131);
     }
 
     return value;
+}
+
+char *xStrTok(char *string, const char *control, char **nextoken)
+{
+    BFBBSTUB("xStrTok");
+    return strtok(string, control);
+}
+
+int xStricmp(const char *string1, const char *string2)
+{
+    BFBBSTUB("xStricmp");
+    return stricmp(string1, string2);
+}
+
+int xStrParseFloatList(float *dest, const char *strbuf, int max)
+{
+    BFBBSTUB("xStrParseFloatList");
+    return 0;
 }
 
 int imemcmp(const void *d1, const void *d2, unsigned int size)
@@ -117,6 +146,60 @@ const char *skip_ws(const char *&text, unsigned int &size)
     return text;
 }
 
+unsigned int atox(const substr &s)
+{
+    unsigned int read_size;
+    return atox(s, read_size);
+}
+
+unsigned int atox(const substr &s, unsigned int &read_size)
+{
+    const char *p = s.text;
+    unsigned int size = s.size;
+
+    if (!p)
+    {
+        return 0;
+    }
+
+    unsigned int total = 0;
+
+    if (size > 8)
+    {
+        size = 8;
+    }
+
+    read_size = 0;
+
+    while (read_size < size)
+    {
+        unsigned int v;
+
+        if (*p >= '0' && *p <= '9')
+        {
+            v = *p - '0';
+        }
+        else if (*p >= 'a' && *p <= 'f')
+        {
+            v = *p - 'a' + 10;
+        }
+        else if (*p >= 'A' && *p <= 'F')
+        {
+            v = *p - 'A' + 10;
+        }
+        else
+        {
+            break;
+        }
+
+        total = (total << 4) + v;
+        p++;
+        read_size++;
+    }
+
+    return total;
+}
+
 unsigned int rskip_ws(substr &s)
 {
     return rskip_ws(s.text, s.size);
@@ -155,15 +238,17 @@ const char *find_char(const substr &s, char c)
     
     for (int i = s.size; i > 0; i--)
     {
-        if (p[i] == '\0')
+        if (*p == '\0')
         {
             break;
         }
 
-        if (p[i] == c)
+        if (*p == c)
         {
-            return &p[i];
+            return p;
         }
+
+        p++;
     }
 
     return NULL;
@@ -188,15 +273,17 @@ const char *find_char(const substr &s, const substr &cs)
     {
         for (int i = s.size; i > 0; i--)
         {
-            if (p[i] == '\0')
+            if (*p == '\0')
             {
                 break;
             }
 
-            if (p[i] == d[0])
+            if (*p == d[0])
             {
-                return &p[i];
+                return p;
             }
+
+            p++;
         }
     }
 
@@ -204,16 +291,18 @@ const char *find_char(const substr &s, const substr &cs)
     {
         for (int i = s.size; i > 0; i--)
         {
-            if (p[i] == '\0')
+            if (*p == '\0')
             {
                 break;
             }
 
-            if (p[i] == d[0] ||
-                p[i] == d[1])
+            if (*p == d[0] ||
+                *p == d[1])
             {
-                return &p[i];
+                return p;
             }
+
+            p++;
         }
     }
 
@@ -221,17 +310,19 @@ const char *find_char(const substr &s, const substr &cs)
     {
         for (int i = s.size; i > 0; i--)
         {
-            if (p[i] == '\0')
+            if (*p == '\0')
             {
                 break;
             }
 
-            if (p[i] == d[0] ||
-                p[i] == d[1] ||
-                p[i] == d[2])
+            if (*p == d[0] ||
+                *p == d[1] ||
+                *p == d[2])
             {
-                return &p[i];
+                return p;
             }
+
+            p++;
         }
     }
 
@@ -239,18 +330,20 @@ const char *find_char(const substr &s, const substr &cs)
     {
         for (int i = s.size; i > 0; i--)
         {
-            if (p[i] == '\0')
+            if (*p == '\0')
             {
                 break;
             }
 
-            if (p[i] == d[0] ||
-                p[i] == d[1] ||
-                p[i] == d[2] ||
-                p[i] == d[3])
+            if (*p == d[0] ||
+                *p == d[1] ||
+                *p == d[2] ||
+                *p == d[3])
             {
-                return &p[i];
+                return p;
             }
+
+            p++;
         }
     }
 
@@ -258,19 +351,21 @@ const char *find_char(const substr &s, const substr &cs)
     {
         for (int i = s.size; i > 0; i--)
         {
-            if (p[i] == '\0')
+            if (*p == '\0')
             {
                 break;
             }
 
-            if (p[i] == d[0] ||
-                p[i] == d[1] ||
-                p[i] == d[2] ||
-                p[i] == d[3] ||
-                p[i] == d[4])
+            if (*p == d[0] ||
+                *p == d[1] ||
+                *p == d[2] ||
+                *p == d[3] ||
+                *p == d[4])
             {
-                return &p[i];
+                return p;
             }
+
+            p++;
         }
     }
 
@@ -278,20 +373,22 @@ const char *find_char(const substr &s, const substr &cs)
     {
         for (int i = s.size; i > 0; i--)
         {
-            if (p[i] == '\0')
+            if (*p == '\0')
             {
                 break;
             }
 
-            if (p[i] == d[0] ||
-                p[i] == d[1] ||
-                p[i] == d[2] ||
-                p[i] == d[3] ||
-                p[i] == d[4] ||
-                p[i] == d[5])
+            if (*p == d[0] ||
+                *p == d[1] ||
+                *p == d[2] ||
+                *p == d[3] ||
+                *p == d[4] ||
+                *p == d[5])
             {
-                return &p[i];
+                return p;
             }
+
+            p++;
         }
     }
 
@@ -299,21 +396,23 @@ const char *find_char(const substr &s, const substr &cs)
     {
         for (int i = s.size; i > 0; i--)
         {
-            if (p[i] == '\0')
+            if (*p == '\0')
             {
                 break;
             }
 
-            if (p[i] == d[0] ||
-                p[i] == d[1] ||
-                p[i] == d[2] ||
-                p[i] == d[3] ||
-                p[i] == d[4] ||
-                p[i] == d[5] ||
-                p[i] == d[6])
+            if (*p == d[0] ||
+                *p == d[1] ||
+                *p == d[2] ||
+                *p == d[3] ||
+                *p == d[4] ||
+                *p == d[5] ||
+                *p == d[6])
             {
-                return &p[i];
+                return p;
             }
+
+            p++;
         }
     }
 
@@ -321,22 +420,24 @@ const char *find_char(const substr &s, const substr &cs)
     {
         for (int i = s.size; i > 0; i--)
         {
-            if (p[i] == '\0')
+            if (*p == '\0')
             {
                 break;
             }
 
-            if (p[i] == d[0] ||
-                p[i] == d[1] ||
-                p[i] == d[2] ||
-                p[i] == d[3] ||
-                p[i] == d[4] ||
-                p[i] == d[5] ||
-                p[i] == d[6] ||
-                p[i] == d[7])
+            if (*p == d[0] ||
+                *p == d[1] ||
+                *p == d[2] ||
+                *p == d[3] ||
+                *p == d[4] ||
+                *p == d[5] ||
+                *p == d[6] ||
+                *p == d[7])
             {
-                return &p[i];
+                return p;
             }
+
+            p++;
         }
     }
 
@@ -344,23 +445,25 @@ const char *find_char(const substr &s, const substr &cs)
     {
         for (int i = s.size; i > 0; i--)
         {
-            if (p[i] == '\0')
+            if (*p == '\0')
             {
                 break;
             }
 
-            if (p[i] == d[0] ||
-                p[i] == d[1] ||
-                p[i] == d[2] ||
-                p[i] == d[3] ||
-                p[i] == d[4] ||
-                p[i] == d[5] ||
-                p[i] == d[6] ||
-                p[i] == d[7] ||
-                p[i] == d[8])
+            if (*p == d[0] ||
+                *p == d[1] ||
+                *p == d[2] ||
+                *p == d[3] ||
+                *p == d[4] ||
+                *p == d[5] ||
+                *p == d[6] ||
+                *p == d[7] ||
+                *p == d[8])
             {
-                return &p[i];
+                return p;
             }
+
+            p++;
         }
     }
 
@@ -368,24 +471,26 @@ const char *find_char(const substr &s, const substr &cs)
     {
         for (int i = s.size; i > 0; i--)
         {
-            if (p[i] == '\0')
+            if (*p == '\0')
             {
                 break;
             }
 
-            if (p[i] == d[0] ||
-                p[i] == d[1] ||
-                p[i] == d[2] ||
-                p[i] == d[3] ||
-                p[i] == d[4] ||
-                p[i] == d[5] ||
-                p[i] == d[6] ||
-                p[i] == d[7] ||
-                p[i] == d[8] ||
-                p[i] == d[9])
+            if (*p == d[0] ||
+                *p == d[1] ||
+                *p == d[2] ||
+                *p == d[3] ||
+                *p == d[4] ||
+                *p == d[5] ||
+                *p == d[6] ||
+                *p == d[7] ||
+                *p == d[8] ||
+                *p == d[9])
             {
-                return &p[i];
+                return p;
             }
+
+            p++;
         }
     }
 
@@ -393,25 +498,27 @@ const char *find_char(const substr &s, const substr &cs)
     {
         for (int i = s.size; i > 0; i--)
         {
-            if (p[i] == '\0')
+            if (*p == '\0')
             {
                 break;
             }
 
-            if (p[i] == d[0] ||
-                p[i] == d[1] ||
-                p[i] == d[2] ||
-                p[i] == d[3] ||
-                p[i] == d[4] ||
-                p[i] == d[5] ||
-                p[i] == d[6] ||
-                p[i] == d[7] ||
-                p[i] == d[8] ||
-                p[i] == d[9] ||
-                p[i] == d[10])
+            if (*p == d[0] ||
+                *p == d[1] ||
+                *p == d[2] ||
+                *p == d[3] ||
+                *p == d[4] ||
+                *p == d[5] ||
+                *p == d[6] ||
+                *p == d[7] ||
+                *p == d[8] ||
+                *p == d[9] ||
+                *p == d[10])
             {
-                return &p[i];
+                return p;
             }
+
+            p++;
         }
     }
 
@@ -419,7 +526,7 @@ const char *find_char(const substr &s, const substr &cs)
     {
         for (int i = s.size; i > 0; i--)
         {
-            if (p[i] == '\0')
+            if (*p == '\0')
             {
                 break;
             }
@@ -435,6 +542,8 @@ const char *find_char(const substr &s, const substr &cs)
 
                 s++;
             }
+
+            p++;
         }
     }
     }

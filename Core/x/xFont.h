@@ -33,7 +33,7 @@ struct xtextbox
     struct jot;
 
     typedef void(*render_callback)(const jot &j, const xtextbox &tb, float x, float y);
-    typedef void(*update_callback)(jot &j, xtextbox &tb, const xtextbox &ctb);
+    typedef void(*update_callback)(const jot &j, xtextbox &tb, const xtextbox &ctb);
 
     struct callback
     {
@@ -169,5 +169,9 @@ struct xtextbox::layout
     bool fit_line();
     void next_line();
 };
+
+static basic_rect<float> screen_bounds = { 0.0f, 0.0f, 1.0f, 1.0f };
+
+void render_fill_rect(const basic_rect<float> &bounds, iColor_tag color);
 
 #endif

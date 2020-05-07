@@ -37,3 +37,8 @@ void iTimeSetGame(float time)
 {
     sGameTime = time;
 }
+
+void iFuncProfileParse(const char *, int)
+{
+    return;
+}

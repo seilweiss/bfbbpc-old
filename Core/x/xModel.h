@@ -60,4 +60,11 @@ struct xModelPool
     xModelInstance *List;
 };
 
+struct xModelAssetParam
+{
+    unsigned int HashID;
+    unsigned char WordLength;
+    unsigned char String[3];
+};
+
 #endif

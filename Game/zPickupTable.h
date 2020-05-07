@@ -7,4 +7,6 @@ struct zAssetPickupTable
     unsigned int Count;
 };
 
+void zPickupTableInit();
+
 #endif

@@ -51,6 +51,11 @@ struct _tagxPad
     analog_data analog[2];
 };
 
+extern _tagxPad *gDebugPad;
+
 int xPadInit();
+void xPadRumbleEnable(int idx, int enable);
+_tagxPad *xPadEnable(int idx);
+void xPadKill();
 
 #endif

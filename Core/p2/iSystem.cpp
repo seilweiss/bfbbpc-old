@@ -35,9 +35,35 @@ RwMemoryFunctions *psGetMemoryFunctions()
     return &MemoryFunctions;
 }
 
+// TODO: This is not vsync.
+// Fix this lol
 void iVSync()
 {
-    BFBBSTUB("iVSync");
+    Sleep(16);
+
+    /*
+    HWND window = GetActiveWindow();
+
+    MSG msg;
+    BOOL bRet;
+
+    while ((bRet = GetMessage(&msg, window, 0, 0)) != 0)
+    {
+        if (bRet == -1)
+        {
+            break;
+        }
+
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+
+        if (msg.message == WM_PAINT)
+        {
+            Sleep(16);
+            break;
+        }
+    }
+    */
 }
 
 static void iTRCInit()
@@ -46,6 +72,7 @@ static void iTRCInit()
 }
 
 static unsigned int iRenderWareInit();
+static void iRenderWareExit();
 static unsigned int RWAttachPlugins();
 static RwTexture *TextureRead(const RwChar *name, const RwChar *maskName);
 static unsigned int InitMemorySystem(RwMemoryFunctions *memoryFuncs);
@@ -64,6 +91,20 @@ void iSystemInit(unsigned int options)
     iRenderWareInit();
     xMathInit();
     xMath3Init();
+}
+
+void iSystemExit()
+{
+    xDebugExit();
+    xMathExit();
+    iRenderWareExit();
+    xSndExit();
+    xPadKill();
+    iFileExit();
+    iTimeExit();
+    xMemExit();
+
+    printf("(With apologies to Jim Morrison) This the end, my only friend, The End.");
 }
 
 static unsigned int RWAttachPlugins()
@@ -181,6 +222,13 @@ static unsigned int iRenderWareInit()
     RwTextureSetAutoMipmapping(TRUE);
 
     return 0;
+}
+
+static void iRenderWareExit()
+{
+    RwEngineStop();
+    RwEngineClose();
+    RwEngineTerm();
 }
 
 static RwTexture *TextureRead(const RwChar *name, const RwChar *maskName)

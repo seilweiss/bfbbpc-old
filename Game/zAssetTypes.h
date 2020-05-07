@@ -2,5 +2,6 @@
 #define ZASSETTYPES_H
 
 void zAssetStartup();
+void zAssetShutdown();
 
 #endif

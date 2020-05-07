@@ -5,6 +5,7 @@
 #include "xMemMgr.h"
 #include "iTime.h"
 #include "iSystem.h"
+#include "xMath.h"
 
 #include "print.h"
 
@@ -377,8 +378,8 @@ void set_vert(RwIm2DVertex &vert, float x, float y, float u, float v,
     RwIm2DVertexSetScreenY(&vert, y);
     //RwIm2DVertexSetScreenZ(&vert, nsz);
     RwIm2DVertexSetRecipCameraZ(&vert, rcz);
-    RwIm2DVertexSetU(&vert, u);
-    RwIm2DVertexSetV(&vert, v);
+    RwIm2DVertexSetU(&vert, u, rcz);
+    RwIm2DVertexSetV(&vert, v, rcz);
     RwIm2DVertexSetIntRGBA(&vert, color.r, color.g, color.b, color.a);
 }
 
@@ -502,7 +503,7 @@ RwRaster *set_tex_raster(RwRaster *raster)
     }
 
     tex_flush();
-    RwRenderStateSet(rwRENDERSTATETEXTURERASTER, (void *)&raster);
+    RwRenderStateSet(rwRENDERSTATETEXTURERASTER, (void *)raster);
 
     return oldraster;
 }
@@ -1684,99 +1685,6 @@ bool xtextbox::layout::changed(const xtextbox &ctb)
 namespace
 {
 void parse_tag_alpha(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                     const xtextbox::split_tag &ti);
-void reset_tag_alpha(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                     const xtextbox::split_tag &ti);
-void parse_tag_red(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                   const xtextbox::split_tag &ti);
-void reset_tag_red(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                   const xtextbox::split_tag &ti);
-void parse_tag_green(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                     const xtextbox::split_tag &ti);
-void reset_tag_green(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                     const xtextbox::split_tag &ti);
-void parse_tag_blue(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                    const xtextbox::split_tag &ti);
-void reset_tag_blue(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                    const xtextbox::split_tag &ti);
-void parse_tag_width(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                     const xtextbox::split_tag &ti);
-void reset_tag_width(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                     const xtextbox::split_tag &ti);
-void parse_tag_height(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                      const xtextbox::split_tag &ti);
-void reset_tag_height(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                      const xtextbox::split_tag &ti);
-void parse_tag_left_indent(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                           const xtextbox::split_tag &ti);
-void reset_tag_left_indent(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                           const xtextbox::split_tag &ti);
-void parse_tag_right_indent(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                            const xtextbox::split_tag &ti);
-void reset_tag_right_indent(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                            const xtextbox::split_tag &ti);
-void parse_tag_tab_stop(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                        const xtextbox::split_tag &ti);
-void reset_tag_tab_stop(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                        const xtextbox::split_tag &ti);
-void parse_tag_xspace(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                      const xtextbox::split_tag &ti);
-void reset_tag_xspace(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                      const xtextbox::split_tag &ti);
-void parse_tag_yspace(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                      const xtextbox::split_tag &ti);
-void reset_tag_yspace(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                      const xtextbox::split_tag &ti);
-void reset_tag_all(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                   const xtextbox::split_tag &ti);
-void parse_tag_color(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                     const xtextbox::split_tag &ti);
-void reset_tag_color(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                     const xtextbox::split_tag &ti);
-void parse_tag_font(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                    const xtextbox::split_tag &ti);
-void reset_tag_font(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                    const xtextbox::split_tag &ti);
-void parse_tag_wrap(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                    const xtextbox::split_tag &ti);
-void reset_tag_wrap(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                    const xtextbox::split_tag &ti);
-void parse_tag_xjustify(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                    const xtextbox::split_tag &ti);
-void reset_tag_xjustify(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                    const xtextbox::split_tag &ti);
-void parse_tag_yjustify(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                        const xtextbox::split_tag &ti);
-void reset_tag_yjustify(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                        const xtextbox::split_tag &ti);
-void parse_tag_open_curly(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                          const xtextbox::split_tag &ti);
-void parse_tag_newline(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                       const xtextbox::split_tag &ti);
-void parse_tag_tab(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                   const xtextbox::split_tag &ti);
-void parse_tag_word_break(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                          const xtextbox::split_tag &ti);
-void parse_tag_page_break(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                          const xtextbox::split_tag &ti);
-void parse_tag_model(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                     const xtextbox::split_tag &ti);
-void reset_tag_model(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                     const xtextbox::split_tag &ti);
-void parse_tag_tex(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                   const xtextbox::split_tag &ti);
-void reset_tag_tex(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                   const xtextbox::split_tag &ti);
-void parse_tag_insert(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                      const xtextbox::split_tag &ti);
-void parse_tag_insert_hash(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                           const xtextbox::split_tag &ti);
-void parse_tag_pop(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                   const xtextbox::split_tag &ti);
-void parse_tag_timer(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
-                     const xtextbox::split_tag &ti);
-
-void parse_tag_alpha(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti)
 {
     BFBBSTUB("parse_tag_alpha");
@@ -1824,28 +1732,153 @@ void reset_tag_blue(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
     BFBBSTUB("reset_tag_blue");
 }
 
+void update_tag_width(const xtextbox::jot &a, xtextbox &tb, const xtextbox &ctb)
+{
+    tb.font.width = (float &)a.context;
+}
+
+void update_tag_reset_width(const xtextbox::jot &a, xtextbox &tb, const xtextbox &ctb)
+{
+    tb.font.width = ctb.font.width;
+}
+
 void parse_tag_width(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti)
 {
-    BFBBSTUB("parse_tag_width");
+    if (ti.value.size)
+    {
+        if (!ti.action.size)
+        {
+            return;
+        }
+
+        float &v = (float &)a.context;
+        v = xatof(ti.value.text);
+
+        switch (ti.action.text[0])
+        {
+        case '+':
+        {
+            v += tb.font.width;
+            break;
+        }
+        case '*':
+        {
+            v *= tb.font.width;
+            break;
+        }
+        case '=':
+        {
+            break;
+        }
+        default:
+        {
+            return;
+        }
+        }
+
+        if (v < 0.0f)
+        {
+            v = 0.0f;
+        }
+
+        if (v > 1.0f)
+        {
+            v = 1.0f;
+        }
+
+        static xtextbox::callback cb =
+        {
+            NULL, update_tag_width, update_tag_width
+        };
+
+        a.cb = &cb;
+    }
 }
 
 void reset_tag_width(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti)
 {
-    BFBBSTUB("reset_tag_width");
+    static xtextbox::callback cb =
+    {
+        NULL, update_tag_reset_width, update_tag_reset_width
+    };
+
+    a.cb = &cb;
+}
+
+void update_tag_height(const xtextbox::jot &a, xtextbox &tb, const xtextbox &ctb)
+{
+    tb.font.height = (float &)a.context;
+}
+
+void update_tag_reset_height(const xtextbox::jot &a, xtextbox &tb, const xtextbox &ctb)
+{
+    tb.font.height = ctb.font.height;
 }
 
 void parse_tag_height(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                       const xtextbox::split_tag &ti)
 {
-    BFBBSTUB("parse_tag_height");
+    if (ti.value.size)
+    {
+        if (!ti.action.size)
+        {
+            return;
+        }
+
+        float &v = (float &)a.context;
+        v = xatof(ti.value.text);
+
+        switch (ti.action.text[0])
+        {
+        case '+':
+        {
+            v += tb.font.height;
+            break;
+        }
+        case '*':
+        {
+            v *= tb.font.height;
+            break;
+        }
+        case '=':
+        {
+            break;
+        }
+        default:
+        {
+            return;
+        }
+        }
+
+        if (v < 0.0f)
+        {
+            v = 0.0f;
+        }
+        else if (v > 1.0f)
+        {
+            v = 1.0f;
+        }
+
+        static xtextbox::callback cb =
+        {
+            NULL, update_tag_height, update_tag_height
+        };
+
+        a.cb = &cb;
+    }
 }
 
 void reset_tag_height(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                       const xtextbox::split_tag &ti)
 {
-    BFBBSTUB("reset_tag_height");
+    static xtextbox::callback cb =
+    {
+        NULL, update_tag_reset_height, update_tag_reset_height
+    };
+
+    a.cb = &cb;
 }
 
 void parse_tag_left_indent(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
@@ -1914,28 +1947,137 @@ void reset_tag_all(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
     BFBBSTUB("reset_tag_all");
 }
 
+void update_tag_color(const xtextbox::jot &a, xtextbox &tb, const xtextbox &ctb)
+{
+    tb.font.color = (iColor_tag &)a.context;
+}
+
+void update_tag_reset_color(const xtextbox::jot &a, xtextbox &tb, const xtextbox &ctb)
+{
+    tb.font.color = ctb.font.color;
+}
+
 void parse_tag_color(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti)
 {
-    BFBBSTUB("parse_tag_color");
+    if (ti.value.size >= 6)
+    {
+        if (!ti.action.size)
+        {
+            return;
+        }
+
+        iColor_tag &color = (iColor_tag &)a.context;
+
+        unsigned int v = atox(ti.value);
+
+        if (ti.value.size < 8)
+        {
+            v = (v & 0xFF000000) | (tb.font.color.a << 24);
+        }
+
+        unsigned int temp;
+
+        switch (ti.action.text[0])
+        {
+        case '=':
+        {
+            color.a = (v & 0xFF000000) >> 24;
+            color.r = (v & 0xFF0000) >> 16;
+            color.g = (v & 0xFF00) >> 8;
+            color.b = (v & 0xFF);
+            break;
+        }
+        case '+':
+        {
+            temp = ((v & 0xFF000000) >> 24) + tb.font.color.a;
+            color.a = (temp <= 0xFF) ? temp : 0xFF;
+            temp = ((v & 0xFF0000) >> 16) + tb.font.color.r;
+            color.r = (temp <= 0xFF) ? temp : 0xFF;
+            temp = ((v & 0xFF00) >> 8) + tb.font.color.g;
+            color.g = (temp <= 0xFF) ? temp : 0xFF;
+            temp = (v & 0xFF) + tb.font.color.b;
+            color.b = (temp <= 0xFF) ? temp : 0xFF;
+            break;
+        }
+        case '*':
+        {
+            color.a = ((v & 0xFF000000) >> 24) * tb.font.color.a / 0xFF;
+            color.r = ((v & 0xFF0000) >> 16) * tb.font.color.r / 0xFF;
+            color.g = ((v & 0xFF00) >> 8) * tb.font.color.g / 0xFF;
+            color.b = (v & 0xFF) * tb.font.color.b / 0xFF;
+            break;
+        }
+        default:
+        {
+            return;
+        }
+        }
+
+        static xtextbox::callback cb =
+        {
+            NULL, update_tag_color, update_tag_color
+        };
+
+        a.cb = &cb;
+    }
 }
 
 void reset_tag_color(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                      const xtextbox::split_tag &ti)
 {
-    BFBBSTUB("reset_tag_color");
+    static xtextbox::callback cb =
+    {
+        NULL, update_tag_reset_color, update_tag_reset_color
+    };
+
+    a.cb = &cb;
+}
+
+void update_tag_font(const xtextbox::jot &a, xtextbox &tb, const xtextbox &ctb)
+{
+    tb.font.id = (unsigned int)a.context;
+}
+
+void update_tag_reset_font(const xtextbox::jot &a, xtextbox &tb, const xtextbox &ctb)
+{
+    tb.font.id = ctb.font.id;
 }
 
 void parse_tag_font(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                     const xtextbox::split_tag &ti)
 {
-    BFBBSTUB("parse_tag_font");
+    if ((ti.action.size >= 1) && (ti.action.text[0] == '='))
+    {
+        if (ti.value.size == 0)
+        {
+            return;
+        }
+
+        unsigned int &id = (unsigned int &)a.context;
+        id = atoi(ti.value.text);
+
+        if (id < active_fonts_size)
+        {
+            static xtextbox::callback cb =
+            {
+                NULL, update_tag_font, update_tag_font
+            };
+
+            a.cb = &cb;
+        }
+    }
 }
 
 void reset_tag_font(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
                     const xtextbox::split_tag &ti)
 {
-    BFBBSTUB("reset_tag_font");
+    static xtextbox::callback cb =
+    {
+        NULL, update_tag_reset_font, update_tag_reset_font
+    };
+
+    a.cb = &cb;
 }
 
 void parse_tag_wrap(xtextbox::jot &a, const xtextbox &tb, const xtextbox &ctb,
@@ -2195,4 +2337,48 @@ xtextbox::tag_type *xtextbox::find_format_tag(const substr &s, int &index)
 
     index = -1;
     return NULL;
+}
+
+namespace
+{
+void set_rect_vert(RwIm2DVertex &vert, float x, float y, float z, iColor_tag c,
+                   float rcz)
+{
+    RwIm2DVertexSetScreenX(&vert, x);
+    RwIm2DVertexSetScreenY(&vert, y);
+    RwIm2DVertexSetScreenZ(&vert, z);
+    RwIm2DVertexSetRecipCameraZ(&vert, rcz);
+    RwIm2DVertexSetIntRGBA(&vert, c.r, c.g, c.b, c.a);
+}
+
+void set_rect_verts(RwIm2DVertex *verts, float x, float y, float w, float h,
+                    iColor_tag c, float rcz, float nsz)
+{
+    set_rect_vert(verts[0], x,     y,     nsz, c, rcz);
+    set_rect_vert(verts[1], x,     y + h, nsz, c, rcz);
+    set_rect_vert(verts[2], x + w, y,     nsz, c, rcz);
+    set_rect_vert(verts[3], x + w, y + h, nsz, c, rcz);
+}
+}
+
+void render_fill_rect(const basic_rect<float> &bounds, iColor_tag color)
+{
+    if (!bounds.empty())
+    {
+        float rcz = RwCameraGetNearClipPlane(RwCameraGetCurrentCamera());
+        float nsz = RwIm2DGetNearScreenZ();        
+
+        xfont::set_render_state(NULL);
+
+        RwIm2DVertex vert[4];
+
+        basic_rect<float> r = bounds;
+        r.scale(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        set_rect_verts(vert, r.x, r.y, r.w, r.h, color, rcz, nsz);
+
+        RwIm2DRenderPrimitive(rwPRIMTYPETRISTRIP, vert, 4);
+
+        xfont::restore_render_state();
+    }
 }

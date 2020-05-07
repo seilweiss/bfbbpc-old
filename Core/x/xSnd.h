@@ -2,5 +2,6 @@
 #define XSND_H
 
 void xSndInit();
+void xSndExit();
 
 #endif

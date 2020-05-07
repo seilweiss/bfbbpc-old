@@ -35,17 +35,19 @@ struct tag_xFile;
 typedef void(*iFileReadCallBack)(tag_xFile *file);
 
 void iFileInit();
+void iFileExit();
 void iFileFullPath(const char *relname, char *fullname);
 unsigned int iFileOpen(const char *name, int flags, tag_xFile *file);
 unsigned int iFileGetSize(tag_xFile *file);
 unsigned int iFileRead(tag_xFile *file, void *buf, unsigned int size);
 unsigned int iFileClose(tag_xFile *file);
+unsigned int *iFileLoad(const char *name, unsigned int *buffer, unsigned int *size);
 int iFileSeek(tag_xFile *file, int offset, int whence);
 int iFileReadAsync(tag_xFile *file, void *buf, unsigned int aSize,
                    iFileReadCallBack callback, int priority);
 IFILE_READSECTOR_STATUS iFileReadAsyncStatus(int key, int *amtToFar);
 void iFileAsyncService();
-void iFileSetPath(char *path);
+void iFileSetPath(const char *path);
 unsigned int iFileFind(const char *name, tag_xFile *file);
 void iFileGetInfo(tag_xFile *file, unsigned int *offset, unsigned int *length);
 

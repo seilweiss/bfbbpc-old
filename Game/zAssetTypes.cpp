@@ -186,6 +186,11 @@ void zAssetStartup()
     ATBL_Init();
 }
 
+void zAssetShutdown()
+{
+    BFBBSTUB("zAssetShutdown");
+}
+
 static void *Model_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
                         unsigned int *outsize)
 {

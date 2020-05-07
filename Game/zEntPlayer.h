@@ -141,4 +141,6 @@ struct zPlayerLassoInfo
     xAnimState *zeroAnim;
 };
 
+void CalcJumpImpulse(zJumpParam *param, const zPlayerSettings *settings);
+
 #endif

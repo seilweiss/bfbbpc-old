@@ -2,5 +2,6 @@
 #define IMEMMGR_H
 
 void iMemInit();
+void iMemExit();
 
 #endif

@@ -52,6 +52,11 @@ void xMemInit()
     gActiveHeap = 0;
 }
 
+void xMemExit()
+{
+    iMemExit();
+}
+
 void xMemInitHeap(xMemHeap_tag *heap, unsigned int base, unsigned int size,
                   unsigned int flags)
 {
@@ -211,17 +216,14 @@ void *xMemPushTemp(unsigned int size)
 {
     void *addr;
 
-    // RwMalloc is broken :(
-    //addr = RwMalloc(size, rwMEMHINTDUR_FUNCTION);
-    addr = RwOsGetMemoryInterface()->rwmalloc(size, rwMEMHINTDUR_FUNCTION);
+    addr = RwMalloc(size, rwMEMHINTDUR_FUNCTION);
 
     return addr;
 }
 
 void xMemPopTemp(void *addr)
 {
-    RwOsGetMemoryInterface()->rwfree(addr);
-    //RwFree(addr);
+    RwFree(addr);
 }
 
 int xMemPushBase(unsigned int heapID)

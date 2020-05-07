@@ -33,4 +33,13 @@ struct xCollis
     };
 };
 
+struct xParabola
+{
+    xVec3 initPos;
+    xVec3 initVel;
+    float gravity;
+    float minTime;
+    float maxTime;
+};
+
 #endif

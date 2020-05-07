@@ -6,3 +6,8 @@ void xSndInit()
 {
     BFBBSTUB("xSndInit");
 }
+
+void xSndExit()
+{
+    BFBBSTUB("xSndExit");
+}

@@ -89,4 +89,7 @@ struct xCamera : xBase
     xVec4 frustplane[12];
 };
 
+extern float xcam_collis_radius;
+extern float xcam_collis_stiffness;
+
 #endif

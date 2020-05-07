@@ -232,6 +232,34 @@ void *xSTFindAsset(unsigned int aid, unsigned int *size)
     return memloc;
 }
 
+void *xSTFindAssetByType(unsigned int type, int idx, unsigned int *size)
+{
+    void *memptr = NULL;
+    int scncnt;
+    int i;
+    int sum = 0;
+    int cnt;
+    st_STRAN_SCENE *sdata;
+
+    scncnt = XST_cnt_locked();
+
+    for (i = 0; i < scncnt; i++)
+    {
+        sdata = XST_nth_locked(i);
+        cnt = g_pkrf->AssetCount(sdata->spkg, type);
+
+        if (idx >= sum && idx < (sum + cnt))
+        {
+            memptr = g_pkrf->AssetByType(sdata->spkg, type, idx - sum, size);
+            break;
+        }
+
+        sum += cnt;
+    }
+
+    return memptr;
+}
+
 // Returns cltver
 static int XST_PreLoadScene(st_STRAN_SCENE *sdata, const char *fname)
 {

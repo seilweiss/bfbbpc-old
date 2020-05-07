@@ -24,6 +24,43 @@ void iFileInit()
     GetCurrentDirectory(256, sBasePath);
 }
 
+void iFileExit()
+{
+    return;
+}
+
+unsigned int *iFileLoad(const char *name, unsigned int *buffer, unsigned int *size)
+{
+    static tag_xFile file;
+    int fileSize;
+    int alignedSize;
+
+    char path[256];
+    iFileFullPath(name, path);
+
+    iFileOpen(path, 0x5, &file);
+
+    fileSize = iFileGetSize(&file);
+    alignedSize = (fileSize + 0x1F) & ~0x1F;
+
+    if (!buffer)
+    {
+        buffer = (unsigned int *)malloc(alignedSize);
+    }
+
+    iFileRead(&file, buffer, alignedSize);
+    //iFileRead(&file, buffer, fileSize);
+
+    if (size)
+    {
+        *size = alignedSize;
+    }
+
+    iFileClose(&file);
+
+    return buffer;
+}
+
 unsigned int iFileOpen(const char *name, int flags, tag_xFile *file)
 {
     tag_iFile *ps = &file->ps;
@@ -252,7 +289,7 @@ void iFileFullPath(const char *relname, char *fullname)
     strcat(fullname, relname);
 }
 
-void iFileSetPath(char *path)
+void iFileSetPath(const char *path)
 {
     strcpy(sBasePath, path);
 }
