@@ -1,12 +1,18 @@
 #include "iCamera.h"
 
 #include "iScrFX.h"
+#include "zMain.h"
+#include "iMath.h"
+#include "xMath.h"
+#include "xShadow.h"
 
 #include <rwcore.h>
 #include <rpworld.h>
 
 float sCameraNearClip = 0.05f;
 float sCameraFarClip = 400.0f;
+
+RwCamera *globalCamera;
 
 static RwCamera *sMainGameCamera;
 
@@ -87,5 +93,81 @@ void iCameraDestroy(RwCamera *camera)
         }
 
         RwCameraDestroy(camera);
+    }
+}
+
+void iCameraSetFOV(RwCamera *cam, float fov)
+{
+    RwV2d vw;
+
+    vw.x = itan(0.5f * DEG2RAD(fov));
+    vw.y = 0.75f * vw.x;
+
+    RwCameraSetViewWindow(cam, &vw);
+}
+
+void iCameraAssignEnv(RwCamera *camera, iEnv *env_geom)
+{
+    BFBBSTUB("iCameraAssignEnv");
+
+    globalCamera = camera;
+
+    // Uncomment out when ENV loading implemented
+    //RpWorldAddCamera(env_geom->world, camera);
+    //xShadowSetWorld(env_geom->world);
+}
+
+void iCameraSetFogParams(iFogParams *fp, float time)
+{
+    if (!fp || fp->type == rwFOGTYPENAFOGTYPE)
+    {
+        xglobals->fog.type = rwFOGTYPENAFOGTYPE;
+        xglobals->fogA.type = rwFOGTYPENAFOGTYPE;
+    }
+    else if (time == 0.0f || fp->type != xglobals->fogA.type)
+    {
+        xglobals->fog = *fp;
+        xglobals->fogA = *fp;
+
+        xglobals->fog_t0 = 0;
+    }
+    else
+    {
+        xglobals->fogA = xglobals->fog;
+        xglobals->fogB = *fp;
+
+        xglobals->fog_t0 = iTimeGet();
+        xglobals->fog_t1 = xglobals->fog_t0 + iTimeSecsToTicks(time);
+    }
+}
+
+void iCameraSetFogRenderStates()
+{
+    RwCamera *pCamera;
+    iFogParams *pFogParams;
+    unsigned int bite_me;
+
+    pCamera = RwCameraGetCurrentCamera();
+    pFogParams = &globals.fog;
+
+    if (pFogParams->type == rwFOGTYPENAFOGTYPE)
+    {
+        RwRenderStateSet(rwRENDERSTATEFOGENABLE, (void *)FALSE);
+        RwCameraSetFarClipPlane(pCamera, sCameraFarClip);
+    }
+    else
+    {
+        bite_me = RWRGBALONG(pFogParams->fogcolor.red,
+                             pFogParams->fogcolor.green,
+                             pFogParams->fogcolor.blue,
+                             pFogParams->fogcolor.alpha);
+
+        RwRenderStateSet(rwRENDERSTATEFOGENABLE, (void *)TRUE);
+        RwRenderStateSet(rwRENDERSTATEFOGTYPE, (void *)globals.fog.type);
+        RwRenderStateSet(rwRENDERSTATEFOGCOLOR, (void *)bite_me);
+        RwRenderStateSet(rwRENDERSTATEFOGDENSITY, (void *)&xglobals->fog.density);
+
+        RwCameraSetFogDistance(pCamera, globals.fog.start);
+        RwCameraSetFarClipPlane(pCamera, globals.fog.stop);
     }
 }

@@ -13,6 +13,7 @@ unsigned int xStrHash(const char *str);
 unsigned int xStrHash(const char *s, unsigned int size);
 char *xStrTok(char *string, const char *control, char **nextoken);
 int xStricmp(const char *string1, const char *string2);
+char *xStrupr(char *string);
 int xStrParseFloatList(float *dest, const char *strbuf, int max);
 
 int imemcmp(const void *d1, const void *d2, unsigned int size);

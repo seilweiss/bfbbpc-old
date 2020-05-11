@@ -8,5 +8,9 @@
 void xMathInit();
 void xMathExit();
 float xatof(const char *x);
+void xsrand(unsigned int seed);
+unsigned int xrand();
+float xAngleClampFast(float a);
+float xDangleClamp(float a);
 
 #endif

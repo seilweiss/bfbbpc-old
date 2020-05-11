@@ -4,6 +4,10 @@
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 
+#define FULLSCREEN 0
+
+#define FRAMES_PER_SEC 60.0f
+
 inline float NSCREENX(float x)
 {
     return (1.0f / SCREEN_WIDTH) * x;

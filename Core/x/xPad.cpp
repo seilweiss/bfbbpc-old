@@ -23,6 +23,12 @@ void xPadRumbleEnable(int idx, int enable)
     BFBBSTUB("xPadRumbleEnable");
 }
 
+int xPadUpdate(int idx, float time_passed)
+{
+    BFBBSTUB("xPadUpdate");
+    return 1;
+}
+
 void xPadKill()
 {
     BFBBSTUB("xPadKill");

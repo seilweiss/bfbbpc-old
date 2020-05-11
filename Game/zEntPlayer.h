@@ -142,5 +142,6 @@ struct zPlayerLassoInfo
 };
 
 void CalcJumpImpulse(zJumpParam *param, const zPlayerSettings *settings);
+void zEntPlayer_LoadSounds();
 
 #endif

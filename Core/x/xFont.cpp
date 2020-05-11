@@ -376,7 +376,7 @@ void set_vert(RwIm2DVertex &vert, float x, float y, float u, float v,
 {
     RwIm2DVertexSetScreenX(&vert, x);
     RwIm2DVertexSetScreenY(&vert, y);
-    //RwIm2DVertexSetScreenZ(&vert, nsz);
+    RwIm2DVertexSetScreenZ(&vert, nsz);
     RwIm2DVertexSetRecipCameraZ(&vert, rcz);
     RwIm2DVertexSetU(&vert, u, rcz);
     RwIm2DVertexSetV(&vert, v, rcz);
@@ -458,7 +458,7 @@ void init_model_cache()
 {
     model_cache_inited = 1;
 
-    void *data = xMemAlloc(gActiveHeap, sizeof(model_pool), 16);
+    void *data = xMemAlloc(sizeof(model_pool), 16);
     memset(data, 0, sizeof(model_pool));
 
     model_pool &pool = *(model_pool *)data;

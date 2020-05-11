@@ -67,6 +67,19 @@ int xStricmp(const char *string1, const char *string2)
     return stricmp(string1, string2);
 }
 
+char *xStrupr(char *string)
+{
+    char *p = string;
+
+    while (*p)
+    {
+        *p = (*p >= 'a' && *p <= 'z') ? (*p - 0x20) : *p;
+        p++;
+    }
+
+    return string;
+}
+
 int xStrParseFloatList(float *dest, const char *strbuf, int max)
 {
     BFBBSTUB("xStrParseFloatList");

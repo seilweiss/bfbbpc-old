@@ -37,4 +37,6 @@ struct xClumpCollBSPTree
     xClumpCollBSPTriangle *triangles;
 };
 
+xClumpCollBSPTree *xClumpColl_StaticBufferInit(void *data);
+
 #endif

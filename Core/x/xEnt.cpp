@@ -10,3 +10,10 @@ struct anim_coll_data
     xVec3 *verts;
     xVec3 *normals;
 };
+
+static int all_ents_box_init;
+
+void xEntSceneInit()
+{
+    all_ents_box_init = 1;
+}

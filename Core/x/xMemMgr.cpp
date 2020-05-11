@@ -212,6 +212,11 @@ void *xMemAlloc(unsigned int heapID, unsigned int size, int align)
     return (void *)hdr->addr;
 }
 
+void *xMemAlloc(unsigned int size, int align)
+{
+    return xMemAlloc(gActiveHeap, size, align);
+}
+
 void *xMemPushTemp(unsigned int size)
 {
     void *addr;

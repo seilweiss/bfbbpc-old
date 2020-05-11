@@ -2083,7 +2083,7 @@ static void *PKR_getmem(unsigned int id, int amount, unsigned int, int align, in
     }
     else
     {
-        memptr = xMemAlloc(gActiveHeap, amount, align);
+        memptr = xMemAlloc(amount, align);
     }
 
     if (memptr)

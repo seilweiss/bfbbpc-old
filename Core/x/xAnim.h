@@ -154,4 +154,9 @@ struct xAnimPlay
     xAnimBeforeAnimMatricesCallBack BeforeAnimMatrices;
 };
 
+void xAnimInit();
+void xAnimTempTransitionInit(unsigned int count);
+void xAnimPoolInit(xMemPool *pool, unsigned int count, unsigned int singles,
+                   unsigned int blendFlags, unsigned int effectMax);
+
 #endif

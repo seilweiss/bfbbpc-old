@@ -11,3 +11,14 @@ void zNPCMgr_Shutdown()
 {
     BFBBSTUB("zNPCMgr_Shutdown");
 }
+
+void zNPCMgr_scenePrepare(int npccnt)
+{
+    BFBBSTUB("zNPCMgr_scenePrepare");
+}
+
+xEnt *zNPCMgr_createNPCInst(xEntAsset *assdat)
+{
+    BFBBSTUB("zNPCMgr_createNPCInst");
+    return NULL;
+}

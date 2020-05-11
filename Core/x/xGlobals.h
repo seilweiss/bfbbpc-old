@@ -5,6 +5,7 @@
 #include "xPad.h"
 #include "xUpdateCull.h"
 #include "iFog.h"
+#include "iTime.h"
 
 struct xGlobals
 {
@@ -22,8 +23,8 @@ struct xGlobals
     iFogParams fog;
     iFogParams fogA;
     iFogParams fogB;
-    long fog_t0;
-    long fog_t1;
+    iTime fog_t0;
+    iTime fog_t1;
     int option_vibration;
     unsigned int QuarterSpeed;
     float update_dt;

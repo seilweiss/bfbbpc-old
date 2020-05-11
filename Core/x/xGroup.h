@@ -17,4 +17,6 @@ struct xGroup : xBase
     int flg_group;
 };
 
+void xGroupInit(void *b, void *asset);
+
 #endif

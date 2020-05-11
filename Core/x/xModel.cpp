@@ -7,6 +7,11 @@ static xModelPool *sxModelPoolList;
 static RwCamera *subcamera;
 
 int xModelPipeNumTables;
+int xModelPipeCount[16];
+xModelPipeInfo *xModelPipeData[16];
+int xModelLookupCount;
+xModelPipeLookup *xModelLookupList;
+int xModelInstStaticAlloc;
 
 static RwCamera *CameraCreate(int width, int height, int zbuffer);
 static void CameraDestroy(RwCamera *camera);
@@ -41,7 +46,6 @@ void xModelPoolInit(unsigned int count, unsigned int numMatrices)
     }
 
     buffer = (unsigned char *)xMemAlloc(
-        gActiveHeap,
         count * numMatrices * sizeof(RwMatrix) +
             count * sizeof(xModelInstance) +
             sizeof(xModelPool),

@@ -80,6 +80,7 @@ void xMemInitHeap(xMemHeap_tag *heap, unsigned int base, unsigned int size,
 void xMemInit();
 void xMemExit();
 void *xMemAlloc(unsigned int heapID, unsigned int size, int align);
+void *xMemAlloc(unsigned int size, int align);
 void *xMemPushTemp(unsigned int size);
 void xMemPopTemp(void *addr);
 int xMemPushBase(unsigned int heapID);

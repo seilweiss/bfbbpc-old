@@ -4,6 +4,7 @@
 #include "xpkrsvc.h"
 #include "xAnim.h"
 #include "xString.h"
+#include "xJSP.h"
 
 #include "print.h"
 
@@ -122,6 +123,11 @@ static st_PACKER_ASSETTYPE assetTypeHandlers[] =
     0
 };
 
+static xJSPHeader *sTempJSP;
+static xJSPHeader sDummyEmptyJSP;
+
+static void jsp_shadow_hack(xJSPHeader *jsp);
+
 #include "zNPCTypeTest.h"
 #include "zNPCTypeDutchman.h"
 #include "zNPCTypeDuplotron.h"
@@ -222,16 +228,39 @@ static void BSP_Unload(void *userdata, unsigned int)
     BFBBSTUB("BSP_Unload");
 }
 
+static void jsp_shadow_hack(xJSPHeader *jsp)
+{
+    BFBBSTUB("jsp_shadow_hack");
+}
+
 static void *JSP_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
                       unsigned int *outsize)
 {
-    BFBBSTUB("JSP_Read");
-    return NULL;
+    xJSPHeader *retjsp;
+
+    retjsp = &sDummyEmptyJSP;
+    *outsize = sizeof(xJSPHeader);
+
+    xJSP_MultiStreamRead(indata, insize, &sTempJSP);
+
+    if (sTempJSP->jspNodeList)
+    {
+        retjsp = sTempJSP;
+        sTempJSP = NULL;
+        *outsize = sizeof(xJSPHeader *);
+    }
+
+    jsp_shadow_hack(retjsp);
+
+    return retjsp;
 }
 
 static void JSP_Unload(void *userdata, unsigned int)
 {
-    BFBBSTUB("JSP_Unload");
+    if (userdata != &sDummyEmptyJSP)
+    {
+        xJSP_Destroy((xJSPHeader *)userdata);
+    }
 }
 
 static RwTexture *TexCB(RwTexture *texture, void *data)
@@ -321,6 +350,11 @@ static void ATBL_Init()
     {
         animTable[i].id = xStrHash(animTable[i].name);
     }
+}
+
+void FootstepHackSceneEnter()
+{
+    BFBBSTUB("FootstepHackSceneEnter");
 }
 
 static void *ATBL_Read(void *, unsigned int assetid, void *indata, unsigned int insize,

@@ -5,6 +5,11 @@
 
 typedef clock_t iTime;
 
+#define iTimeTicksPerSec() CLOCKS_PER_SEC
+
+#define iTimeTicksToSecs(t) ((float)(t) / iTimeTicksPerSec())
+#define iTimeSecsToTicks(s) ((iTime)(s) * iTimeTicksPerSec())
+
 void iTimeInit();
 void iTimeExit();
 iTime iTimeGet();

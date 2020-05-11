@@ -1,6 +1,5 @@
 #include "zMain.h"
 
-#include "zGlobals.h"
 #include "iSystem.h"
 #include "iTime.h"
 #include "zVar.h"
@@ -34,6 +33,7 @@
 #include "zPickupTable.h"
 #include "zCutsceneMgr.h"
 #include "zGameState.h"
+#include "iTRC.h"
 
 #include <windows.h>
 #include <stdio.h>
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
     zMainLoadFontHIP();
     xfont::init();
 
-    zMainFirstScreen(1);
+    //zMainFirstScreen(1);
 
     zMainShowProgressBar();
 
@@ -158,7 +158,7 @@ static int ParseFloatList(float *dest, const char *strbuf, int max)
 
 static void zLedgeAdjust(zLedgeGrabParams *params)
 {
-    params->animGrab *= 1 / 30.0f;
+    params->animGrab *= 2 / FRAMES_PER_SEC;
 }
 
 static void zMainParseINIGlobals(xIniFile *ini)
@@ -211,15 +211,15 @@ static void zMainParseINIGlobals(xIniFile *ini)
     globals.player.g.BSpinMaxFrame = xIniGetFloat(ini, "g.BSpinMaxFrame", 20.0f);
     globals.player.g.BSpinRadius = xIniGetFloat(ini, "g.BSpinRadius", 0.3f);
 
-    globals.player.g.BSpinMinFrame *= 1 / 30.0f;
-    globals.player.g.BSpinMaxFrame *= 1 / 30.0f;
+    globals.player.g.BSpinMinFrame *= 2 / FRAMES_PER_SEC;
+    globals.player.g.BSpinMaxFrame *= 2 / FRAMES_PER_SEC;
 
     globals.player.g.SandyMeleeMinFrame = xIniGetFloat(ini, "g.SandyMeleeMinFrame", 1.0f);
     globals.player.g.SandyMeleeMaxFrame = xIniGetFloat(ini, "g.SandyMeleeMaxFrame", 9.0f);
     globals.player.g.SandyMeleeRadius = xIniGetFloat(ini, "g.SandyMeleeRadius", 0.3f);
 
-    globals.player.g.SandyMeleeMinFrame *= 1 / 30.0f;
-    globals.player.g.SandyMeleeMaxFrame *= 1 / 30.0f;
+    globals.player.g.SandyMeleeMinFrame *= 2 / FRAMES_PER_SEC;
+    globals.player.g.SandyMeleeMaxFrame *= 2 / FRAMES_PER_SEC;
 
     globals.player.g.DamageTimeHit = xIniGetFloat(ini, "g.DamageTimeHit", 0.5f);
     globals.player.g.DamageTimeSurface = xIniGetFloat(ini, "g.DamageTimeSurface", 1.0f);
@@ -734,13 +734,13 @@ static void zMainLoop()
     xUtil_idtag2string('BOOT', 0);
     iTimeDiffSec(t);
 
-    int cltver = xSTPreLoadScene('BOOT', NULL, 0x1);
+    int cltver = xSTPreLoadScene('BOOT', NULL, XST_SCENE_HIP);
 
     t = iTimeGet();
     xUtil_idtag2string('BOOT', 0);
     iTimeDiffSec(t);
 
-    xSTQueueSceneAssets('BOOT', 0x1);
+    xSTQueueSceneAssets('BOOT', XST_SCENE_HIP);
 
     t = iTimeGet();
     xUtil_idtag2string('BOOT', 0);
@@ -748,7 +748,7 @@ static void zMainLoop()
 
     while (xSTLoadStep('BOOT') < 1.0f) { }
 
-    xSTDisconnect('BOOT', 0x1);
+    xSTDisconnect('BOOT', XST_SCENE_HIP);
 
     t = iTimeGet();
     xUtil_idtag2string('BOOT', 0);
@@ -756,12 +756,12 @@ static void zMainLoop()
 
     zMainShowProgressBar();
 
-    xSTPreLoadScene('PLAT', NULL, 0x1);
-    xSTQueueSceneAssets('PLAT', 0x1);
+    xSTPreLoadScene('PLAT', NULL, XST_SCENE_HIP);
+    xSTQueueSceneAssets('PLAT', XST_SCENE_HIP);
 
     while (xSTLoadStep('PLAT') < 1.0f) { }
 
-    xSTDisconnect('PLAT', 0x1);
+    xSTDisconnect('PLAT', XST_SCENE_HIP);
 
     zMainShowProgressBar();
 
@@ -777,13 +777,13 @@ static void zMainLoop()
     xUtil_idtag2string('MNU4', 0);
     iTimeDiffSec(t);
 
-    xSTPreLoadScene('MNU4', NULL, 0x1);
+    xSTPreLoadScene('MNU4', NULL, XST_SCENE_HIP);
 
     t = iTimeGet();
     xUtil_idtag2string('MNU4', 0);
     iTimeDiffSec(t);
 
-    xSTQueueSceneAssets('MNU4', 0x1);
+    xSTQueueSceneAssets('MNU4', XST_SCENE_HIP);
 
     t = iTimeGet();
     xUtil_idtag2string('MNU4', 0);
@@ -791,7 +791,7 @@ static void zMainLoop()
 
     while (xSTLoadStep('MNU4') < 1.0f) { }
 
-    xSTDisconnect('MNU4', 0x1);
+    xSTDisconnect('MNU4', XST_SCENE_HIP);
 
     zMainShowProgressBar();
 
@@ -805,13 +805,13 @@ static void zMainLoop()
     xUtil_idtag2string('MNU5', 0);
     iTimeDiffSec(t);
 
-    xSTPreLoadScene('MNU5', NULL, 0x1);
+    xSTPreLoadScene('MNU5', NULL, XST_SCENE_HIP);
 
     t = iTimeGet();
     xUtil_idtag2string('MNU5', 0);
     iTimeDiffSec(t);
 
-    xSTQueueSceneAssets('MNU5', 0x1);
+    xSTQueueSceneAssets('MNU5', XST_SCENE_HIP);
 
     t = iTimeGet();
     xUtil_idtag2string('MNU5', 0);
@@ -819,7 +819,7 @@ static void zMainLoop()
 
     while (xSTLoadStep('MNU5') < 1.0f) { }
 
-    xSTDisconnect('MNU5', 0x1);
+    xSTDisconnect('MNU5', XST_SCENE_HIP);
 
     zMainShowProgressBar();
 
@@ -1065,12 +1065,14 @@ void zMainFirstScreen(int mode)
 
         RwCameraEndUpdate(cam);
 
-        RwCameraShowRaster(cam, GetActiveWindow(), 0);
+        RwCameraShowRaster(cam, GetActiveWindow(),
+                           FULLSCREEN ? rwRASTERFLIPWAITVSYNC : 0);
     }
 
     // 3 seconds
     for (int vbl = 180; vbl != 0; vbl--)
     {
+        iTRCDisk::CheckDVDAndResetState();
         iVSync();
     }
 
@@ -1097,7 +1099,8 @@ void zMainMemCardRenderText(const char *text, bool enabled)
 
     RwCameraEndUpdate(cam);
 
-    RwCameraShowRaster(cam, GetActiveWindow(), 0);
+    RwCameraShowRaster(cam, GetActiveWindow(),
+                       FULLSCREEN ? rwRASTERFLIPWAITVSYNC : 0);
 
     iCameraDestroy(cam);
 }
@@ -1112,13 +1115,13 @@ static void zMainLoadFontHIP()
     xUtil_idtag2string('FONT', 0);
     iTimeDiffSec(t);
 
-    xSTPreLoadScene('FONT', NULL, 0x1);
+    xSTPreLoadScene('FONT', NULL, XST_SCENE_HIP);
 
     t = iTimeGet();
     xUtil_idtag2string('FONT', 0);
     iTimeDiffSec(t);
 
-    xSTQueueSceneAssets('FONT', 0x1);
+    xSTQueueSceneAssets('FONT', XST_SCENE_HIP);
 
     t = iTimeGet();
     xUtil_idtag2string('FONT', 0);
@@ -1126,7 +1129,7 @@ static void zMainLoadFontHIP()
 
     while (xSTLoadStep('FONT') < 1.0f) { }
 
-    xSTDisconnect('FONT', 0x1);
+    xSTDisconnect('FONT', XST_SCENE_HIP);
 
     t = iTimeGet();
     xUtil_idtag2string('FONT', 0);

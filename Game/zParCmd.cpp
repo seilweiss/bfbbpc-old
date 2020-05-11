@@ -6,3 +6,8 @@ void zParCmdInit()
 {
     BFBBSTUB("zParCmdInit");
 }
+
+void zParCmdFindClipVolumes()
+{
+    BFBBSTUB("zParCmdFindClipVolumes");
+}

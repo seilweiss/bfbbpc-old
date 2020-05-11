@@ -67,7 +67,25 @@ struct xModelAssetParam
     unsigned char String[3];
 };
 
+struct xModelPipeInfo
+{
+    unsigned int ModelHashID;
+    unsigned int SubObjectBits;
+    unsigned int PipeFlags;
+};
+
+struct xModelPipeLookup
+{
+    RpAtomic *model;
+    unsigned int PipeFlags;
+};
+
 extern int xModelPipeNumTables;
+extern int xModelPipeCount[16];
+extern xModelPipeInfo *xModelPipeData[16];
+extern int xModelLookupCount;
+extern xModelPipeLookup *xModelLookupList;
+extern int xModelInstStaticAlloc;
 
 void xModelInit();
 void xModelPoolInit(unsigned int count, unsigned int numMatrices);

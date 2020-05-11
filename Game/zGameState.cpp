@@ -2,6 +2,13 @@
 
 #include "print.h"
 
+_GameOstrich gGameOstrich;
+
+void zGameSetOstrich(_GameOstrich o)
+{
+    gGameOstrich = o;
+}
+
 void zGameStateSwitch(int theNewState)
 {
     BFBBSTUB("zGameStateSwitch");

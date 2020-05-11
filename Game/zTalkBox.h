@@ -64,6 +64,7 @@ struct ztalkbox : xBase
 	zNPCCommon *npc;
 
 	static void load_settings(xIniFile &ini);
+	static void init();
 };
 
 #endif

@@ -5,9 +5,9 @@
 #include "xEnv.h"
 #include "xMemMgr.h"
 
-typedef xBase *(*xSceneResolvIDCallBack)(unsigned int);
-typedef char *(*xSceneBase2NameCallBack)(xBase *);
-typedef char *(*xSceneID2NameCallBack)(unsigned int);
+typedef xBase *(*xSceneResolvIDCallBack)(unsigned int gameID);
+typedef const char *(*xSceneBase2NameCallBack)(xBase *b);
+typedef const char *(*xSceneID2NameCallBack)(unsigned int gameID);
 
 struct xScene
 {
@@ -40,5 +40,11 @@ struct xScene
     xSceneBase2NameCallBack base2Name;
     xSceneID2NameCallBack id2Name;
 };
+
+extern xScene *g_xSceneCur;
+
+void xSceneInit(xScene *sc, unsigned short num_trigs, unsigned short num_stats,
+                unsigned short num_dyns, unsigned short num_npcs);
+void xSceneAddEnt(xScene *sc, xEnt *ent);
 
 #endif

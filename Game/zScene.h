@@ -5,6 +5,7 @@
 #include "zPortal.h"
 #include "zEnt.h"
 #include "zEnv.h"
+#include "xClimate.h"
 
 struct zScene : xScene
 {
@@ -26,6 +27,38 @@ struct zScene : xScene
     _zEnv *zen;
 };
 
+struct zSceneObjectInstanceDesc;
+
+typedef unsigned int(*zSceneObjectInstanceFunc)(zScene *s,
+                                                zSceneObjectInstanceDesc *desc,
+                                                unsigned int base_idx);
+typedef void(*zSceneObjectInitFunc)(void *ent, void *asset);
+typedef unsigned int(*zSceneObjectQuerySubObjectsFunc)(void *);
+
+struct zSceneObjectInstanceDesc
+{
+    const char *name;
+    int baseType;
+    unsigned int assetType;
+    unsigned int sizeRuntime;
+    zSceneObjectInstanceFunc func;
+    zSceneObjectInitFunc objectInitFunc;
+    zSceneObjectQuerySubObjectsFunc querySubObjects;
+};
+
+extern unsigned char HACK_BASETYPE;
+extern _tagClimate gClimate;
+
+void zSceneInitEnvironmentalSoundEffect();
+
+extern unsigned int gTransitionSceneID;
+
+void zSceneSet(xBase *b, unsigned int idx);
+xBase *zSceneFindObject(unsigned int gameID);
+const char *zSceneGetName(unsigned int gameID);
+const char *zSceneGetName(xBase *b);
+void add_scene_tweaks();
+void zSceneInit(unsigned int theSceneID, int reloadInProgress);
 void zSceneMemLvlChkCB();
 
 #endif

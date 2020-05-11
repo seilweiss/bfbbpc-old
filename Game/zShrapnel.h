@@ -6,6 +6,7 @@
 #include "xCurveAsset.h"
 #include "xCollide.h"
 #include "zLightning.h"
+#include "zScene.h"
 
 #include <rwcore.h>
 
@@ -210,5 +211,6 @@ struct zShrapnelAsset
 };
 
 void zShrapnel_GameInit();
+void zShrapnel_SceneInit(zScene *sc);
 
 #endif

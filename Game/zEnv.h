@@ -27,4 +27,6 @@ struct _zEnv : xBase
     xEnvAsset *easset;
 };
 
+void zEnvInit(void *env, void *easset);
+
 #endif

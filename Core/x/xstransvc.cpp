@@ -3,6 +3,7 @@
 #include "xpkrsvc.h"
 #include "xutil.h"
 #include "iFile.h"
+#include "iTRC.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -42,7 +43,7 @@ int xSTPreLoadScene(unsigned int sid, void *userdata, int flg_hiphop)
     st_STRAN_SCENE *sdata;
     int cltver = 0;
 
-    if ((flg_hiphop & 0x3) == 2)
+    if ((flg_hiphop & XST_SCENE_HIPHOP_MASK) == XST_SCENE_HOP)
     {
         char *fname;
 
@@ -134,7 +135,8 @@ int xSTQueueSceneAssets(unsigned int sid, int flg_hiphop)
     int result = 1;
     st_STRAN_SCENE *sdata;
 
-    sdata = XST_find_bySID(sid, ((flg_hiphop & 0x3) == 0x2) ? 1 : 0);
+    sdata = XST_find_bySID(sid,
+        ((flg_hiphop & XST_SCENE_HIPHOP_MASK) == XST_SCENE_HOP) ? 1 : 0);
 
     if (!sdata)
     {
@@ -164,6 +166,7 @@ float xSTLoadStep(unsigned int sid)
         pct = 1.00001f;
     }
 
+    iTRCDisk::CheckDVDAndResetState();
     iFileAsyncService();
 
     return pct;
@@ -173,12 +176,43 @@ void xSTDisconnect(unsigned int sid, int flg_hiphop)
 {
     st_STRAN_SCENE *sdata;
 
-    sdata = XST_find_bySID(sid, ((flg_hiphop & 0x3) == 0x2) ? 1 : 0);
+    sdata = XST_find_bySID(sid,
+        ((flg_hiphop & XST_SCENE_HIPHOP_MASK) == XST_SCENE_HOP) ? 1 : 0);
 
     if (sdata)
     {
         g_pkrf->PkgDisconnect(sdata->spkg);
     }
+}
+
+int xSTSwitchScene(unsigned int sid, void *userdata,
+                   int(*progmon)(void *userdata, float progress))
+{
+    st_STRAN_SCENE *sdata;
+    int rc = 0;
+    int i;
+
+    for (i = 1; i >= 0; i--)
+    {
+        sdata = XST_find_bySID(sid, i);
+
+        if (sdata)
+        {
+            if (progmon)
+            {
+                progmon(userdata, 0.0f);
+            }
+
+            rc = g_pkrf->SetActive(sdata->spkg, PKR_LTYPE_ALL);
+
+            if (progmon)
+            {
+                progmon(userdata, 1.0f);
+            }
+        }
+    }
+
+    return rc;
 }
 
 void *xSTFindAsset(unsigned int aid, unsigned int *size)
@@ -230,6 +264,27 @@ void *xSTFindAsset(unsigned int aid, unsigned int *size)
     }
 
     return memloc;
+}
+
+int xSTAssetCountByType(unsigned int type)
+{
+    int sum = 0;
+    int cnt;
+    int scncnt;
+    int i;
+    st_STRAN_SCENE *sdata;
+
+    scncnt = XST_cnt_locked();
+
+    for (i = 0; i < scncnt; i++)
+    {
+        sdata = XST_nth_locked(i);
+
+        cnt = g_pkrf->AssetCount(sdata->spkg, type);
+        sum += cnt;
+    }
+
+    return sum;
 }
 
 void *xSTFindAssetByType(unsigned int type, int idx, unsigned int *size)

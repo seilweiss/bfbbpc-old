@@ -19,8 +19,19 @@ enum eGameMode
 	eGameMode_Count
 };
 
+enum _GameOstrich
+{
+	eGameOstrich_Loading,
+	eGameOstrich_PlayingMovie,
+	eGameOstrich_InScene,
+	eGameOstrich_Total
+};
+
 #define eGameState_Unk00 0
 
+extern _GameOstrich gGameOstrich;
+
+void zGameSetOstrich(_GameOstrich o);
 void zGameModeSwitch(eGameMode modeNew);
 void zGameStateSwitch(int theNewState);
 

@@ -21,4 +21,6 @@ struct xSurface : xBase
     void *moprops;
 };
 
+xSurface *xSurfaceGetByIdx(unsigned short n);
+
 #endif

@@ -56,6 +56,7 @@ extern _tagxPad *gDebugPad;
 int xPadInit();
 void xPadRumbleEnable(int idx, int enable);
 _tagxPad *xPadEnable(int idx);
+int xPadUpdate(int idx, float time_passed);
 void xPadKill();
 
 #endif

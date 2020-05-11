@@ -78,6 +78,8 @@ struct ztextbox : xBase
 	ztextbox *next;
 	ztextbox *prev;
 	RwRaster *bgtex;
+
+	static void init();
 };
 
 #endif

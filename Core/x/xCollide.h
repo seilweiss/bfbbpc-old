@@ -3,6 +3,8 @@
 
 #include "xModel.h"
 
+struct xScene;
+
 struct xCollis
 {
     struct tri_data
@@ -41,5 +43,7 @@ struct xParabola
     float minTime;
     float maxTime;
 };
+
+void xCollideInit(xScene *sc);
 
 #endif

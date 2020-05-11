@@ -3,6 +3,8 @@
 
 #include "xVec3.h"
 
+#include <string.h>
+
 struct xVec4
 {
     float x;
@@ -76,5 +78,16 @@ extern xMat4x3 g_I3;
 extern xQuat g_IQ;
 
 void xMath3Init();
+void xMat3x3Euler(xMat3x3 *m, float yaw, float pitch, float roll);
+
+inline void xMat4x3Copy(xMat4x3 *o, const xMat4x3 *m)
+{
+    memcpy(o, m, sizeof(xMat4x3));
+}
+
+inline void xMat4x3Identity(xMat4x3 *m)
+{
+    xMat4x3Copy(m, &g_I3);
+}
 
 #endif

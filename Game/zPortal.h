@@ -16,4 +16,6 @@ struct _zPortal : xBase
     xPortalAsset *passet;
 };
 
+void zPortalInit(void *portal, void *passet);
+
 #endif

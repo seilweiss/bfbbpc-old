@@ -33,4 +33,6 @@ struct zEntHangable : zEnt
     int candle_state;
 };
 
+void zEntHangable_Init(void *ent, void *asset);
+
 #endif

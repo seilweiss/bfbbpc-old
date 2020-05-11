@@ -13,4 +13,8 @@ struct xFFX
     xFFX *next;
 };
 
+void xFFXPoolInit(unsigned int num_ffx);
+void xFFXShakePoolInit(unsigned int num);
+void xFFXRotMatchPoolInit(unsigned int num);
+
 #endif

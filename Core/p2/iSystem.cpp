@@ -26,6 +26,7 @@
 #endif
 
 #include <windows.h>
+#include <stdio.h>
 
 RwVideoMode sVideoMode;
 static RwMemoryFunctions MemoryFunctions;

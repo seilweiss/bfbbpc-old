@@ -20,7 +20,7 @@ iTime iTimeGet()
 
 float iTimeDiffSec(iTime time)
 {
-    return (float)time / CLOCKS_PER_SEC;
+    return iTimeTicksToSecs(time);
 }
 
 float iTimeDiffSec(iTime t0, iTime t1)

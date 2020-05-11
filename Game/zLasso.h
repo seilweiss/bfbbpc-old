@@ -32,4 +32,6 @@ struct zLasso
     xModelInstance *model;
 };
 
+void zLasso_scenePrepare();
+
 #endif

@@ -45,4 +45,6 @@ struct xEntBoulder : xEnt
     unsigned char pad1[2];
 };
 
+void xEntBoulder_Init(void *ent, void *asset);
+
 #endif

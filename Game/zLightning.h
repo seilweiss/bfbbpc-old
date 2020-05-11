@@ -65,4 +65,6 @@ struct zLightning
 	float time_total;
 };
 
+void zLightningInit();
+
 #endif

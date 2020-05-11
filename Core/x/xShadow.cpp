@@ -6,3 +6,13 @@ void xShadowInit()
 {
     BFBBSTUB("xShadowInit");
 }
+
+void xShadowSetWorld(RpWorld *world)
+{
+    BFBBSTUB("xShadowSetWorld");
+}
+
+void xShadowManager_Init(int numEnts)
+{
+    BFBBSTUB("xShadowManager_Init");
+}

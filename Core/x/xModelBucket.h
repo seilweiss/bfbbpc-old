@@ -15,4 +15,12 @@ struct xModelBucket
     unsigned int PipeFlags;
 };
 
+void xModelBucket_PreCountReset();
+void xModelBucket_PreCountBucket(RpAtomic *data, unsigned int pipeFlags,
+                                 unsigned int subObjects);
+void xModelBucket_PreCountAlloc(int maxAlphaModels);
+void xModelBucket_InsertBucket(RpAtomic *data, unsigned int pipeFlags,
+                               unsigned int subObjects);
+void xModelBucket_Init();
+
 #endif

@@ -168,4 +168,6 @@ struct xEntMotion
     xEnt *target;
 };
 
+void xEntMotionDebugInit(unsigned short num_xems);
+
 #endif

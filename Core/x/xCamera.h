@@ -89,7 +89,17 @@ struct xCamera : xBase
     xVec4 frustplane[12];
 };
 
+extern int xcam_collis_owner_disable;
+extern int xcam_do_collis;
 extern float xcam_collis_radius;
 extern float xcam_collis_stiffness;
+
+void xCameraSetFOV(xCamera *cam, float fov);
+void add_camera_tweaks();
+void xCameraInit(xCamera *cam, unsigned int width, unsigned int height);
+void xCameraMove(xCamera *cam, unsigned int flags, float dgoal, float hgoal, float pgoal,
+                 float tm, float tm_acc, float tm_dec);
+void xCameraReset(xCamera *cam, float d, float h, float pitch);
+void xCameraSetScene(xCamera *cam, xScene *sc);
 
 #endif

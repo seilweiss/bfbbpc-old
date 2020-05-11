@@ -7,6 +7,11 @@ void xScrFxInit()
     BFBBSTUB("xScrFxInit");
 }
 
+void xScrFxLetterboxReset()
+{
+    BFBBSTUB("xScrFxLetterboxReset");
+}
+
 void xScrFxLetterBoxSetSize(float size)
 {
     BFBBSTUB("xScrFxLetterBoxSetSize");

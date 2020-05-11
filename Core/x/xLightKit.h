@@ -22,4 +22,6 @@ struct xLightKit
     xLightKitLight *lightList;
 };
 
+xLightKit *xLightKit_Prepare(void *data);
+
 #endif

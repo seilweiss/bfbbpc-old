@@ -126,4 +126,6 @@ struct xEnt : xBase
     void *user_data;
 };
 
+void xEntSceneInit();
+
 #endif

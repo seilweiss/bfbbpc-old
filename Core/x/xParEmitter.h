@@ -3,6 +3,7 @@
 
 #include "xBase.h"
 #include "xMath3.h"
+#include "xModel.h"
 #include "xParGroup.h"
 #include "xParSys.h"
 
@@ -158,5 +159,7 @@ struct xParEmitter : xBase
 	void *emit_volume;
 	xVec3 last_attach_loc;
 };
+
+void xParEmitterInit(void *b, void *tasset);
 
 #endif
