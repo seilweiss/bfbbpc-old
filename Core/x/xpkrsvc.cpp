@@ -972,6 +972,7 @@ static void *PKR_AssetByType(st_PACKER_READ_DATA *pr, unsigned int type, int idx
 {
     st_XORDEREDARRAY *typlist;
     st_PACKER_ATOC_NODE *assnode;
+    int typeidx;
 
     if (size)
     {
@@ -983,14 +984,14 @@ static void *PKR_AssetByType(st_PACKER_READ_DATA *pr, unsigned int type, int idx
         idx = 0;
     }
 
-    type = PKR_typeHdlr_idx(pr, type);
+    typeidx = PKR_typeHdlr_idx(pr, type);
 
-    if (type < 0)
+    if (typeidx < 0)
     {
         return NULL;
     }
 
-    typlist = &pr->typelist[type];
+    typlist = &pr->typelist[typeidx];
 
     if (idx >= typlist->cnt)
     {
