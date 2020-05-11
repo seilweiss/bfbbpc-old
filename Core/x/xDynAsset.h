@@ -5,9 +5,9 @@
 
 struct xDynAsset : xBaseAsset
 {
-	unsigned int type;
-	unsigned short version;
-	unsigned short handle;
+    unsigned int type;
+    unsigned short version;
+    unsigned short handle;
 };
 
 #endif

@@ -5,9 +5,9 @@
 
 struct zEntTrigger : zEnt
 {
-	xMat4x3 triggerMatrix;
-	xBox triggerBox;
-	unsigned int entered;
+    xMat4x3 triggerMatrix;
+    xBox triggerBox;
+    unsigned int entered;
 };
 
 void zEntTriggerInit(void *ent, void *asset);

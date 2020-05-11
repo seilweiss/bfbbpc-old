@@ -6,22 +6,22 @@
 
 struct zUIAsset : xEntAsset
 {
-	unsigned int uiFlags;
-	unsigned short dim[2];
-	unsigned int textureID;
-	float uva[2];
-	float uvb[2];
-	float uvc[2];
-	float uvd[2];
+    unsigned int uiFlags;
+    unsigned short dim[2];
+    unsigned int textureID;
+    float uva[2];
+    float uvb[2];
+    float uvc[2];
+    float uvd[2];
 };
 
 struct _zUI : zEnt
 {
-	zUIAsset *sasset;
-	unsigned int uiFlags;
-	unsigned int uiButton;
-	unsigned short preUpdateIndex;
-	unsigned short updateIndex;
+    zUIAsset *sasset;
+    unsigned int uiFlags;
+    unsigned int uiButton;
+    unsigned short preUpdateIndex;
+    unsigned short updateIndex;
 };
 
 struct xIniFile;

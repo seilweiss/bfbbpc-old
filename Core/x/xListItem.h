@@ -4,9 +4,9 @@
 template<class T>
 struct xListItem
 {
-	int flg_travFilter;
-	T *next;
-	T *prev;
+    int flg_travFilter;
+    T *next;
+    T *prev;
 };
 
 #endif

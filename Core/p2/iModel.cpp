@@ -8,24 +8,24 @@ static RpLight *sEmptyAmbientLight;
 
 void iModelInit()
 {
-	RwFrame *frame;
-	RwRGBAReal black = { 0, 0, 0, 0 };
-	int i;
+    RwFrame *frame;
+    RwRGBAReal black = { 0, 0, 0, 0 };
+    int i;
 
-	if (!sEmptyDirectionalLight[0])
-	{
-		for (i = 0; i < 4; i++)
-		{
-			sEmptyDirectionalLight[i] = RpLightCreate(rpLIGHTDIRECTIONAL);
+    if (!sEmptyDirectionalLight[0])
+    {
+        for (i = 0; i < 4; i++)
+        {
+            sEmptyDirectionalLight[i] = RpLightCreate(rpLIGHTDIRECTIONAL);
 
-			RpLightSetColor(sEmptyDirectionalLight[i], &black);
+            RpLightSetColor(sEmptyDirectionalLight[i], &black);
 
-			frame = RwFrameCreate();
-			RpLightSetFrame(sEmptyDirectionalLight[i], frame);
-		}
+            frame = RwFrameCreate();
+            RpLightSetFrame(sEmptyDirectionalLight[i], frame);
+        }
 
-		sEmptyAmbientLight = RpLightCreate(rpLIGHTAMBIENT);
+        sEmptyAmbientLight = RpLightCreate(rpLIGHTAMBIENT);
 
-		RpLightSetColor(sEmptyAmbientLight, &black);
-	}
+        RpLightSetColor(sEmptyAmbientLight, &black);
+    }
 }

@@ -3,23 +3,23 @@
 
 enum xCurveType
 {
-	xCVT_BAKED
+    xCVT_BAKED
 };
 
 enum xCurveClamp
 {
-	xCC_CONSTANT,
-	xCC_CYCLE,
-	xCC_OSCILLATE
+    xCC_CONSTANT,
+    xCC_CYCLE,
+    xCC_OSCILLATE
 };
 
 struct xCurveAsset
 {
-	xCurveType type;
-	xCurveClamp clamp;
-	float delta;
-	int numPoints;
-	float *points;
+    xCurveType type;
+    xCurveClamp clamp;
+    float delta;
+    int numPoints;
+    float *points;
 };
 
 #endif

@@ -5,9 +5,9 @@
 
 struct xFactoryInst : RyzMemData
 {
-	int itemType;
-	xFactoryInst *nextprod;
-	xFactoryInst *prevprod;
+    int itemType;
+    xFactoryInst *nextprod;
+    xFactoryInst *prevprod;
 };
 
 #endif

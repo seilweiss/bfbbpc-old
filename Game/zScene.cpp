@@ -80,73 +80,73 @@ static int sMemDepthSceneStart = -1;
 static int sMemDepthJustHIPStart = -1;
 
 static unsigned int zSceneInitFunc_Default(zScene *s, zSceneObjectInstanceDesc *desc,
-										   unsigned int base_idx);
+                                           unsigned int base_idx);
 static unsigned int zSceneInitFunc_DefaultEnt(zScene *s, zSceneObjectInstanceDesc *desc,
-											  unsigned int base_idx);
+                                              unsigned int base_idx);
 static unsigned int zSceneInitFunc_Dispatcher(zScene *s, zSceneObjectInstanceDesc *desc,
-											  unsigned int base_idx);
+                                              unsigned int base_idx);
 static unsigned int zSceneInitFunc_LobMaster(zScene *s, zSceneObjectInstanceDesc *desc,
-											 unsigned int base_idx);
+                                             unsigned int base_idx);
 static unsigned int zSceneInitFunc_Volume(zScene *s, zSceneObjectInstanceDesc *desc,
-										  unsigned int base_idx);
+                                          unsigned int base_idx);
 static unsigned int zSceneInitFunc_Gust(zScene *s, zSceneObjectInstanceDesc *desc,
-										unsigned int base_idx);
+                                        unsigned int base_idx);
 static unsigned int zSceneInitFunc_Surface(zScene *s, zSceneObjectInstanceDesc *desc,
-										   unsigned int base_idx);
+                                           unsigned int base_idx);
 static unsigned int zSceneInitFunc_Camera(zScene *s, zSceneObjectInstanceDesc *desc,
-										  unsigned int base_idx);
+                                          unsigned int base_idx);
 static unsigned int zSceneInitFunc_Player(zScene *s, zSceneObjectInstanceDesc *desc,
-										  unsigned int base_idx);
+                                          unsigned int base_idx);
 static unsigned int zSceneInitFunc_SBNPC(zScene *s, zSceneObjectInstanceDesc *desc,
-										 unsigned int base_idx);
+                                         unsigned int base_idx);
 static unsigned int zSceneInitFunc_MovePoint(zScene *s, zSceneObjectInstanceDesc *desc,
-										     unsigned int base_idx);
+                                             unsigned int base_idx);
 
 static zSceneObjectInstanceDesc sInitTable[] =
 {
-	"Trig", eBaseTypeTrigger, 'TRIG', sizeof(zEntTrigger), zSceneInitFunc_DefaultEnt, zEntTriggerInit, NULL,
-	"Move Point", eBaseTypeMovePoint, 'MVPT', sizeof(zMovePoint), zSceneInitFunc_MovePoint, NULL, NULL,
-	"Pickup", eBaseTypePickup, 'PKUP', sizeof(zEntPickup), zSceneInitFunc_DefaultEnt, zEntPickupInit, NULL,
-	"Simple", eBaseTypeStatic, 'SIMP', sizeof(zEntSimpleObj), zSceneInitFunc_DefaultEnt, zEntSimpleObj_Init, NULL,
-	"ParticleSystem", eBaseTypeParticleSystem, 'PARS', sizeof(xParSys), zSceneInitFunc_Default, xParSysInit, NULL,
-	"ParticleEmitter", eBaseTypeParticleEmitter, 'PARE', sizeof(xParEmitter), zSceneInitFunc_Default, xParEmitterInit, NULL,
-	"Track", eBaseTypeTrackPhysics, 'TRCK', sizeof(zEntSimpleObj), zSceneInitFunc_DefaultEnt, zEntTrackPhysics_Init, NULL,
-	"Platform", eBaseTypePlatform, 'PLAT', sizeof(zPlatform), zSceneInitFunc_DefaultEnt, zPlatform_Init, NULL,
-	"Pendulum", eBaseTypePendulum, 'PEND', sizeof(_zPendulum), zSceneInitFunc_DefaultEnt, zPendulum_Init, NULL,
-	"Hanger", eBaseTypeHangable, 'HANG', sizeof(zEntHangable), zSceneInitFunc_DefaultEnt, zEntHangable_Init, NULL,
-	"DestructObj", eBaseTypeDestructObj, 'DSTR', sizeof(zEntDestructObj), zSceneInitFunc_DefaultEnt, zEntDestructObj_Init, NULL,
-	"Boulder", eBaseTypeBoulder, 'BOUL', sizeof(xEntBoulder), zSceneInitFunc_DefaultEnt, xEntBoulder_Init, NULL,
-	"NPC", eBaseTypeNPC, 'VIL ', 0, zSceneInitFunc_SBNPC, NULL, NULL,
-	"Button", eBaseTypeButton, 'BUTN', sizeof(_zEntButton), zSceneInitFunc_DefaultEnt, zEntButton_Init, NULL,
-	"Player", eBaseTypePlayer, 'PLYR', sizeof(zEnt), zSceneInitFunc_Player, NULL, NULL,
-	"Timer", eBaseTypeTimer, 'TIMR', sizeof(xTimer), zSceneInitFunc_Default, xTimerInit, NULL,
-	"Counter", eBaseTypeCounter, 'CNTR', sizeof(_xCounter), zSceneInitFunc_Default, xCounterInit, NULL,
-	"SFX", eBaseTypeSFX, 'SFX ', sizeof(xSFX), zSceneInitFunc_Default, xSFXInit, NULL,
-	"Group", eBaseTypeGroup, 'GRUP', sizeof(xGroup), zSceneInitFunc_Default, xGroupInit, NULL,
-	"Portal", eBaseTypePortal, 'PORT', sizeof(_zPortal), zSceneInitFunc_Default, zPortalInit, NULL,
-	"Camera", eBaseTypeCamera, 'CAM ', sizeof(zCamMarker), zSceneInitFunc_Camera, NULL, NULL,
+    "Trig", eBaseTypeTrigger, 'TRIG', sizeof(zEntTrigger), zSceneInitFunc_DefaultEnt, zEntTriggerInit, NULL,
+    "Move Point", eBaseTypeMovePoint, 'MVPT', sizeof(zMovePoint), zSceneInitFunc_MovePoint, NULL, NULL,
+    "Pickup", eBaseTypePickup, 'PKUP', sizeof(zEntPickup), zSceneInitFunc_DefaultEnt, zEntPickupInit, NULL,
+    "Simple", eBaseTypeStatic, 'SIMP', sizeof(zEntSimpleObj), zSceneInitFunc_DefaultEnt, zEntSimpleObj_Init, NULL,
+    "ParticleSystem", eBaseTypeParticleSystem, 'PARS', sizeof(xParSys), zSceneInitFunc_Default, xParSysInit, NULL,
+    "ParticleEmitter", eBaseTypeParticleEmitter, 'PARE', sizeof(xParEmitter), zSceneInitFunc_Default, xParEmitterInit, NULL,
+    "Track", eBaseTypeTrackPhysics, 'TRCK', sizeof(zEntSimpleObj), zSceneInitFunc_DefaultEnt, zEntTrackPhysics_Init, NULL,
+    "Platform", eBaseTypePlatform, 'PLAT', sizeof(zPlatform), zSceneInitFunc_DefaultEnt, zPlatform_Init, NULL,
+    "Pendulum", eBaseTypePendulum, 'PEND', sizeof(_zPendulum), zSceneInitFunc_DefaultEnt, zPendulum_Init, NULL,
+    "Hanger", eBaseTypeHangable, 'HANG', sizeof(zEntHangable), zSceneInitFunc_DefaultEnt, zEntHangable_Init, NULL,
+    "DestructObj", eBaseTypeDestructObj, 'DSTR', sizeof(zEntDestructObj), zSceneInitFunc_DefaultEnt, zEntDestructObj_Init, NULL,
+    "Boulder", eBaseTypeBoulder, 'BOUL', sizeof(xEntBoulder), zSceneInitFunc_DefaultEnt, xEntBoulder_Init, NULL,
+    "NPC", eBaseTypeNPC, 'VIL ', 0, zSceneInitFunc_SBNPC, NULL, NULL,
+    "Button", eBaseTypeButton, 'BUTN', sizeof(_zEntButton), zSceneInitFunc_DefaultEnt, zEntButton_Init, NULL,
+    "Player", eBaseTypePlayer, 'PLYR', sizeof(zEnt), zSceneInitFunc_Player, NULL, NULL,
+    "Timer", eBaseTypeTimer, 'TIMR', sizeof(xTimer), zSceneInitFunc_Default, xTimerInit, NULL,
+    "Counter", eBaseTypeCounter, 'CNTR', sizeof(_xCounter), zSceneInitFunc_Default, xCounterInit, NULL,
+    "SFX", eBaseTypeSFX, 'SFX ', sizeof(xSFX), zSceneInitFunc_Default, xSFXInit, NULL,
+    "Group", eBaseTypeGroup, 'GRUP', sizeof(xGroup), zSceneInitFunc_Default, xGroupInit, NULL,
+    "Portal", eBaseTypePortal, 'PORT', sizeof(_zPortal), zSceneInitFunc_Default, zPortalInit, NULL,
+    "Camera", eBaseTypeCamera, 'CAM ', sizeof(zCamMarker), zSceneInitFunc_Camera, NULL, NULL,
 //	"Surface", eBaseTypeSurface, 'SURF', sizeof(xSurface), zSceneInitFunc_Surface, NULL, NULL,
-	"Gust", eBaseTypeGust, 'GUST', sizeof(zGust), zSceneInitFunc_Gust, NULL, NULL,
-	"Volume", eBaseTypeVolume, 'VOLU', sizeof(zVolume), zSceneInitFunc_Volume, NULL, NULL,
-	"Conditional", eBaseTypeCond, 'COND', sizeof(_zConditional), zSceneInitFunc_Default, zConditionalInit, NULL,
-	"Lob Master", eBaseTypeLobMaster, 'LOBM', 0, zSceneInitFunc_LobMaster, NULL, NULL,
-	"Env", eBaseTypeEnv, 'ENV ', sizeof(_zEnv), zSceneInitFunc_Default, zEnvInit, NULL,
+    "Gust", eBaseTypeGust, 'GUST', sizeof(zGust), zSceneInitFunc_Gust, NULL, NULL,
+    "Volume", eBaseTypeVolume, 'VOLU', sizeof(zVolume), zSceneInitFunc_Volume, NULL, NULL,
+    "Conditional", eBaseTypeCond, 'COND', sizeof(_zConditional), zSceneInitFunc_Default, zConditionalInit, NULL,
+    "Lob Master", eBaseTypeLobMaster, 'LOBM', 0, zSceneInitFunc_LobMaster, NULL, NULL,
+    "Env", eBaseTypeEnv, 'ENV ', sizeof(_zEnv), zSceneInitFunc_Default, zEnvInit, NULL,
 //	"Dispatcher", eBaseTypeDispatcher, 'DPAT', 0, zSceneInitFunc_Dispatcher, NULL, NULL,
-	"UI", eBaseTypeUI, 'UI  ', sizeof(_zUI), zSceneInitFunc_DefaultEnt, zUI_Init, NULL,
-	"UI Font", eBaseTypeUIFont, 'UIFT', sizeof(zUIFont), zSceneInitFunc_Default, zUIFont_Init, NULL,
-	"Fog", eBaseTypeFog, 'FOG ', sizeof(_xFog), zSceneInitFunc_Default, xFogInit, NULL,
-	"Light", eBaseTypeLight, 'LITE', sizeof(_zLight), zSceneInitFunc_Default, zLightInit, NULL,
-	"CutSceneMgr", eBaseTypeCutsceneMgr, 'CSNM', sizeof(zCutsceneMgr), zSceneInitFunc_Default, zCutsceneMgrInit, NULL,
-	"EGenerator", eBaseTypeEGenerator, 'EGEN', sizeof(zEGenerator), zSceneInitFunc_DefaultEnt, zEGenerator_Init, NULL,
-	"Script", eBaseTypeScript, 'SCRP', sizeof(_zScript), zSceneInitFunc_Default, zScriptInit, NULL,
-	"Disco Floor", eBaseTypeDiscoFloor, 'DSCO', sizeof(z_disco_floor), zSceneInitFunc_Default, z_disco_floor::init, NULL,
-	0
+    "UI", eBaseTypeUI, 'UI  ', sizeof(_zUI), zSceneInitFunc_DefaultEnt, zUI_Init, NULL,
+    "UI Font", eBaseTypeUIFont, 'UIFT', sizeof(zUIFont), zSceneInitFunc_Default, zUIFont_Init, NULL,
+    "Fog", eBaseTypeFog, 'FOG ', sizeof(_xFog), zSceneInitFunc_Default, xFogInit, NULL,
+    "Light", eBaseTypeLight, 'LITE', sizeof(_zLight), zSceneInitFunc_Default, zLightInit, NULL,
+    "CutSceneMgr", eBaseTypeCutsceneMgr, 'CSNM', sizeof(zCutsceneMgr), zSceneInitFunc_Default, zCutsceneMgrInit, NULL,
+    "EGenerator", eBaseTypeEGenerator, 'EGEN', sizeof(zEGenerator), zSceneInitFunc_DefaultEnt, zEGenerator_Init, NULL,
+    "Script", eBaseTypeScript, 'SCRP', sizeof(_zScript), zSceneInitFunc_Default, zScriptInit, NULL,
+    "Disco Floor", eBaseTypeDiscoFloor, 'DSCO', sizeof(z_disco_floor), zSceneInitFunc_Default, z_disco_floor::init, NULL,
+    0
 };
 
 /*
 static zSceneObjectInstanceDesc sInitTable[] =
 {
-	0
+    0
 };
 */
 
@@ -156,8 +156,8 @@ unsigned int gTransitionSceneID;
 
 struct IDBasePair
 {
-	unsigned int id;
-	xBase *base;
+    unsigned int id;
+    xBase *base;
 };
 
 static IDBasePair *scobj_idbps;
@@ -170,28 +170,28 @@ namespace
 {
 struct dynamic_type_data
 {
-	char *name;
-	int type;
-	unsigned int size;
-	unsigned char is_ent;
-	void(*load)(xBase &, xDynAsset &, unsigned int);
+    char *name;
+    int type;
+    unsigned int size;
+    unsigned char is_ent;
+    void(*load)(xBase &, xDynAsset &, unsigned int);
 };
 
 void add_dynamic_types(zScene &s)
 {
-	BFBBSTUB("add_dynamic_types");
+    BFBBSTUB("add_dynamic_types");
 }
 
 unsigned int init_dynamic_type(zScene &s, unsigned int index, dynamic_type_data &d)
 {
-	BFBBSTUB("init_dynamic_type");
-	return 0;
+    BFBBSTUB("init_dynamic_type");
+    return 0;
 }
 
 unsigned int init_dynamic_types(zScene &s, unsigned int index)
 {
-	BFBBSTUB("init_dynamic_types");
-	return 0;
+    BFBBSTUB("init_dynamic_types");
+    return 0;
 }
 }
 
@@ -201,862 +201,862 @@ static void zSceneObjHashtableExit();
 static xBase *zSceneObjHashtableGet(unsigned int id);
 
 static unsigned int zSceneInitFunc_DefaultEnt(zScene *s, zSceneObjectInstanceDesc *desc,
-											  unsigned int base_idx)
+                                              unsigned int base_idx)
 {
-	unsigned char *block = NULL;
-	int count;
-	unsigned int assetSize = 0;
-	unsigned int offset;
-	xBase *b;
-	int i;
-	void *asset;
+    unsigned char *block = NULL;
+    int count;
+    unsigned int assetSize = 0;
+    unsigned int offset;
+    xBase *b;
+    int i;
+    void *asset;
 
-	count = s->baseCount[desc->baseType];
+    count = s->baseCount[desc->baseType];
 
-	if (count)
-	{
-		block = (unsigned char *)xMemAlloc(count * desc->sizeRuntime, 0);
+    if (count)
+    {
+        block = (unsigned char *)xMemAlloc(count * desc->sizeRuntime, 0);
 
-		s->baseList[desc->baseType] = (xBase *)block;
-	}
+        s->baseList[desc->baseType] = (xBase *)block;
+    }
 
-	for (i = 0; i < count; i++)
-	{
-		asset = xSTFindAssetByType(desc->assetType, i, &assetSize);
-		offset = i * desc->sizeRuntime;
-		b = (xBase *)(block + offset);
+    for (i = 0; i < count; i++)
+    {
+        asset = xSTFindAssetByType(desc->assetType, i, &assetSize);
+        offset = i * desc->sizeRuntime;
+        b = (xBase *)(block + offset);
 
-		zSceneSet(b, base_idx);
+        zSceneSet(b, base_idx);
 
-		if (desc->objectInitFunc)
-		{
-			desc->objectInitFunc(b, asset);
-		}
+        if (desc->objectInitFunc)
+        {
+            desc->objectInitFunc(b, asset);
+        }
 
-		xSceneAddEnt(s, s->ents[base_idx]);
-		zSceneObjHashtableAdd(b->id, b);
+        xSceneAddEnt(s, s->ents[base_idx]);
+        zSceneObjHashtableAdd(b->id, b);
 
-		base_idx++;
-	}
+        base_idx++;
+    }
 
-	return base_idx;
+    return base_idx;
 }
 
 static unsigned int zSceneInitFunc_Default(zScene *s, zSceneObjectInstanceDesc *desc,
-										   unsigned int base_idx)
+                                           unsigned int base_idx)
 {
-	unsigned char *block = NULL;
-	int count;
-	unsigned int assetSize = 0;
-	unsigned int offset;
-	xBase *b;
-	int i;
-	void *asset;
+    unsigned char *block = NULL;
+    int count;
+    unsigned int assetSize = 0;
+    unsigned int offset;
+    xBase *b;
+    int i;
+    void *asset;
 
-	count = s->baseCount[desc->baseType];
+    count = s->baseCount[desc->baseType];
 
-	if (count)
-	{
-		block = (unsigned char *)xMemAlloc(count * desc->sizeRuntime, 0);
+    if (count)
+    {
+        block = (unsigned char *)xMemAlloc(count * desc->sizeRuntime, 0);
 
-		s->baseList[desc->baseType] = (xBase *)block;
-	}
+        s->baseList[desc->baseType] = (xBase *)block;
+    }
 
-	for (i = 0; i < count; i++)
-	{
-		asset = xSTFindAssetByType(desc->assetType, i, &assetSize);
-		offset = i * desc->sizeRuntime;
-		b = (xBase *)(block + offset);
+    for (i = 0; i < count; i++)
+    {
+        asset = xSTFindAssetByType(desc->assetType, i, &assetSize);
+        offset = i * desc->sizeRuntime;
+        b = (xBase *)(block + offset);
 
-		zSceneSet(b, base_idx);
+        zSceneSet(b, base_idx);
 
-		if (desc->objectInitFunc)
-		{
-			desc->objectInitFunc(b, asset);
-		}
+        if (desc->objectInitFunc)
+        {
+            desc->objectInitFunc(b, asset);
+        }
 
-		zSceneObjHashtableAdd(b->id, b);
+        zSceneObjHashtableAdd(b->id, b);
 
-		base_idx++;
-	}
+        base_idx++;
+    }
 
-	return base_idx;
+    return base_idx;
 }
 
 static unsigned int zSceneInitFunc_MovePoint(zScene *s, zSceneObjectInstanceDesc *desc,
-											 unsigned int base_idx)
+                                             unsigned int base_idx)
 {
-	int count;
-	unsigned int assetSize = 0;
-	zMovePoint *movpBlock;
-	int idx;
-	xBase *b;
-	xBaseAsset *basset;
+    int count;
+    unsigned int assetSize = 0;
+    zMovePoint *movpBlock;
+    int idx;
+    xBase *b;
+    xBaseAsset *basset;
 
-	count = s->baseCount[desc->baseType];
-	movpBlock = zMovePoint_GetMemPool(count);
+    count = s->baseCount[desc->baseType];
+    movpBlock = zMovePoint_GetMemPool(count);
 
-	if (movpBlock)
-	{
-		s->baseList[desc->baseType] = movpBlock;
-	}
+    if (movpBlock)
+    {
+        s->baseList[desc->baseType] = movpBlock;
+    }
 
-	for (idx = 0; idx < count; idx++)
-	{
-		b = zMovePoint_GetInst(idx);
-		basset = (xBaseAsset *)xSTFindAssetByType('MVPT', idx, &assetSize);
+    for (idx = 0; idx < count; idx++)
+    {
+        b = zMovePoint_GetInst(idx);
+        basset = (xBaseAsset *)xSTFindAssetByType('MVPT', idx, &assetSize);
 
-		zSceneSet(b, base_idx);
-		
-		zMovePointInit(zMovePoint_GetInst(idx), (xMovePointAsset *)basset);
+        zSceneSet(b, base_idx);
+        
+        zMovePointInit(zMovePoint_GetInst(idx), (xMovePointAsset *)basset);
 
-		zSceneObjHashtableAdd(b->id, b);
+        zSceneObjHashtableAdd(b->id, b);
 
-		base_idx++;
-	}
+        base_idx++;
+    }
 
-	return base_idx;
+    return base_idx;
 }
 
 static unsigned int zSceneInitFunc_SBNPC(zScene *s, zSceneObjectInstanceDesc *desc,
-										 unsigned int base_idx)
+                                         unsigned int base_idx)
 {
-	int count;
-	int i;
-	xEnt *npc;
-	xEntAsset *assdat;
+    int count;
+    int i;
+    xEnt *npc;
+    xEntAsset *assdat;
 
-	count = s->baseCount[desc->baseType];
+    count = s->baseCount[desc->baseType];
 
-	if (!count)
-	{
-		return base_idx;
-	}
+    if (!count)
+    {
+        return base_idx;
+    }
 
-	s->baseList[desc->baseType] = NULL;
+    s->baseList[desc->baseType] = NULL;
 
-	for (i = 0; i < count; i++)
-	{
-		assdat = (xEntAsset *)xSTFindAssetByType('VIL ', i, NULL);
-		npc = zNPCMgr_createNPCInst(assdat);
+    for (i = 0; i < count; i++)
+    {
+        assdat = (xEntAsset *)xSTFindAssetByType('VIL ', i, NULL);
+        npc = zNPCMgr_createNPCInst(assdat);
 
-		zSceneSet(npc, base_idx);
-		xSceneAddEnt(s, s->ents[base_idx]);
-		zSceneObjHashtableAdd(npc->id, npc);
+        zSceneSet(npc, base_idx);
+        xSceneAddEnt(s, s->ents[base_idx]);
+        zSceneObjHashtableAdd(npc->id, npc);
 
-		base_idx++;
-	}
+        base_idx++;
+    }
 
-	return base_idx;
+    return base_idx;
 }
 
 static unsigned int zSceneInitFunc_Player(zScene *s, zSceneObjectInstanceDesc *desc,
-										  unsigned int base_idx)
+                                          unsigned int base_idx)
 {
-	int count;
-	zEnt *entBlock;
-	int idx;
-	xBase *b;
-	xEntAsset *asset;
+    int count;
+    zEnt *entBlock;
+    int idx;
+    xBase *b;
+    xEntAsset *asset;
 
-	count = s->baseCount[desc->baseType];
+    count = s->baseCount[desc->baseType];
 
-	if (count)
-	{
-		entBlock = (zEnt *)xMemAlloc(count * sizeof(zEnt), 0);
-		b = &globals.player.ent;
+    if (count)
+    {
+        entBlock = (zEnt *)xMemAlloc(count * sizeof(zEnt), 0);
+        b = &globals.player.ent;
 
-		s->baseList[desc->baseType] = entBlock;
+        s->baseList[desc->baseType] = entBlock;
 
-		for (idx = 0; idx < count; idx++)
-		{
-			zSceneSet(b, base_idx);
+        for (idx = 0; idx < count; idx++)
+        {
+            zSceneSet(b, base_idx);
 
-			if (idx == (count - 1))
-			{
-				xSceneAddEnt(s, s->ents[base_idx]);
-			}
+            if (idx == (count - 1))
+            {
+                xSceneAddEnt(s, s->ents[base_idx]);
+            }
 
-			asset = (xEntAsset *)xSTFindAssetByType('PLYR', idx, NULL);
+            asset = (xEntAsset *)xSTFindAssetByType('PLYR', idx, NULL);
 
-			b->id = asset->id;
+            b->id = asset->id;
 
-			zSceneObjHashtableAdd(b->id, b);
+            zSceneObjHashtableAdd(b->id, b);
 
-			base_idx++;
-		}
-	}
+            base_idx++;
+        }
+    }
 
-	return base_idx;
+    return base_idx;
 }
 
 static unsigned int zSceneInitFunc_Camera(zScene *s, zSceneObjectInstanceDesc *desc,
-										  unsigned int base_idx)
+                                          unsigned int base_idx)
 {
-	int count;
-	zCamMarker *camBlock;
-	int idx;
-	xBase *b;
-	xCamAsset *assetCam;
+    int count;
+    zCamMarker *camBlock;
+    int idx;
+    xBase *b;
+    xCamAsset *assetCam;
 
-	count = s->baseCount[desc->baseType];
+    count = s->baseCount[desc->baseType];
 
-	if (count)
-	{
-		camBlock = (zCamMarker *)xMemAlloc(count * sizeof(zCamMarker), 0);
+    if (count)
+    {
+        camBlock = (zCamMarker *)xMemAlloc(count * sizeof(zCamMarker), 0);
 
-		s->baseList[desc->baseType] = camBlock;
+        s->baseList[desc->baseType] = camBlock;
 
-		for (idx = 0; idx < count; idx++)
-		{
-			b = &camBlock[idx];
-			assetCam = (xCamAsset *)xSTFindAssetByType('CAM ', idx, NULL);
+        for (idx = 0; idx < count; idx++)
+        {
+            b = &camBlock[idx];
+            assetCam = (xCamAsset *)xSTFindAssetByType('CAM ', idx, NULL);
 
-			zSceneSet(b, base_idx);
+            zSceneSet(b, base_idx);
 
-			zCamMarkerInit(b, assetCam);
+            zCamMarkerInit(b, assetCam);
 
-			zSceneObjHashtableAdd(b->id, b);
+            zSceneObjHashtableAdd(b->id, b);
 
-			base_idx++;
-		}
-	}
+            base_idx++;
+        }
+    }
 
-	return base_idx;
+    return base_idx;
 }
 
 static unsigned int zSceneInitFunc_Surface(zScene *s, zSceneObjectInstanceDesc *desc,
-										   unsigned int base_idx)
+                                           unsigned int base_idx)
 {
-	int count;
-	int idx;
-	xBase *b;
+    int count;
+    int idx;
+    xBase *b;
 
-	count = s->baseCount[desc->baseType];
+    count = s->baseCount[desc->baseType];
 
-	if (count)
-	{
-		s->baseList[desc->baseType] = xSurfaceGetByIdx(0);
+    if (count)
+    {
+        s->baseList[desc->baseType] = xSurfaceGetByIdx(0);
 
-		for (idx = 0; idx < count; idx++)
-		{
-			b = xSurfaceGetByIdx(idx);
+        for (idx = 0; idx < count; idx++)
+        {
+            b = xSurfaceGetByIdx(idx);
 
-			zSceneSet(b, base_idx);
-			zSceneObjHashtableAdd(b->id, b);
+            zSceneSet(b, base_idx);
+            zSceneObjHashtableAdd(b->id, b);
 
-			base_idx++;
-		}
-	}
+            base_idx++;
+        }
+    }
 
-	return base_idx;
+    return base_idx;
 }
 
 static unsigned int zSceneInitFunc_Gust(zScene *s, zSceneObjectInstanceDesc *desc,
-										unsigned int base_idx)
+                                        unsigned int base_idx)
 {
-	int count;
-	int idx;
-	xBase *b;
+    int count;
+    int idx;
+    xBase *b;
 
-	count = s->baseCount[desc->baseType];
+    count = s->baseCount[desc->baseType];
 
-	zGustInit();
+    zGustInit();
 
-	if (count)
-	{
-		s->baseList[desc->baseType] = zGustGetGust(0);
+    if (count)
+    {
+        s->baseList[desc->baseType] = zGustGetGust(0);
 
-		for (idx = 0; idx < count; idx++)
-		{
-			b = zGustGetGust(idx);
+        for (idx = 0; idx < count; idx++)
+        {
+            b = zGustGetGust(idx);
 
-			zSceneSet(b, base_idx);
-			zSceneObjHashtableAdd(b->id, b);
+            zSceneSet(b, base_idx);
+            zSceneObjHashtableAdd(b->id, b);
 
-			base_idx++;
-		}
-	}
+            base_idx++;
+        }
+    }
 
-	return base_idx;
+    return base_idx;
 }
 
 static unsigned int zSceneInitFunc_Volume(zScene *s, zSceneObjectInstanceDesc *desc,
-										  unsigned int base_idx)
+                                          unsigned int base_idx)
 {
-	int count;
-	int idx;
-	xBase *b;
+    int count;
+    int idx;
+    xBase *b;
 
-	count = s->baseCount[desc->baseType];
+    count = s->baseCount[desc->baseType];
 
-	zVolumeInit();
+    zVolumeInit();
 
-	if (count)
-	{
-		s->baseList[desc->baseType] = zVolumeGetVolume(0);
+    if (count)
+    {
+        s->baseList[desc->baseType] = zVolumeGetVolume(0);
 
-		for (idx = 0; idx < count; idx++)
-		{
-			b = zVolumeGetVolume(idx);
+        for (idx = 0; idx < count; idx++)
+        {
+            b = zVolumeGetVolume(idx);
 
-			zLightSetVolume((zVolume *)b);
+            zLightSetVolume((zVolume *)b);
 
-			zSceneSet(b, base_idx);
-			zSceneObjHashtableAdd(b->id, b);
+            zSceneSet(b, base_idx);
+            zSceneObjHashtableAdd(b->id, b);
 
-			base_idx++;
-		}
-	}
+            base_idx++;
+        }
+    }
 
-	return base_idx;
+    return base_idx;
 }
 
 static unsigned int zSceneInitFunc_LobMaster(zScene *s, zSceneObjectInstanceDesc *desc,
-											 unsigned int base_idx)
+                                             unsigned int base_idx)
 {
-	return base_idx;
+    return base_idx;
 }
 
 static unsigned int zSceneInitFunc_Dispatcher(zScene *s, zSceneObjectInstanceDesc *desc,
-											  unsigned int base_idx)
+                                              unsigned int base_idx)
 {
-	int count;
-	st_ZDISPATCH_DATA *dpat_pool;
-	int idx;
-	xBase *b;
-	xEntAsset *asset; /* should be xBaseAsset lol */
+    int count;
+    st_ZDISPATCH_DATA *dpat_pool;
+    int idx;
+    xBase *b;
+    xEntAsset *asset; /* should be xBaseAsset lol */
 
-	count = s->baseCount[desc->baseType];
+    count = s->baseCount[desc->baseType];
 
-	if (count)
-	{
-		dpat_pool = zDispatcher_memPool(count);
+    if (count)
+    {
+        dpat_pool = zDispatcher_memPool(count);
 
-		s->baseList[desc->baseType] = dpat_pool;
+        s->baseList[desc->baseType] = dpat_pool;
 
-		for (idx = 0; idx < count; idx++)
-		{
-			b = zDispatcher_getInst(dpat_pool, idx);
-			asset = (xEntAsset *)xSTFindAssetByType('DPAT', idx, NULL);
+        for (idx = 0; idx < count; idx++)
+        {
+            b = zDispatcher_getInst(dpat_pool, idx);
+            asset = (xEntAsset *)xSTFindAssetByType('DPAT', idx, NULL);
 
-			zSceneSet(b, base_idx);
+            zSceneSet(b, base_idx);
 
-			zDispatcher_Init((st_ZDISPATCH_DATA *)b, asset);
+            zDispatcher_Init((st_ZDISPATCH_DATA *)b, asset);
 
-			zSceneObjHashtableAdd(b->id, b);
+            zSceneObjHashtableAdd(b->id, b);
 
-			base_idx++;
-		}
-	}
+            base_idx++;
+        }
+    }
 
-	return base_idx;
+    return base_idx;
 }
 
 void zSceneSet(xBase *b, unsigned int idx)
 {
-	globals.sceneCur->base[idx] = b;
+    globals.sceneCur->base[idx] = b;
 }
 
 static void PipeCountStuffCB(RpAtomic *, unsigned int pipeFlags, unsigned int subObjects)
 {
-	BFBBSTUB("PipeCountStuffCB");
+    BFBBSTUB("PipeCountStuffCB");
 }
 
 static void PipeAddStuffCB(RpAtomic *data, unsigned int pipeFlags, unsigned int subObjects)
 {
-	BFBBSTUB("PipeAddStuffCB");
+    BFBBSTUB("PipeAddStuffCB");
 }
 
 static void PipeForAllSceneModels(
-	void(*pipeCB)(RpAtomic *data, unsigned int pipeFlags, unsigned int subObjects))
+    void(*pipeCB)(RpAtomic *data, unsigned int pipeFlags, unsigned int subObjects))
 {
-	BFBBSTUB("PipeForAllSceneModels");
+    BFBBSTUB("PipeForAllSceneModels");
 }
 
 void zSceneInitEnvironmentalSoundEffect()
 {
-	BFBBSTUB("zSceneInitEnvironmentalSoundEffect");
+    BFBBSTUB("zSceneInitEnvironmentalSoundEffect");
 }
 
 static unsigned int BaseTypeNeedsUpdate(unsigned char baseType)
 {
-	switch (baseType)
-	{
-	case eBaseTypeUnknown:
-	case eBaseTypePlayer:
-	case eBaseTypeEnv:
-	case eBaseTypeCamera:
-	case eBaseTypeStatic:
-	case eBaseTypeMovePoint:
-	case eBaseTypeBubble:
-	case eBaseTypePortal:
-	case eBaseTypeGroup:
-	case eBaseTypeSFX:
-	case eBaseTypeFFX:
-	case eBaseTypeVFX:
-	case eBaseTypeCounter:
-	case eBaseTypeProjectile:
-	case eBaseTypeGust:
-	case eBaseTypeVolume:
-	case eBaseTypeDispatcher:
-	case eBaseTypeCond:
-	case eBaseTypeUI:
-	case eBaseTypeProjectileType:
-	case eBaseTypeLobMaster:
-	case eBaseTypeCutsceneMgr:
-	case eBaseTypeHud:
-	case eBaseTypeNPCProps:
-	case eBaseTypeParticleEmitterProps:
-	case eBaseTypeCruiseBubble:
-	case eBaseTypeTextBox:
-	case eBaseTypeTalkBox:
-	case eBaseTypeTaskBox:
-	case eBaseTypeBoulderGenerator:
-	case eBaseTypeNPCSettings:
-	case eBaseTypeTurret:
-		return 0;
-	}
+    switch (baseType)
+    {
+    case eBaseTypeUnknown:
+    case eBaseTypePlayer:
+    case eBaseTypeEnv:
+    case eBaseTypeCamera:
+    case eBaseTypeStatic:
+    case eBaseTypeMovePoint:
+    case eBaseTypeBubble:
+    case eBaseTypePortal:
+    case eBaseTypeGroup:
+    case eBaseTypeSFX:
+    case eBaseTypeFFX:
+    case eBaseTypeVFX:
+    case eBaseTypeCounter:
+    case eBaseTypeProjectile:
+    case eBaseTypeGust:
+    case eBaseTypeVolume:
+    case eBaseTypeDispatcher:
+    case eBaseTypeCond:
+    case eBaseTypeUI:
+    case eBaseTypeProjectileType:
+    case eBaseTypeLobMaster:
+    case eBaseTypeCutsceneMgr:
+    case eBaseTypeHud:
+    case eBaseTypeNPCProps:
+    case eBaseTypeParticleEmitterProps:
+    case eBaseTypeCruiseBubble:
+    case eBaseTypeTextBox:
+    case eBaseTypeTalkBox:
+    case eBaseTypeTaskBox:
+    case eBaseTypeBoulderGenerator:
+    case eBaseTypeNPCSettings:
+    case eBaseTypeTurret:
+        return 0;
+    }
 
-	return 1;
+    return 1;
 }
 
 void zSceneInit(unsigned int theSceneID, int reloadInProgress)
 {
-	float pdone;
-	zScene *s;
-	unsigned char rgba_bkgrd[4] = { 15, 15, 15, 00 };
+    float pdone;
+    zScene *s;
+    unsigned char rgba_bkgrd[4] = { 15, 15, 15, 00 };
 
-	gTransitionSceneID = theSceneID;
-	gOccludeCount = 0;
+    gTransitionSceneID = theSceneID;
+    gOccludeCount = 0;
 
-	char b[5] = {};
+    char b[5] = {};
 
-	sprintf(b, xUtil_idtag2string(theSceneID, 0));
-	xStrupr(b);
+    sprintf(b, xUtil_idtag2string(theSceneID, 0));
+    xStrupr(b);
 
-	theSceneID =
-		(b[0] << 24) |
-		(b[1] << 16) |
-		(b[2] << 8) |
-		b[3];
+    theSceneID =
+        (b[0] << 24) |
+        (b[1] << 16) |
+        (b[2] << 8) |
+        b[3];
 
-	xUtil_idtag2string(theSceneID, 0);
+    xUtil_idtag2string(theSceneID, 0);
 
-	xFogClearFog();
-	xSndSceneInit();
+    xFogClearFog();
+    xSndSceneInit();
 
-	if (!reloadInProgress)
-	{
-		sMemDepthSceneStart = xMemPushBase();
-	}
+    if (!reloadInProgress)
+    {
+        sMemDepthSceneStart = xMemPushBase();
+    }
 
-	zGameScreenTransitionBegin();
+    zGameScreenTransitionBegin();
 
-	zParPTankInit();
+    zParPTankInit();
 
-	pdone = 2.0f;
+    pdone = 2.0f;
 
-	if (globals.useHIPHOP && !reloadInProgress)
-	{
-		zGameScreenTransitionUpdate(pdone, "... scene preload ...\n");
+    if (globals.useHIPHOP && !reloadInProgress)
+    {
+        zGameScreenTransitionUpdate(pdone, "... scene preload ...\n");
 
-		int ver_hop = xSTPreLoadScene(theSceneID, NULL, XST_SCENE_HOP);
+        int ver_hop = xSTPreLoadScene(theSceneID, NULL, XST_SCENE_HOP);
 
-		if (ver_hop >= 0x000A000F)
-		{
-			xSTQueueSceneAssets(theSceneID, XST_SCENE_HOP);
+        if (ver_hop >= 0x000A000F)
+        {
+            xSTQueueSceneAssets(theSceneID, XST_SCENE_HOP);
 
-			do
-			{
-				rgba_bkgrd[0] = 0;
-				rgba_bkgrd[1] = 0;
-				rgba_bkgrd[2] = 0;
-				rgba_bkgrd[3] = 0;
+            do
+            {
+                rgba_bkgrd[0] = 0;
+                rgba_bkgrd[1] = 0;
+                rgba_bkgrd[2] = 0;
+                rgba_bkgrd[3] = 0;
 
-				pdone += 2.0f;
+                pdone += 2.0f;
 
-				zGameScreenTransitionUpdate(pdone, "... scene loading ...\n", rgba_bkgrd);
-			}
-			while (xSTLoadStep(theSceneID) < 1.0f);
+                zGameScreenTransitionUpdate(pdone, "... scene loading ...\n", rgba_bkgrd);
+            }
+            while (xSTLoadStep(theSceneID) < 1.0f);
 
-			xSTDisconnect(theSceneID, XST_SCENE_HOP);
-		}
-	}
+            xSTDisconnect(theSceneID, XST_SCENE_HOP);
+        }
+    }
 
-	sMemDepthJustHIPStart = xMemPushBase();
+    sMemDepthJustHIPStart = xMemPushBase();
 
-	s = (zScene *)xMemAlloc(sizeof(zScene), 0);
-	globals.sceneCur = s;
+    s = (zScene *)xMemAlloc(sizeof(zScene), 0);
+    globals.sceneCur = s;
 
-	xSceneInit(s, 200, 2048, 2068, 250);
+    xSceneInit(s, 200, 2048, 2068, 250);
 
-	s->env = (xEnv *)xMemAlloc(sizeof(xEnv), 0);
-	s->sceneID = theSceneID;
+    s->env = (xEnv *)xMemAlloc(sizeof(xEnv), 0);
+    s->sceneID = theSceneID;
 
-	iTime time;
+    iTime time;
 
-	time = iTimeGet();
-	xUtil_idtag2string(theSceneID, 0);
-	iTimeDiffSec(time);
+    time = iTimeGet();
+    xUtil_idtag2string(theSceneID, 0);
+    iTimeDiffSec(time);
 
-	xSTPreLoadScene(theSceneID, NULL, XST_SCENE_HIP);
+    xSTPreLoadScene(theSceneID, NULL, XST_SCENE_HIP);
 
-	time = iTimeGet();
-	xUtil_idtag2string(theSceneID, 0);
-	iTimeDiffSec(time);
+    time = iTimeGet();
+    xUtil_idtag2string(theSceneID, 0);
+    iTimeDiffSec(time);
 
-	xSTQueueSceneAssets(theSceneID, XST_SCENE_HIP);
+    xSTQueueSceneAssets(theSceneID, XST_SCENE_HIP);
 
-	time = iTimeGet();
-	xUtil_idtag2string(theSceneID, 0);
-	iTimeDiffSec(time);
+    time = iTimeGet();
+    xUtil_idtag2string(theSceneID, 0);
+    iTimeDiffSec(time);
 
-	pdone += 2.0f;
+    pdone += 2.0f;
 
-	zGameScreenTransitionUpdate(pdone, "... scene asset queue ...\n");
+    zGameScreenTransitionUpdate(pdone, "... scene asset queue ...\n");
 
-	time = iTimeGet();
-	xUtil_idtag2string(theSceneID, 0);
-	iTimeDiffSec(time);
+    time = iTimeGet();
+    xUtil_idtag2string(theSceneID, 0);
+    iTimeDiffSec(time);
 
-	do
-	{
-		rgba_bkgrd[0] = 0;
-		rgba_bkgrd[1] = 0;
-		rgba_bkgrd[2] = 0;
-		rgba_bkgrd[3] = 0;
+    do
+    {
+        rgba_bkgrd[0] = 0;
+        rgba_bkgrd[1] = 0;
+        rgba_bkgrd[2] = 0;
+        rgba_bkgrd[3] = 0;
 
-		pdone += 2.0f;
+        pdone += 2.0f;
 
-		zGameScreenTransitionUpdate(pdone, "... scene loading ...\n", rgba_bkgrd);
-	}
-	while (xSTLoadStep(theSceneID) < 1.0f);
+        zGameScreenTransitionUpdate(pdone, "... scene loading ...\n", rgba_bkgrd);
+    }
+    while (xSTLoadStep(theSceneID) < 1.0f);
 
-	xSTDisconnect(theSceneID, XST_SCENE_HIP);
+    xSTDisconnect(theSceneID, XST_SCENE_HIP);
 
-	time = iTimeGet();
-	xUtil_idtag2string(theSceneID, 0);
-	iTimeDiffSec(time);
+    time = iTimeGet();
+    xUtil_idtag2string(theSceneID, 0);
+    iTimeDiffSec(time);
 
-	pdone += 2.0f;
+    pdone += 2.0f;
 
-	zGameScreenTransitionUpdate(pdone, "...initializing scene - sound\n");
+    zGameScreenTransitionUpdate(pdone, "...initializing scene - sound\n");
 
-	zEntPlayer_LoadSounds();
-	iSndInitSceneLoaded();
+    zEntPlayer_LoadSounds();
+    iSndInitSceneLoaded();
 
-	xPadRumbleEnable(globals.currentActivePad, globals.option_vibration);
+    xPadRumbleEnable(globals.currentActivePad, globals.option_vibration);
 
-	xSTSwitchScene(theSceneID, NULL, NULL);
+    xSTSwitchScene(theSceneID, NULL, NULL);
 
-	globals.sceneCur->resolvID = zSceneFindObject;
-	globals.sceneCur->id2Name = zSceneGetName;
-	globals.sceneCur->base2Name = zSceneGetName;
+    globals.sceneCur->resolvID = zSceneFindObject;
+    globals.sceneCur->id2Name = zSceneGetName;
+    globals.sceneCur->base2Name = zSceneGetName;
 
-	g_xSceneCur = globals.sceneCur;
+    g_xSceneCur = globals.sceneCur;
 
-	xModelPipeNumTables = xSTAssetCountByType('PIPT');
+    xModelPipeNumTables = xSTAssetCountByType('PIPT');
 
-	for (int i = 0; i < xModelPipeNumTables; i++)
-	{
-		void *data = xSTFindAssetByType('PIPT', i, NULL);
+    for (int i = 0; i < xModelPipeNumTables; i++)
+    {
+        void *data = xSTFindAssetByType('PIPT', i, NULL);
 
-		xModelPipeCount[i] = *(int *)data;
-		xModelPipeData[i] = (xModelPipeInfo *)((int *)data + 1);
-	}
+        xModelPipeCount[i] = *(int *)data;
+        xModelPipeData[i] = (xModelPipeInfo *)((int *)data + 1);
+    }
 
-	xModelLookupCount = 0;
-	PipeForAllSceneModels(PipeCountStuffCB);
+    xModelLookupCount = 0;
+    PipeForAllSceneModels(PipeCountStuffCB);
 
-	if (xModelLookupCount)
-	{
-		xModelLookupList = (xModelPipeLookup *)xMemAlloc(
-			xModelLookupCount * sizeof(xModelPipeLookup), 0);
+    if (xModelLookupCount)
+    {
+        xModelLookupList = (xModelPipeLookup *)xMemAlloc(
+            xModelLookupCount * sizeof(xModelPipeLookup), 0);
 
-		PipeForAllSceneModels(PipeAddStuffCB);
-	}
+        PipeForAllSceneModels(PipeAddStuffCB);
+    }
 
-	xModelBucket_PreCountReset();
-	PipeForAllSceneModels(xModelBucket_PreCountBucket);
-	xModelBucket_PreCountAlloc(256);
-	PipeForAllSceneModels(xModelBucket_InsertBucket);
+    xModelBucket_PreCountReset();
+    PipeForAllSceneModels(xModelBucket_PreCountBucket);
+    xModelBucket_PreCountAlloc(256);
+    PipeForAllSceneModels(xModelBucket_InsertBucket);
 
-	xModelBucket_Init();
+    xModelBucket_Init();
 
-	add_scene_tweaks();
+    add_scene_tweaks();
 
-	xPTankPoolSceneEnter();
-	zParPTankSceneEnter();
-	xDecalInit();
-	xFXScenePrepare();
-	zLasso_scenePrepare();
-	zDispatcher_scenePrepare();
+    xPTankPoolSceneEnter();
+    zParPTankSceneEnter();
+    xDecalInit();
+    xFXScenePrepare();
+    zLasso_scenePrepare();
+    zDispatcher_scenePrepare();
 
-	int total_npcs = xSTAssetCountByType('VIL ');
-	zNPCMgr_scenePrepare(total_npcs);
+    int total_npcs = xSTAssetCountByType('VIL ');
+    zNPCMgr_scenePrepare(total_npcs);
 
-	zAnimListInit();
-	zGooInit(24);
+    zAnimListInit();
+    zGooInit(24);
 
-	zGameScreenTransitionUpdate(100.0f, "...initializing scene - base types\n");
+    zGameScreenTransitionUpdate(100.0f, "...initializing scene - base types\n");
 
-	for (int i = 0; i < 72; i++)
-	{
-		s->baseCount[i] = 0;
-		s->baseList[i] = NULL;
-	}
+    for (int i = 0; i < 72; i++)
+    {
+        s->baseCount[i] = 0;
+        s->baseList[i] = NULL;
+    }
 
-	zCollGeom_Init();
-	zUI_Init();
-	zUIFontInit();
-	ztextbox::init();
-	ztalkbox::init();
-	ztaskbox::init();
-	xCounterInit();
-	zSurfaceInit();
-	z_disco_floor::init();
+    zCollGeom_Init();
+    zUI_Init();
+    zUIFontInit();
+    ztextbox::init();
+    ztalkbox::init();
+    ztaskbox::init();
+    xCounterInit();
+    zSurfaceInit();
+    z_disco_floor::init();
 
-	xModelInstStaticAlloc = 1;
+    xModelInstStaticAlloc = 1;
 
-	s->num_base = 0;
+    s->num_base = 0;
 
-	zSceneObjectInstanceDesc *desc = sInitTable;
+    zSceneObjectInstanceDesc *desc = sInitTable;
 
-	while (desc->name)
-	{
-		unsigned int typeCount = xSTAssetCountByType(desc->assetType);
+    while (desc->name)
+    {
+        unsigned int typeCount = xSTAssetCountByType(desc->assetType);
 
-		s->baseCount[desc->baseType] = typeCount;
-		s->num_base += typeCount;
+        s->baseCount[desc->baseType] = typeCount;
+        s->num_base += typeCount;
 
-		if (desc->querySubObjects)
-		{
-			for (unsigned int j = 0; j < typeCount; j++)
-			{
-				s->num_base +=
-					desc->querySubObjects(xSTFindAssetByType(desc->assetType, j, NULL));
-			}
-		}
+        if (desc->querySubObjects)
+        {
+            for (unsigned int j = 0; j < typeCount; j++)
+            {
+                s->num_base +=
+                    desc->querySubObjects(xSTFindAssetByType(desc->assetType, j, NULL));
+            }
+        }
 
-		desc++;
-	}
+        desc++;
+    }
 
-	add_dynamic_types(*s);
+    add_dynamic_types(*s);
 
-	if (s->num_base)
-	{
-		s->base = (xBase **)xMemAlloc(s->num_base * sizeof(xBase *), 0);
-	}
-	else
-	{
-		s->base = NULL;
-	}
+    if (s->num_base)
+    {
+        s->base = (xBase **)xMemAlloc(s->num_base * sizeof(xBase *), 0);
+    }
+    else
+    {
+        s->base = NULL;
+    }
 
-	zSceneObjHashtableInit(4096);
+    zSceneObjHashtableInit(4096);
 
-	xFFXPoolInit(12);
-	xFFXShakePoolInit(3);
-	xFFXRotMatchPoolInit(1);
+    xFFXPoolInit(12);
+    xFFXShakePoolInit(3);
+    xFFXRotMatchPoolInit(1);
 
-	xEntSceneInit();
+    xEntSceneInit();
 
-	xEntMotionDebugInit(
-		s->baseCount[eBaseTypePlatform] +
-		s->baseCount[eBaseTypePendulum] +
-		s->baseCount[eBaseTypeButton]);
+    xEntMotionDebugInit(
+        s->baseCount[eBaseTypePlatform] +
+        s->baseCount[eBaseTypePendulum] +
+        s->baseCount[eBaseTypeButton]);
 
-	zLightSetVolume(NULL);
-	xPartitionReset();
-	xFXRibbonSceneEnter();
+    zLightSetVolume(NULL);
+    xPartitionReset();
+    xFXRibbonSceneEnter();
 
-	unsigned int base_idx = 0;
-	desc = sInitTable;
+    unsigned int base_idx = 0;
+    desc = sInitTable;
 
-	while (desc->name)
-	{
-		HACK_BASETYPE = desc->baseType;
+    while (desc->name)
+    {
+        HACK_BASETYPE = desc->baseType;
 
-		if (desc->func)
-		{
-			base_idx = desc->func(s, desc, base_idx);
-		}
+        if (desc->func)
+        {
+            base_idx = desc->func(s, desc, base_idx);
+        }
 
-		desc++;
-	}
+        desc++;
+    }
 
-	init_dynamic_types(*s, base_idx);
+    init_dynamic_types(*s, base_idx);
 
-	s->num_update_base = 0;
+    s->num_update_base = 0;
 
-	for (int i = 0; i < s->num_base; i++)
-	{
-		if (BaseTypeNeedsUpdate(s->base[i]->baseType))
-		{
-			s->num_update_base++;
-		}
-	}
+    for (int i = 0; i < s->num_base; i++)
+    {
+        if (BaseTypeNeedsUpdate(s->base[i]->baseType))
+        {
+            s->num_update_base++;
+        }
+    }
 
-	s->update_base = (xBase **)xMemAlloc(s->num_update_base * sizeof(xBase *), 0);
+    s->update_base = (xBase **)xMemAlloc(s->num_update_base * sizeof(xBase *), 0);
 
-	base_idx = 0;
+    base_idx = 0;
 
-	for (int i = 0; i < s->num_base; i++)
-	{
-		if (BaseTypeNeedsUpdate(s->base[i]->baseType))
-		{
-			s->update_base[base_idx] = s->base[i];
+    for (int i = 0; i < s->num_base; i++)
+    {
+        if (BaseTypeNeedsUpdate(s->base[i]->baseType))
+        {
+            s->update_base[base_idx] = s->base[i];
 
-			base_idx++;
-		}
-	}
+            base_idx++;
+        }
+    }
 
-	xModelInstStaticAlloc = 0;
+    xModelInstStaticAlloc = 0;
 
-	zGameScreenTransitionEnd();
+    zGameScreenTransitionEnd();
 
-	zSceneObjHashtableUsage();
-	zUI_ScenePortalInit(s);
-	zLightResolveLinks();
-	zRenderStateInit();
-	xFXStreakInit();
-	xFXShineInit();
-	xFXFireworksInit("PAREMIT_FIREWORKS_TRAIL", "PAREMIT_FIREWORKS1",
-					 "PAREMIT_FIREWORKS2", "Fireworks_explode", "Fireworks_trail");
-	zFeetGetIDs();
-	zLightningInit();
-	zParCmdFindClipVolumes();
-	zEntDestructObj_FindFX();
-	zShrapnel_SceneInit(globals.sceneCur);
-	zCameraTweakGlobal_Reset();
-	zActionLineInit();
-	xScrFxLetterboxReset();
-	xShadowManager_Init(s->baseCount[eBaseTypeNPC] + 10);
+    zSceneObjHashtableUsage();
+    zUI_ScenePortalInit(s);
+    zLightResolveLinks();
+    zRenderStateInit();
+    xFXStreakInit();
+    xFXShineInit();
+    xFXFireworksInit("PAREMIT_FIREWORKS_TRAIL", "PAREMIT_FIREWORKS1",
+                     "PAREMIT_FIREWORKS2", "Fireworks_explode", "Fireworks_trail");
+    zFeetGetIDs();
+    zLightningInit();
+    zParCmdFindClipVolumes();
+    zEntDestructObj_FindFX();
+    zShrapnel_SceneInit(globals.sceneCur);
+    zCameraTweakGlobal_Reset();
+    zActionLineInit();
+    xScrFxLetterboxReset();
+    xShadowManager_Init(s->baseCount[eBaseTypeNPC] + 10);
 
-	int lkitCount = xSTAssetCountByType('LKIT');
+    int lkitCount = xSTAssetCountByType('LKIT');
 
-	for (int i = 0; i < lkitCount; i++)
-	{
-		void *lkitData = xSTFindAssetByType('LKIT', i, NULL);
-		xLightKit_Prepare(lkitData);
-	}
+    for (int i = 0; i < lkitCount; i++)
+    {
+        void *lkitData = xSTFindAssetByType('LKIT', i, NULL);
+        xLightKit_Prepare(lkitData);
+    }
 
-	xClimateInit(&gClimate);
-	zSceneInitEnvironmentalSoundEffect();
+    xClimateInit(&gClimate);
+    zSceneInitEnvironmentalSoundEffect();
 
-	sHackSmoothedUpdate = 1;
+    sHackSmoothedUpdate = 1;
 
-	FootstepHackSceneEnter();
-	zEntPickup_SceneEnter();
-	xFXSceneInit();
-	zGame_HackGalleryInit();
-	iSndSuspendCD(0);
+    FootstepHackSceneEnter();
+    zEntPickup_SceneEnter();
+    xFXSceneInit();
+    zGame_HackGalleryInit();
+    iSndSuspendCD(0);
 }
 
 void add_scene_tweaks()
 {
-	return;
+    return;
 }
 
 static void zSceneObjHashtableInit(int size)
 {
-	scobj_idbps = (IDBasePair *)xMemAlloc(size * sizeof(IDBasePair), 0);
+    scobj_idbps = (IDBasePair *)xMemAlloc(size * sizeof(IDBasePair), 0);
 
-	memset(scobj_idbps, 0, size * sizeof(IDBasePair));
+    memset(scobj_idbps, 0, size * sizeof(IDBasePair));
 
-	scobj_size = size;
-	nidbps = 0;
+    scobj_size = size;
+    nidbps = 0;
 }
 
 static void zSceneObjHashtableExit()
 {
-	scobj_idbps = NULL;
-	scobj_size = -1;
-	nidbps = -1;
+    scobj_idbps = NULL;
+    scobj_size = -1;
+    nidbps = -1;
 }
 
 static int zSceneObjHashtableUsage()
 {
-	return nidbps;
+    return nidbps;
 }
 
 static void zSceneObjHashtableAdd(unsigned int id, xBase *base)
 {
-	int k;
-	int chkd;
-	IDBasePair *idbp;
+    int k;
+    int chkd;
+    IDBasePair *idbp;
 
-	chkd = id & (scobj_size - 1);
+    chkd = id & (scobj_size - 1);
 
-	for (k = 0; k < scobj_size; k++)
-	{
-		idbp = &scobj_idbps[chkd];
+    for (k = 0; k < scobj_size; k++)
+    {
+        idbp = &scobj_idbps[chkd];
 
-		if (idbp->id == 0)
-		{
-			idbp->id = id;
-			idbp->base = base;
+        if (idbp->id == 0)
+        {
+            idbp->id = id;
+            idbp->base = base;
 
-			nidbps++;
-			return;
-		}
+            nidbps++;
+            return;
+        }
 
-		chkd++;
+        chkd++;
 
-		if (chkd == scobj_size)
-		{
-			chkd = 0;
-		}
-	}
+        if (chkd == scobj_size)
+        {
+            chkd = 0;
+        }
+    }
 }
 
 static xBase *zSceneObjHashtableGet(unsigned int id)
 {
-	int k;
-	int chkd;
-	IDBasePair *idbp;
+    int k;
+    int chkd;
+    IDBasePair *idbp;
 
-	chkd = id & (scobj_size - 1);
+    chkd = id & (scobj_size - 1);
 
-	for (k = 0; k < scobj_size; k++)
-	{
-		idbp = &scobj_idbps[chkd];
+    for (k = 0; k < scobj_size; k++)
+    {
+        idbp = &scobj_idbps[chkd];
 
-		if (idbp->id == id)
-		{
-			return idbp->base;
-		}
+        if (idbp->id == id)
+        {
+            return idbp->base;
+        }
 
-		if (idbp->id == 0)
-		{
-			return NULL;
-		}
+        if (idbp->id == 0)
+        {
+            return NULL;
+        }
 
-		chkd++;
+        chkd++;
 
-		if (chkd == scobj_size)
-		{
-			chkd = 0;
-		}
-	}
+        if (chkd == scobj_size)
+        {
+            chkd = 0;
+        }
+    }
 }
 
 xBase *zSceneFindObject(unsigned int gameID)
 {
-	BFBBSTUB("zSceneFindObject");
-	return NULL;
+    BFBBSTUB("zSceneFindObject");
+    return NULL;
 }
 
 const char *zSceneGetName(unsigned int gameID)
 {
-	BFBBSTUB("zSceneGetName");
-	return NULL;
+    BFBBSTUB("zSceneGetName");
+    return NULL;
 }
 
 const char *zSceneGetName(xBase *b)
 {
-	BFBBSTUB("zSceneGetName");
-	return NULL;
+    BFBBSTUB("zSceneGetName");
+    return NULL;
 }
 
 void zSceneMemLvlChkCB()

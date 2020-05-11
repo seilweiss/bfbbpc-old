@@ -5,15 +5,15 @@
 
 struct zCondAsset : xBaseAsset
 {
-	unsigned int constNum;
-	unsigned int expr1;
-	unsigned int op;
-	unsigned int value_asset;
+    unsigned int constNum;
+    unsigned int expr1;
+    unsigned int op;
+    unsigned int value_asset;
 };
 
 struct _zConditional : xBase
 {
-	zCondAsset *asset;
+    zCondAsset *asset;
 };
 
 void zConditionalInit(void *b, void *asset);

@@ -7,21 +7,21 @@
 
 struct zGustAsset : xBaseAsset
 {
-	unsigned int flags;
-	unsigned int volumeID;
-	unsigned int effectID;
-	xVec3 vel;
-	float fade;
-	float partMod;
+    unsigned int flags;
+    unsigned int volumeID;
+    unsigned int effectID;
+    xVec3 vel;
+    float fade;
+    float partMod;
 };
 
 struct zGust : xBase
 {
-	unsigned int flags;
-	zGustAsset *asset;
-	zVolume *volume;
-	zVolume *fx_volume;
-	float debris_timer;
+    unsigned int flags;
+    zGustAsset *asset;
+    zVolume *volume;
+    zVolume *fx_volume;
+    float debris_timer;
 };
 
 void zGustInit();

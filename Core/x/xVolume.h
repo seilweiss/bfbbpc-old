@@ -6,16 +6,16 @@
 
 struct xVolumeAsset : xBaseAsset
 {
-	unsigned int flags;
-	xBound bound;
-	float rot;
-	float xpivot;
-	float zpivot;
+    unsigned int flags;
+    xBound bound;
+    float rot;
+    float xpivot;
+    float zpivot;
 };
 
 struct xVolume : xBase
 {
-	xVolumeAsset *asset;
+    xVolumeAsset *asset;
 };
 
 #endif

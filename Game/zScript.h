@@ -5,17 +5,17 @@
 
 struct xScriptAsset : xBaseAsset
 {
-	float scriptStartTime;
-	unsigned int eventCount;
+    float scriptStartTime;
+    unsigned int eventCount;
 };
 
 struct _zScript : xBase
 {
-	xScriptAsset *tasset;
-	unsigned char state;
-	unsigned char more;
-	unsigned char pad[2];
-	float time;
+    xScriptAsset *tasset;
+    unsigned char state;
+    unsigned char more;
+    unsigned char pad[2];
+    float time;
 };
 
 void zScriptInit(void *b, void *tasset);

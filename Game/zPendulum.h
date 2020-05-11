@@ -6,10 +6,10 @@
 
 struct _zPendulum : zEnt
 {
-	xEntMotion motion;
-	float lt;
-	float q1t;
-	float q3t;
+    xEntMotion motion;
+    float lt;
+    float q1t;
+    float q3t;
 };
 
 void zPendulum_Init(void *pend, void *asset);

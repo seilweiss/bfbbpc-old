@@ -5,19 +5,19 @@
 
 struct xFogAsset : xBaseAsset
 {
-	unsigned char bkgndColor[4];
-	unsigned char fogColor[4];
-	float fogDensity;
-	float fogStart;
-	float fogStop;
-	float transitionTime;
-	unsigned char fogType;
-	unsigned char padFog[3];
+    unsigned char bkgndColor[4];
+    unsigned char fogColor[4];
+    float fogDensity;
+    float fogStart;
+    float fogStop;
+    float transitionTime;
+    unsigned char fogType;
+    unsigned char padFog[3];
 };
 
 struct _xFog : xBase
 {
-	xFogAsset *tasset;
+    xFogAsset *tasset;
 };
 
 void xFogClearFog();

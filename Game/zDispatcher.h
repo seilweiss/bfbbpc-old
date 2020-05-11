@@ -5,8 +5,8 @@
 
 struct st_ZDISPATCH_DATA : xBase
 {
-	xBaseAsset *rawass;
-	int placeholder;
+    xBaseAsset *rawass;
+    int placeholder;
 };
 
 void zDispatcher_Startup();

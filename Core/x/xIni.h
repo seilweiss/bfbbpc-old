@@ -3,26 +3,26 @@
 
 struct xIniValue
 {
-	char *tok;
-	char *val;
+    char *tok;
+    char *val;
 };
 
 struct xIniSection
 {
-	char *sec;
-	int first;
-	int count;
+    char *sec;
+    int first;
+    int count;
 };
 
 struct xIniFile
 {
-	int NumValues;
-	int NumSections;
-	xIniValue *Values;
-	xIniSection *Sections;
-	void *mem;
-	char name[256];
-	char pathname[256];
+    int NumValues;
+    int NumSections;
+    xIniValue *Values;
+    xIniSection *Sections;
+    void *mem;
+    char name[256];
+    char pathname[256];
 };
 
 xIniFile *xIniParse(char *buf, int len);

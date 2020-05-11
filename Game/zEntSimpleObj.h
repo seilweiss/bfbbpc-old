@@ -5,18 +5,18 @@
 
 struct xSimpleObjAsset
 {
-	float animSpeed;
-	unsigned int initAnimState;
-	unsigned char collType;
-	unsigned char flags;
+    float animSpeed;
+    unsigned int initAnimState;
+    unsigned char collType;
+    unsigned char flags;
 };
 
 struct zEntSimpleObj : zEnt
 {
-	xSimpleObjAsset *sasset;
-	unsigned int sflags;
-	void *anim;
-	float animTime;
+    xSimpleObjAsset *sasset;
+    unsigned int sflags;
+    void *anim;
+    float animTime;
 };
 
 void zEntSimpleObj_Init(void *ent, void *asset);
