@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Copy and paste this file into your %USERPROFILE%\My Documents\<Visual Studio version>\Visualizers folder-->
+<StepFilter xmlns="http://schemas.microsoft.com/vstudio/debugger/natstepfilter/2010">
+    <Function>
+        <Name>bfbbstub</Name>
+        <Action>NoStepInto</Action>
+    </Function>
+</StepFilter>
