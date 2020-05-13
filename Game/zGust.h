@@ -25,6 +25,7 @@ struct zGust : xBase
 };
 
 void zGustInit();
+void zGustSetup();
 zGust *zGustGetGust(unsigned short n);
 
 #endif

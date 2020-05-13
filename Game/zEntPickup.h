@@ -36,6 +36,10 @@ struct zEntPickup : zEnt
 
 void zEntPickup_Startup();
 void zEntPickupInit(void *ent, void *asset);
+void zEntPickup_Setup(zEntPickup *p);
+void zEntPickup_Setup();
+void zEntPickup_Reset(zEntPickup *ent);
 void zEntPickup_SceneEnter();
+void zEntPickup_RewardPostSetup();
 
 #endif

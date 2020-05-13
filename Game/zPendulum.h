@@ -12,6 +12,10 @@ struct _zPendulum : zEnt
     float q3t;
 };
 
+struct xScene;
+
 void zPendulum_Init(void *pend, void *asset);
+void zPendulum_Setup(_zPendulum *pend, xScene *sc);
+void zPendulum_Reset(_zPendulum *pend, xScene *sc);
 
 #endif

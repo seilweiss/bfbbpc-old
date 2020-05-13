@@ -7,6 +7,12 @@ void xScrFxInit()
     BFBBSTUB("xScrFxInit");
 }
 
+void xScrFxFade(iColor_tag *base, iColor_tag *dest, float seconds, void(*callback)(),
+                int hold)
+{
+    BFBBSTUB("xScrFxFade");
+}
+
 void xScrFxLetterboxReset()
 {
     BFBBSTUB("xScrFxLetterboxReset");

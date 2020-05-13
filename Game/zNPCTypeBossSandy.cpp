@@ -13,3 +13,8 @@ xAnimTable *ZNPC_AnimTable_BossSandyHead()
     BFBBSTUB("ZNPC_AnimTable_BossSandyHead");
     return 0;
 }
+
+void zNPCBSandy_AddBoundEntsToGrid(zScene *zsc)
+{
+    BFBBSTUB("zNPCBSandy_AddBoundEntsToGrid");
+}

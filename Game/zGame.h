@@ -99,6 +99,7 @@ extern eGameWhereAmI gGameWhereAmI;
 
 void zGameInit(unsigned int theSceneID);
 void zGameExit();
+void zGameSetupPlayer();
 void zGameSetup();
 
 extern unsigned char sHackSmoothedUpdate;

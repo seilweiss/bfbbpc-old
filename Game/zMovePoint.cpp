@@ -20,3 +20,8 @@ zMovePoint *zMovePoint_GetInst(int n)
     BFBBSTUB("zMovePoint_GetInst");
     return NULL;
 }
+
+void zMovePointSetup(zMovePoint *mvpt, zScene *scn)
+{
+    BFBBSTUB("zMovePointSetup");
+}

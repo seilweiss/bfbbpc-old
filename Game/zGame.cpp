@@ -335,3 +335,8 @@ void zGameScreenTransitionEnd()
 
     gGameWhereAmI = eGameWhere_TransitionEnded;
 }
+
+void zGameSetupPlayer()
+{
+    BFBBSTUB("zGameSetupPlayer");
+}

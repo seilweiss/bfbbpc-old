@@ -3,7 +3,7 @@
 
 #include "xGroup.h"
 
-typedef unsigned int(*xUpdateCullEntCallBack)(void *, void *);
+typedef unsigned int(*xUpdateCullEntCallBack)(void *ent, void *cbdata);
 
 struct xUpdateCullEnt
 {
@@ -38,5 +38,13 @@ struct xUpdateCullMgr
     xUpdateCullMgrCallBack activateCB;
     xUpdateCullMgrCallBack deactivateCB;
 };
+
+unsigned int xUpdateCull_DistanceSquaredCB(void *ent, void *cbdata);
+
+xUpdateCullMgr *xUpdateCull_Init(void **ent, unsigned int entCount, xGroup **group,
+                                 unsigned int groupCount);
+void xUpdateCull_Update(xUpdateCullMgr *m, unsigned int percent_update);
+void xUpdateCull_SetCB(xUpdateCullMgr *m, void *entity, xUpdateCullEntCallBack cb,
+                       void *cbdata);
 
 #endif

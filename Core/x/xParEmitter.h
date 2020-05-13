@@ -161,5 +161,6 @@ struct xParEmitter : xBase
 };
 
 void xParEmitterInit(void *b, void *tasset);
+void xParEmitterSetup(xParEmitter *t);
 
 #endif

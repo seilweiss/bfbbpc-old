@@ -127,5 +127,6 @@ struct xEnt : xBase
 };
 
 void xEntSceneInit();
+xBox *xEntGetAllEntsBox();
 
 #endif

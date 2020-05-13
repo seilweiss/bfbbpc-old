@@ -32,4 +32,6 @@ struct xMovePoint : xBase
     xSpline3 *spl;
 };
 
+void xMovePointSplineSetup(xMovePoint *m);
+
 #endif

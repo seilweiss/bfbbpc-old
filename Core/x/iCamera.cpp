@@ -108,13 +108,10 @@ void iCameraSetFOV(RwCamera *cam, float fov)
 
 void iCameraAssignEnv(RwCamera *camera, iEnv *env_geom)
 {
-    BFBBSTUB("iCameraAssignEnv");
-
     globalCamera = camera;
 
-    // Uncomment out when ENV loading implemented
-    //RpWorldAddCamera(env_geom->world, camera);
-    //xShadowSetWorld(env_geom->world);
+    RpWorldAddCamera(env_geom->world, camera);
+    xShadowSetWorld(env_geom->world);
 }
 
 void iCameraSetFogParams(iFogParams *fp, float time)

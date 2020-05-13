@@ -2,6 +2,7 @@
 #define XCLIMATE_H
 
 #include "zParEmitter.h"
+#include "zEnv.h"
 
 struct _tagRain
 {
@@ -25,5 +26,6 @@ struct _tagClimate
 };
 
 void xClimateInit(_tagClimate *climate);
+void xClimateInitAsset(_tagClimate *climate, xEnvAsset *easset);
 
 #endif

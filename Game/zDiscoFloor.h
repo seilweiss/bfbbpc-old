@@ -67,7 +67,10 @@ struct z_disco_floor : xBase
     int curr_note;
 
     static void init();
+    static void post_setup();
     static void init(void *ent, void *asset);
+
+    void setup();
 };
 
 #endif

@@ -18,5 +18,8 @@ struct xGroup : xBase
 };
 
 void xGroupInit(void *b, void *asset);
+unsigned int xGroupGetCount(xGroup *g);
+void xGroupSetup(xGroup *g);
+xBase *xGroupGetItemPtr(xGroup *g, unsigned int index);
 
 #endif

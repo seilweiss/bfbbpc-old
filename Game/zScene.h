@@ -48,6 +48,7 @@ struct zSceneObjectInstanceDesc
 
 extern unsigned char HACK_BASETYPE;
 extern _tagClimate gClimate;
+extern _zEnv *gCurEnv;
 
 void zSceneInitEnvironmentalSoundEffect();
 
@@ -59,6 +60,9 @@ const char *zSceneGetName(unsigned int gameID);
 const char *zSceneGetName(xBase *b);
 void add_scene_tweaks();
 void zSceneInit(unsigned int theSceneID, int reloadInProgress);
+void zSceneEnableVisited(zScene *s);
+int zSceneSetup_serialTraverseCB(unsigned int clientID, xSerial *xser);
+void zSceneSetup();
 void zSceneMemLvlChkCB();
 
 #endif

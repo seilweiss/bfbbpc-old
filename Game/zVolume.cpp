@@ -11,6 +11,11 @@ void zVolumeInit()
     BFBBSTUB("zVolumeInit");
 }
 
+void zVolumeSetup()
+{
+    BFBBSTUB("zVolumeSetup");
+}
+
 zVolume *zVolumeGetVolume(unsigned short n)
 {
     BFBBSTUB("zVolumeInit");

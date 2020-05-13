@@ -69,12 +69,27 @@
 #include "xShadow.h"
 #include "zAssetTypes.h"
 #include "zGameExtras.h"
+#include "zLOD.h"
+#include "zEntTeleportBox.h"
+#include "zBusStop.h"
+#include "zTaxi.h"
+#include "zCameraFly.h"
+#include "zThrown.h"
+#include "zGrid.h"
+#include "zNPCTypeBossSandy.h"
+#include "zNPCTypeBossPatrick.h"
+#include "zNPCTypeTiki.h"
+#include "xEvent.h"
+#include "xFloatAndVoid.h"
+#include "xMathInlines.h"
 
 #include "print.h"
 
 #include <stdio.h>
 
 unsigned char HACK_BASETYPE;
+
+static unsigned int enableScreenAdj;
 
 static int sMemDepthSceneStart = -1;
 static int sMemDepthJustHIPStart = -1;
@@ -151,6 +166,7 @@ static zSceneObjectInstanceDesc sInitTable[] =
 */
 
 _tagClimate gClimate;
+_zEnv *gCurEnv;
 
 unsigned int gTransitionSceneID;
 
@@ -958,6 +974,650 @@ void add_scene_tweaks()
     return;
 }
 
+static void ActivateCB(xBase *base)
+{
+    BFBBSTUB("ActivateCB");
+}
+
+static void DeactivateCB(xBase *base)
+{
+    BFBBSTUB("DeactivateCB");
+}
+
+void zSceneSetup()
+{
+    zScene *s = globals.sceneCur;
+
+    globals.cmgr = NULL;
+
+    xSceneSetup(s);
+
+    gUIMgr.Setup(s);
+
+    s->gravity = -50.0f;
+    s->drag = 0.08f;
+    s->flags = 0x5;
+
+    zNPCMgr_scenePostInit();
+
+    if (s->baseCount[eBaseTypeGust])
+    {
+        zGustSetup();
+    }
+
+    if (s->baseCount[eBaseTypeVolume])
+    {
+        zVolumeSetup();
+    }
+
+    unsigned int dontcaresize;
+
+    xCutscene_Init(xSTFindAssetByType('CTOC', 0, &dontcaresize));
+    zLOD_Setup();
+
+    gCurEnv = NULL;
+
+    for (unsigned int i = 0; i < s->num_base; i++)
+    {
+        if (s->base[i])
+        {
+            switch (s->base[i]->baseType)
+            {
+            case eBaseTypeEnv:
+            {
+                gCurEnv = (_zEnv *)s->base[i];
+
+                zEnvSetup(gCurEnv);
+                xClimateInitAsset(&gClimate, gCurEnv->easset);
+
+                break;
+            }
+            case eBaseTypeNPC:
+            {
+                ((xNPCBasic *)s->base[i])->PostInit();
+
+                break;
+            }
+            case eBaseTypePlatform:
+            {
+                zPlatform_Reset((zPlatform *)s->base[i], s);
+                zPlatform_Setup((zPlatform *)s->base[i], s);
+
+                break;
+            }
+            case eBaseTypeMovePoint:
+            {
+                zMovePointSetup((zMovePoint *)s->base[i], s);
+
+                break;
+            }
+            case eBaseTypePendulum:
+            {
+                zPendulum_Reset((_zPendulum *)s->base[i], s);
+                zPendulum_Setup((_zPendulum *)s->base[i], s);
+
+                break;
+            }
+            case eBaseTypeButton:
+            {
+                zEntButton_Reset((_zEntButton *)s->base[i], s);
+                zEntButton_Setup((_zEntButton *)s->base[i], s);
+
+                break;
+            }
+            case eBaseTypeStatic:
+            {
+                zEntSimpleObj_Setup((zEntSimpleObj *)s->base[i]);
+
+                break;
+            }
+            case eBaseTypeTrackPhysics:
+            {
+                zEntSimpleObj_Setup((zEntSimpleObj *)s->base[i]);
+
+                break;
+            }
+            case eBaseTypeDispatcher:
+            {
+                zDispatcher_InitDep((st_ZDISPATCH_DATA *)s->base[i], s);
+
+                break;
+            }
+            case eBaseTypeEGenerator:
+            {
+                zEGenerator_Setup((zEGenerator *)s->base[i], s);
+                zEGenerator_Reset((zEGenerator *)s->base[i], s);
+
+                break;
+            }
+            case eBaseTypePickup:
+            {
+                zEntPickup_Setup((zEntPickup *)s->base[i]);
+                zEntPickup_Reset((zEntPickup *)s->base[i]);
+
+                break;
+            }
+            case eBaseTypeParticleSystem:
+            {
+                xParSysSetup((xParSys *)s->base[i]);
+
+                break;
+            }
+            case eBaseTypeSurface:
+            {
+                zSurfaceSetup((xSurface *)s->base[i]);
+
+                break;
+            }
+            case eBaseTypeParticleEmitter:
+            {
+                xParEmitterSetup((xParEmitter *)s->base[i]);
+
+                break;
+            }
+            case eBaseTypeGroup:
+            {
+                xGroupSetup((xGroup *)s->base[i]);
+
+                break;
+            }
+            case eBaseTypeTeleportBox:
+            {
+                zEntTeleportBox_Setup((_zEntTeleportBox *)s->base[i]);
+
+                break;
+            }
+            case eBaseTypeBusStop:
+            {
+                zBusStop_Setup((zBusStop *)s->base[i]);
+
+                break;
+            }
+            case eBaseTypeDiscoFloor:
+            {
+                ((z_disco_floor *)s->base[i])->setup();
+
+                break;
+            }
+            case eBaseTypeTaxi:
+            {
+                zTaxi_Setup((zTaxi *)s->base[i]);
+
+                break;
+            }
+            case eBaseTypeCameraFly:
+            {
+                zCameraFly_Setup((zCameraFly *)s->base[i]);
+
+                break;
+            }
+            case eBaseTypeDestructObj:
+            {
+                zEntDestructObj_Setup((zEntDestructObj *)s->base[i]);
+
+                break;
+            }
+            case eBaseTypeBoulder:
+            {
+                xEntBoulder_Setup((xEntBoulder *)s->base[i]);
+
+                break;
+            }
+            }
+        }
+    }
+
+    zEntPickup_Setup();
+    zEntTeleportBox_InitAll();
+    zEntHangable_SetupFX();
+    zThrown_Setup(globals.sceneCur);
+
+    for (unsigned int i = 0; i < s->num_base; i++)
+    {
+        if (s->base[i] && s->base[i]->baseType == eBaseTypeMovePoint)
+        {
+            xMovePointSplineSetup((xMovePoint *)s->base[i]);
+        }
+    }
+
+    xFXSceneSetup();
+    zSceneEnableVisited(s);
+    xSerialTraverse(zSceneSetup_serialTraverseCB);
+    xQuickCullInit(xEntGetAllEntsBox());
+    zGridInit(s);
+    zNPCBSandy_AddBoundEntsToGrid(s);
+    zNPCBPatrick_AddBoundEntsToGrid(s);
+    zNPCTiki_InitStacking(globals.sceneCur);
+    zNPCTiki_InitFX(globals.sceneCur);
+
+    enableScreenAdj = 0;
+
+    for (unsigned int i = 0; i < s->num_ents; i++)
+    {
+        xEnt *ent = s->ents[i];
+
+        if (ent->baseType == eBaseTypeNPC)
+        {
+            zLODTable *lod = zLOD_Get(ent);
+            RpAtomic *tryshad = NULL;
+
+            if (lod->lodBucket[2])
+            {
+                tryshad = (*lod->lodBucket[2])->Data;
+            }
+            else if (lod->lodBucket[1])
+            {
+                tryshad = (*lod->lodBucket[1])->Data;
+            }
+            else if (lod->lodBucket[0])
+            {
+                tryshad = (*lod->lodBucket[0])->Data;
+            }
+
+            if (tryshad && RpClumpGetNumAtomics(RpAtomicGetClump(tryshad)) == 1)
+            {
+                ent->entShadow->shadowModel = tryshad;
+            }
+        }
+    }
+
+    int max_drivensort_iters = 256;
+    unsigned int driven_swapped;
+
+    do
+    {
+        driven_swapped = 0;
+
+        for (unsigned int i = 0; i < s->num_update_base; i++)
+        {
+            xEnt *bdriven = (xEnt *)s->update_base[i];
+
+            if ((bdriven->baseFlags & 0x20) && bdriven->driver)
+            {
+                for (unsigned int j = i + 1; j < s->num_update_base; j++)
+                {
+                    if (bdriven->driver == s->update_base[j])
+                    {
+                        driven_swapped = 1;
+
+                        xBase *btmp = s->update_base[i];
+
+                        s->update_base[i] = s->update_base[j];
+                        s->update_base[j] = btmp;
+                    }
+                }
+            }
+        }
+
+        max_drivensort_iters--;
+    }
+    while (max_drivensort_iters && driven_swapped);
+
+    {
+        int i;
+        unsigned int f;
+
+        xEnvAsset *easset = globals.sceneCur->zen->easset;
+
+        if (easset->bspLightKit)
+        {
+            globals.sceneCur->env->lightKit =
+                (xLightKit *)xSTFindAsset(easset->bspLightKit, NULL);
+        }
+
+        if (easset->objectLightKit)
+        {
+            xLightKit *objLightKit =
+                (xLightKit *)xSTFindAsset(easset->objectLightKit, NULL);
+
+            if (objLightKit)
+            {
+                zScene *zsc = globals.sceneCur;
+
+                for (i = 0; i < zsc->num_ents; i++)
+                {
+                    xEnt *tgtent = zsc->ents[i];
+
+                    if ((tgtent->flags & 0x20) &&
+                        tgtent->model &&
+                        (tgtent->model->PipeFlags & 0xC0) == 0x40)
+                    {
+                        tgtent->lightKit = objLightKit;
+                    }
+                }
+            }
+        }
+
+        int lkitCount = xSTAssetCountByType('LKIT');
+
+        for (i = 0; i < lkitCount; i++)
+        {
+            xLightKit *lkit = (xLightKit *)xSTFindAssetByType('LKIT', i, NULL);
+
+            if (lkit->groupID)
+            {
+                xGroup *group = (xGroup *)zSceneFindObject(lkit->groupID);
+
+                if (group)
+                {
+                    unsigned int j, nitam;
+
+                    nitam = xGroupGetCount(group);
+
+                    for (j = 0; j < nitam; j++)
+                    {
+                        xBase *itamz = xGroupGetItemPtr(group, j);
+
+                        if (itamz)
+                        {
+                            xEnt *entitam = (xEnt *)itamz;
+
+                            if ((entitam->baseFlags & 0x20) &&
+                                entitam->model &&
+                                (entitam->model->PipeFlags & 0xC0) == 0x40)
+                            {
+                                entitam->lightKit = lkit;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    xEnt **entList;
+    unsigned int entCount;
+
+    entList = &s->act_ents[
+        s->baseCount[eBaseTypeTrigger] +
+        s->baseCount[eBaseTypePickup]];
+
+    entCount = s->baseCount[eBaseTypeStatic];
+
+    zEntSimpleObj_MgrInit((zEntSimpleObj **)entList, entCount);
+
+    entList = &s->act_ents[
+        s->baseCount[eBaseTypeTrigger] +
+        s->baseCount[eBaseTypePickup]];
+
+    entCount =
+        s->baseCount[eBaseTypeStatic] +
+        s->baseCount[eBaseTypePlatform] +
+        s->baseCount[eBaseTypePendulum] +
+        s->baseCount[eBaseTypeHangable] +
+        s->baseCount[eBaseTypeDestructObj] +
+        s->baseCount[eBaseTypeBoulder] +
+        s->baseCount[eBaseTypeNPC] +
+        s->baseCount[eBaseTypeButton];
+
+    unsigned int i, j, k;
+    unsigned int numPrimeMovers = 0; // r24
+    unsigned int numDriven = 0; // r25
+
+    xEnt *ent;
+
+    for (i = 0; i < s->num_ents; i++)
+    {
+        ent = s->ents[i];
+
+        if (ent->baseFlags & 0x20)
+        {
+            ent->isCulled = 0;
+        }
+    }
+
+    for (i = 0; i < s->num_ents; i++)
+    {
+        ent = s->ents[i];
+
+        if (ent->baseFlags & 0x20)
+        {
+            if (ent->driver)
+            {
+                if (!ent->isCulled)
+                {
+                    numPrimeMovers++;
+                    ent->isCulled = 2;
+                }
+
+                while (ent->driver)
+                {
+                    ent = ent->driver;
+                }
+
+                if (!ent->isCulled)
+                {
+                    numDriven++;
+                    ent->isCulled = 1;
+                }
+            }
+        }
+    }
+
+    unsigned int numGroups = 0; // r23
+
+    for (i = 0; i < s->num_base; i++)
+    {
+        if (s->base[i]->baseType == eBaseTypeGroup)
+        {
+            xGroup *grp = (xGroup *)s->base[i];
+
+            for (j = 0; j < grp->linkCount; j++)
+            {
+                // should be grp->link[j] ...?
+                if (grp->link[0].srcEvent == eEventSceneBegin &&
+                    grp->link[0].dstEvent == eEventGroupUpdateTogether)
+                {
+                    numGroups++;
+
+                    unsigned int gcnt = xGroupGetCount(grp);
+
+                    for (k = 0; k < gcnt; k++)
+                    {
+                        xBase *gbase = xGroupGetItemPtr(grp, k);
+
+                        if (gbase)
+                        {
+                            xEnt *gent = (xEnt *)gbase;
+
+                            if ((gent->baseFlags & 0x20) && gent->isCulled)
+                            {
+                                if (gent->isCulled == 1)
+                                {
+                                    numDriven--;
+                                }
+
+                                if (gent->isCulled != 1)
+                                {
+                                    numPrimeMovers--;
+                                }
+
+                                gent->isCulled = 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    xGroup *driveGroupList = NULL;
+
+    if (numDriven)
+    {
+        unsigned int allocsize =
+            numDriven * sizeof(xGroup) +
+            numDriven * sizeof(xGroupAsset) +
+            (numDriven + numPrimeMovers) * sizeof(xBase *);
+
+        driveGroupList = (xGroup *)RwMalloc(allocsize, rwMEMHINTDUR_FUNCTION);
+
+        memset(driveGroupList, 0, allocsize);
+
+        xGroupAsset *grpAssetList = (xGroupAsset *)(driveGroupList + numDriven);
+        xBase **grpBaseList = (xBase **)(grpAssetList + numDriven);
+
+        xBase **r7 = grpBaseList;
+
+        for (i = 0; i < numDriven; i++)
+        {
+            driveGroupList[i].baseType = eBaseTypeGroup;
+            driveGroupList[i].asset = &grpAssetList[i];
+            driveGroupList[i].flg_group |= 0x1;
+        }
+
+        xGroup *r8 = driveGroupList;
+
+        for (i = 0; i < s->num_ents; i++)
+        {
+            xEnt *ent = s->ents[i];
+
+            if ((ent->baseFlags & 0x20) && ent->isCulled == 1)
+            {
+                xGroupAsset *gasset = r8->asset;
+
+                r8->item = r7;
+
+                *r7 = ent;
+                r7++;
+
+                gasset->itemCount++;
+
+                for (j = 0; j < s->num_ents; j++)
+                {
+                    xEnt *other = s->ents[j];
+
+                    if ((other->baseFlags & 0x20) && other->isCulled == 2)
+                    {
+                        while (other->driver)
+                        {
+                            other = other->driver;
+                        }
+
+                        if (ent == other)
+                        {
+                            *r7 = other;
+                            r7++;
+
+                            gasset->itemCount++;
+                        }
+                    }
+                }
+
+                if (gasset->itemCount > 1)
+                {
+                    numGroups++;
+                }
+
+                r8++;
+            }
+        }
+    }
+
+    xGroup **tempGrpList = NULL;
+
+    if (numGroups)
+    {
+        tempGrpList = (xGroup **)RwMalloc(
+            numGroups * sizeof(xGroup *), rwMEMHINTDUR_FUNCTION);
+
+        xGroup **tempGrpCurr = tempGrpList;
+
+        for (i = 0; i < s->num_base; i++)
+        {
+            xGroup *grp = (xGroup *)s->base[i];
+
+            if (grp->baseType == eBaseTypeGroup)
+            {
+                for (j = 0; j < grp->linkCount; j++)
+                {
+                    // should be grp->link[j] ...?
+                    if (grp->link[0].srcEvent == eEventSceneBegin &&
+                        grp->link[0].dstEvent == eEventGroupUpdateTogether)
+                    {
+                        *tempGrpCurr = grp;
+                        tempGrpCurr++;
+                    }
+                }
+            }
+        }
+
+        for (i = 0; i < numDriven; i++)
+        {
+            if (driveGroupList[i].asset->itemCount > 1)
+            {
+                *tempGrpCurr = &driveGroupList[i];
+                tempGrpCurr++;
+            }
+        }
+    }
+
+    globals.updateMgr =
+        xUpdateCull_Init((void **)entList, entCount, tempGrpList, numGroups);
+
+    globals.updateMgr->activateCB = (xUpdateCullMgrCallBack)ActivateCB;
+    globals.updateMgr->deactivateCB = (xUpdateCullMgrCallBack)DeactivateCB;
+
+    FloatAndVoid defaultDist;
+    defaultDist.f = 4900.0f;
+
+    FloatAndVoid lodDist;
+    lodDist.f = 0.0f;
+
+    for (i = 0; i < entCount; i++)
+    {
+        zLODTable *lod = zLOD_Get(entList[i]);
+
+        if (lod)
+        {
+            if (0.0f == lod->noRenderDist)
+            {
+                lod = NULL;
+            }
+            else
+            {
+                lodDist.f = xsqr(10.0f + xsqrt(lod->noRenderDist));
+            }
+        }
+
+        xUpdateCull_SetCB(globals.updateMgr, entList[i], xUpdateCull_DistanceSquaredCB,
+                          (lod) ? lodDist.v : defaultDist.v);
+    }
+
+    if (tempGrpList)
+    {
+        RwFree(tempGrpList);
+    }
+
+    if (driveGroupList)
+    {
+        RwFree(driveGroupList);
+    }
+
+    for (i = 0; i < s->num_ents; i++)
+    {
+        if (s->ents[i]->baseFlags & 0x20)
+        {
+            s->ents[i]->isCulled = 0;
+        }
+    }
+
+    zNPCMgr_scenePostSetup();
+    z_disco_floor::post_setup();
+    zEntPickup_RewardPostSetup();
+
+    iColor_tag black = { 0, 0, 0, 255 };
+    iColor_tag clear = { 0, 0, 0, 0 };
+
+    xScrFxFade(&black, &clear, 1.0f, NULL, 0);
+}
+
+int zSceneSetup_serialTraverseCB(unsigned int clientID, xSerial *xser)
+{
+    BFBBSTUB("zSceneSetup_serialTraverseCB");
+    return 1;
+}
+
 static void zSceneObjHashtableInit(int size)
 {
     scobj_idbps = (IDBasePair *)xMemAlloc(size * sizeof(IDBasePair), 0);
@@ -1062,4 +1722,9 @@ const char *zSceneGetName(xBase *b)
 void zSceneMemLvlChkCB()
 {
     return;
+}
+
+void zSceneEnableVisited(zScene *s)
+{
+    BFBBSTUB("zSceneEnableVisited");
 }

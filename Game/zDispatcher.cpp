@@ -35,3 +35,8 @@ void zDispatcher_Init(st_ZDISPATCH_DATA *dspdata, xBaseAsset *bass)
 {
     BFBBSTUB("zDispatcher_Init");
 }
+
+void zDispatcher_InitDep(st_ZDISPATCH_DATA *dspdata, zScene *sc)
+{
+    BFBBSTUB("zDispatcher_InitDep");
+}

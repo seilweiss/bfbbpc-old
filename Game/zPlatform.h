@@ -149,6 +149,10 @@ struct zPlatform : zEnt
     float pauseDelta;
 };
 
+struct xScene;
+
 void zPlatform_Init(void *plat, void *asset);
+void zPlatform_Setup(zPlatform *plat, xScene *sc);
+void zPlatform_Reset(zPlatform *plat, xScene *sc);
 
 #endif

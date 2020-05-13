@@ -100,6 +100,7 @@ void xCameraInit(xCamera *cam, unsigned int width, unsigned int height);
 void xCameraMove(xCamera *cam, unsigned int flags, float dgoal, float hgoal, float pgoal,
                  float tm, float tm_acc, float tm_dec);
 void xCameraReset(xCamera *cam, float d, float h, float pitch);
+void xCameraUpdate(xCamera *cam, float dt);
 void xCameraSetScene(xCamera *cam, xScene *sc);
 
 #endif

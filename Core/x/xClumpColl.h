@@ -2,6 +2,7 @@
 #define XCLUMPCOLL_H
 
 #include <rwcore.h>
+#include <rpworld.h>
 
 struct xClumpCollBSPBranchNode
 {
@@ -38,5 +39,6 @@ struct xClumpCollBSPTree
 };
 
 xClumpCollBSPTree *xClumpColl_StaticBufferInit(void *data);
+void xClumpColl_InstancePointers(xClumpCollBSPTree *tree, RpClump *clump);
 
 #endif

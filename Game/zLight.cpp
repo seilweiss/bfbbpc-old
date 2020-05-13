@@ -2,6 +2,11 @@
 
 #include "print.h"
 
+void zLightResetAll(xEnv *env)
+{
+    BFBBSTUB("zLightResetAll");
+}
+
 void zLightInit(void *b, void *tasset)
 {
     BFBBSTUB("zLightInit");

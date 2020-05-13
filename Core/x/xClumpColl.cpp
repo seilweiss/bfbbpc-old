@@ -1,5 +1,7 @@
 #include "xClumpColl.h"
 
+#include "print.h"
+
 xClumpCollBSPTree *xClumpColl_StaticBufferInit(void *data)
 {
     unsigned int *header = (unsigned int *)data;
@@ -27,4 +29,13 @@ xClumpCollBSPTree *xClumpColl_StaticBufferInit(void *data)
     tree->numTriangles = numTriangles;
 
     return tree;
+}
+
+void xClumpColl_InstancePointers(xClumpCollBSPTree *tree, RpClump *clump)
+{
+    BFBBSTUB("xClumpColl_InstancePointers");
+    
+    // nothing on gamecube
+    // TODO: there is actual code here on PS2
+    return;
 }

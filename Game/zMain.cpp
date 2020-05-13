@@ -891,7 +891,7 @@ static void zMainLoop()
 
             zMenuSetup();
 
-            //xFX_SceneEnter(globals.sceneCur->env->geom->world);
+            xFX_SceneEnter(globals.sceneCur->env->geom->world);
 
             newGameSceneID = zMenuLoop();
 

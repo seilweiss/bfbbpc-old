@@ -46,5 +46,6 @@ struct xEntBoulder : xEnt
 };
 
 void xEntBoulder_Init(void *ent, void *asset);
+void xEntBoulder_Setup(xEntBoulder *ent);
 
 #endif

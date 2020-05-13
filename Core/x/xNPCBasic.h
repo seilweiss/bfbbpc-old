@@ -25,6 +25,11 @@ struct xNPCBasic : xEnt, xFactoryInst
     int myNPCType;
     xEntShadow entShadow_embedded;
     xShadowSimpleCache simpShadow_embedded;
+
+    virtual void PostInit()
+    {
+        return;
+    }
 };
 
 #endif

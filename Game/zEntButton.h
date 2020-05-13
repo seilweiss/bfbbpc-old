@@ -29,6 +29,10 @@ struct _zEntButton : zEnt
     float topHeight;
 };
 
+struct xScene;
+
 void zEntButton_Init(void *ent, void *asset);
+void zEntButton_Setup(_zEntButton *ent, xScene *sc);
+void zEntButton_Reset(_zEntButton *ent, xScene *sc);
 
 #endif

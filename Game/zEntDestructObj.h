@@ -48,5 +48,6 @@ struct zEntDestructObj : zEnt
 
 void zEntDestructObj_FindFX();
 void zEntDestructObj_Init(void *ent, void *asset);
+void zEntDestructObj_Setup(zEntDestructObj *ent);
 
 #endif

@@ -22,6 +22,23 @@ int xSerialShutdown()
     return g_serinit;
 }
 
+void xSerialTraverse(xSerialTraverseCallBack func)
+{
+    BFBBSTUB("xSerialTraverse");
+}
+
+int xSerial::Write_b1(int bits)
+{
+    BFBBSTUB("xSerial::Write_b1");
+    return 0;
+}
+
+int xSerial::Read_b1(int *bits)
+{
+    BFBBSTUB("xSerial::Read_b1");
+    return 0;
+}
+
 void xSerialWipeMainBuffer()
 {
     BFBBSTUB("xSerialShutdown");

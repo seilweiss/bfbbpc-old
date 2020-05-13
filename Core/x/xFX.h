@@ -16,6 +16,7 @@ void xFXRibbonSceneEnter();
 void xFXStartup();
 void xFXShutdown();
 void xFXSceneInit();
+void xFXSceneSetup();
 void xFXScenePrepare();
 
 #endif

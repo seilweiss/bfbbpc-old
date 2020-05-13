@@ -4,6 +4,8 @@
 #include "xMath.h"
 #include <cmath>
 
+#define xsqr(x) ((x) * (x))
+
 inline float xatan2(float y, float x)
 {
     return xAngleClampFast(std::atan2f(y, x));

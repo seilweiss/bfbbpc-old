@@ -8,10 +8,14 @@
 #include "iSystem.h"
 #include "zCamera.h"
 #include "zMusic.h"
+#include "zGame.h"
+#include "xSkyDome.h"
+#include "xEvent.h"
 
 #include "print.h"
 
 static int sFirstBoot = 1;
+static float sAttractMode_timer;
 
 void zMenuInit(unsigned int theSceneID)
 {
@@ -35,7 +39,26 @@ void zMenuExit()
 
 void zMenuSetup()
 {
-    BFBBSTUB("zMenuSetup");
+    globals.player.MaxHealth = 3;
+
+    zSceneSetup();
+
+    sAttractMode_timer = 48.264f;
+
+    zGameSetupPlayer();
+    zEnvStartingCamera(gCurEnv);
+    xCameraUpdate(&globals.camera, -1.0f);
+    xSkyDome_Setup();
+
+    zEntEventAll(NULL, eEventUnknown, eEventSceneBegin, NULL);
+    zEntEventAll(NULL, eEventUnknown, eEventRoomBegin, NULL);
+
+    if (globals.updateMgr)
+    {
+        xUpdateCull_Update(globals.updateMgr, 100);
+    }
+
+    zEntEvent(&globals.player.ent, eEventControlOff);
 }
 
 unsigned int zMenuLoop()

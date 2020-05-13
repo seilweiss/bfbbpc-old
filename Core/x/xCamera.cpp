@@ -136,6 +136,11 @@ static void xCam_cyltoworld(xVec3 *pos, const xMat4x3 *mat, float d, float h,
     }
 }
 
+void xCameraUpdate(xCamera *cam, float dt)
+{
+    BFBBSTUB("xCameraUpdate");
+}
+
 static void xCameraFXInit()
 {
     BFBBSTUB("xCameraFXInit");

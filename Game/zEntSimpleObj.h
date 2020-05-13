@@ -19,7 +19,9 @@ struct zEntSimpleObj : zEnt
     float animTime;
 };
 
-void zEntSimpleObj_Init(void *ent, void *asset);
+void zEntSimpleObj_MgrInit(zEntSimpleObj **entList, unsigned int entCount);
 void zEntTrackPhysics_Init(void *ent, void *asset);
+void zEntSimpleObj_Init(void *ent, void *asset);
+void zEntSimpleObj_Setup(zEntSimpleObj *ent);
 
 #endif

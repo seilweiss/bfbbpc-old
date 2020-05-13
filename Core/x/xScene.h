@@ -45,6 +45,7 @@ extern xScene *g_xSceneCur;
 
 void xSceneInit(xScene *sc, unsigned short num_trigs, unsigned short num_stats,
                 unsigned short num_dyns, unsigned short num_npcs);
+void xSceneSetup(xScene *sc);
 void xSceneAddEnt(xScene *sc, xEnt *ent);
 
 #endif

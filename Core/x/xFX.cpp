@@ -54,6 +54,11 @@ void xFXSceneInit()
     return;
 }
 
+void xFXSceneSetup()
+{
+    BFBBSTUB("xFXSceneSetup");
+}
+
 void xFXScenePrepare()
 {
     return;

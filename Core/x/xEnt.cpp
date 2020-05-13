@@ -11,9 +11,15 @@ struct anim_coll_data
     xVec3 *normals;
 };
 
+static xBox all_ents_box;
 static int all_ents_box_init;
 
 void xEntSceneInit()
 {
     all_ents_box_init = 1;
+}
+
+xBox *xEntGetAllEntsBox()
+{
+    return &all_ents_box;
 }

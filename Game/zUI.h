@@ -24,6 +24,26 @@ struct _zUI : zEnt
     unsigned short updateIndex;
 };
 
+struct xMgr
+{
+};
+
+struct zUIMgr : xMgr
+{
+    int m_preUpdateStart;
+    int m_preUpdateEnd;
+    unsigned int m_preUpdateMax;
+    _zUI **m_preUpdate;
+    int m_updateStart;
+    int m_updateEnd;
+    unsigned int m_updateMax;
+    _zUI **m_update;
+
+    void Setup(zScene *s);
+};
+
+extern zUIMgr gUIMgr;
+
 struct xIniFile;
 
 void zUI_Init();

@@ -56,6 +56,11 @@ void xSceneInit(xScene *sc, unsigned short num_trigs, unsigned short num_stats,
     xCollideFastInit(sc);
 }
 
+void xSceneSetup(xScene *sc)
+{
+    xEnvSetup(sc->env);
+}
+
 void xSceneAddEnt(xScene *sc, xEnt *ent)
 {
     BFBBSTUB("xSceneAddEnt");

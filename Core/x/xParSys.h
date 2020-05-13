@@ -34,5 +34,6 @@ struct xParSys : xBase
 };
 
 void xParSysInit(void *b, void *tasset);
+void xParSysSetup(xParSys *t);
 
 #endif

@@ -27,6 +27,10 @@ struct zEGenerator : zEnt
     zLightning *lfx[2];
 };
 
+struct xScene;
+
 void zEGenerator_Init(void *egen, void *asset);
+void zEGenerator_Setup(zEGenerator *egen, xScene *sc);
+void zEGenerator_Reset(zEGenerator *egen, xScene *sc);
 
 #endif

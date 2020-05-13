@@ -4,6 +4,13 @@
 
 #include "print.h"
 
+zUIMgr gUIMgr;
+
+void zUIMgr::Setup(zScene *s)
+{
+    BFBBSTUB("zUIMgr::Setup");
+}
+
 void zUI_Init()
 {
     BFBBSTUB("zUI_Init");

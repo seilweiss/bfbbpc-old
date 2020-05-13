@@ -4,6 +4,7 @@
 #include "xBase.h"
 #include "zVolume.h"
 #include "iLight.h"
+#include "xEnv.h"
 
 struct zLightAsset : xBaseAsset
 {
@@ -29,6 +30,7 @@ struct _zLight : xBase
     int effect_idx;
 };
 
+void zLightResetAll(xEnv *env);
 void zLightInit(void *b, void *tasset);
 void zLightResolveLinks();
 void zLightSetVolume(zVolume *vol);

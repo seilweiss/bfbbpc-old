@@ -27,6 +27,11 @@ struct _zEnv : xBase
     xEnvAsset *easset;
 };
 
+void zEnvInit(_zEnv *env, xEnvAsset *easset);
 void zEnvInit(void *env, void *easset);
+int zEnvEventCB(xBase *from, xBase *to, unsigned int toEvent, const float *toParam,
+                xBase *toParamWidget);
+void zEnvSetup(_zEnv *env);
+void zEnvStartingCamera(_zEnv *env);
 
 #endif

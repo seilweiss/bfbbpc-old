@@ -25,4 +25,8 @@ struct iLight
     float coneangle;
 };
 
+extern RpWorld *gLightWorld;
+
+void iLightInit(RpWorld *world);
+
 #endif

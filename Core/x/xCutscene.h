@@ -88,4 +88,6 @@ struct xCutscene
     XCSNNosey *cb_nosey;
 };
 
+void xCutscene_Init(void *toc);
+
 #endif
