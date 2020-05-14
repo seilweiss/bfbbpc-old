@@ -82,6 +82,9 @@
 #include "xEvent.h"
 #include "xFloatAndVoid.h"
 #include "xMathInlines.h"
+#include "zFX.h"
+#include "zParSys.h"
+#include "xSystem.h"
 
 #include "print.h"
 
@@ -213,6 +216,7 @@ unsigned int init_dynamic_types(zScene &s, unsigned int index)
 
 static void zSceneObjHashtableInit(int size);
 static int zSceneObjHashtableUsage();
+static xBase *zSceneExitSoundIteratorCB(xBase *b, zScene *s, void *data);
 static void zSceneObjHashtableExit();
 static xBase *zSceneObjHashtableGet(unsigned int id);
 
@@ -974,6 +978,126 @@ void add_scene_tweaks()
     return;
 }
 
+void zSceneExit(int beginReload)
+{
+    zScene *s = globals.sceneCur;
+
+    zThrown_Reset();
+    zEntPickup_FlushGrabbed();
+    zGridExit(s);
+
+    zSceneForAllBase(zSceneExitSoundIteratorCB, NULL);
+
+    xSndStopAll(~0x4);
+    xSndUpdate();
+
+    iSndWaitForDeadSounds();
+    iSndSceneExit();
+
+    xSFXEnvironmentalStreamSceneExit();
+
+    iSndSuspendCD(1);
+
+    iFuncProfileDump();
+
+    RpWorld *world = s->env->geom->world;
+
+    xModel_SceneExit(world);
+    zFX_SceneExit(world);
+
+    zEntEventAll(NULL, eEventUnknown, eEventRoomEnd, NULL);
+    zEntEventAll(NULL, eEventUnknown, eEventSceneEnd, NULL);
+
+    if (globals.sceneCur->pendingPortal)
+    {
+        char nextScene[8];
+        char curScene[8];
+
+        strcpy(nextScene,
+               xUtil_idtag2string(globals.sceneCur->pendingPortal->passet->sceneID, 0));
+
+        strcpy(curScene,
+               xUtil_idtag2string(globals.sceneCur->sceneID, 0));
+    }
+
+    gOccludeCount = 0;
+
+    if (globals.sceneCur->sceneID != 'MNU3')
+    {
+        zSceneSave(s, NULL);
+    }
+
+    zEntPlayerExit(&globals.player.ent);
+    zSurfaceExit();
+    zLightDestroyAll();
+    xEntSceneExit();
+    xEntMotionDebugExit();
+    zSceneObjHashtableExit();
+
+    if (s->baseCount[eBaseTypeParticleSystem])
+    {
+        zParSys *ps = (zParSys *)s->baseList[eBaseTypeParticleSystem];
+
+        for (unsigned int i = 0; i < s->baseCount[eBaseTypeParticleSystem]; i++)
+        {
+            if (xBaseIsValid(&ps[i]))
+            {
+                xParSysExit(&ps[i]);
+            }
+        }
+    }
+
+    xParEmitterDestroy();
+    xModelBucket_Deinit();
+    xFXSceneFinish();
+    zGooExit();
+    zParPTankExit();
+    zAnimListExit();
+    zNPCMgr_sceneFinish();
+    zDispatcher_sceneFinish();
+    z_disco_floor::destroy();
+    xDecalDestroy();
+    zParPTankSceneExit();
+    xPTankPoolSceneExit();
+    zEntPlayer_UnloadSounds();
+
+    if (beginReload)
+    {
+        xSTUnLoadScene(globals.sceneCur->sceneID, XST_SCENE_HIP);
+
+        xMemPopBase(sMemDepthJustHIPStart);
+
+        sMemDepthJustHIPStart = -1;
+    }
+    else
+    {
+        xSTUnLoadScene(globals.sceneCur->sceneID, XST_SCENE_HIP);
+
+        if (globals.useHIPHOP)
+        {
+            xSTUnLoadScene(globals.sceneCur->sceneID, XST_SCENE_HOP);
+        }
+
+        xMemPopBase(sMemDepthSceneStart);
+
+        sMemDepthSceneStart = -1;
+        sMemDepthJustHIPStart = -1;
+    }
+
+    xSystem_GapTrackReport();
+
+    xUtil_idtag2string(globals.sceneCur->sceneID, 0);
+
+    globals.sceneCur = NULL;
+
+    xSceneExit(s);
+}
+
+void zSceneSave(zScene *ent, xSerial *s)
+{
+    BFBBSTUB("zSceneSave");
+}
+
 static void ActivateCB(xBase *base)
 {
     BFBBSTUB("ActivateCB");
@@ -1723,6 +1847,22 @@ const char *zSceneGetName(xBase *b)
 {
     BFBBSTUB("zSceneGetName");
     return NULL;
+}
+
+void zSceneForAllBase(zSceneForAllBaseCallBack func, void *data)
+{
+    BFBBSTUB("zSceneForAllBase");
+}
+
+void zSceneForAllBase(zSceneForAllBaseCallBack func, int baseType, void *data)
+{
+    BFBBSTUB("zSceneForAllBase");
+}
+
+static xBase *zSceneExitSoundIteratorCB(xBase *b, zScene *s, void *data)
+{
+    BFBBSTUB("zSceneExitSoundIteratorCB");
+    return b;
 }
 
 void zSceneMemLvlChkCB()

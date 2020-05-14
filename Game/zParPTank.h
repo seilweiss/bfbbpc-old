@@ -3,5 +3,7 @@
 
 void zParPTankInit();
 void zParPTankSceneEnter();
+void zParPTankSceneExit();
+void zParPTankExit();
 
 #endif

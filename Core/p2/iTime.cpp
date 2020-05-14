@@ -43,6 +43,11 @@ void iProfileClear(unsigned int sceneID)
     return;
 }
 
+void iFuncProfileDump()
+{
+    return;
+}
+
 void iFuncProfileParse(const char *, int)
 {
     return;

@@ -19,6 +19,11 @@ void xEntSceneInit()
     all_ents_box_init = 1;
 }
 
+void xEntSceneExit()
+{
+    return;
+}
+
 xBox *xEntGetAllEntsBox()
 {
     return &all_ents_box;

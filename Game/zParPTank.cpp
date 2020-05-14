@@ -11,3 +11,13 @@ void zParPTankSceneEnter()
 {
     BFBBSTUB("zParPTankSceneEnter");
 }
+
+void zParPTankSceneExit()
+{
+    return;
+}
+
+void zParPTankExit()
+{
+    BFBBSTUB("zParPTankExit");
+}

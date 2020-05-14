@@ -12,6 +12,11 @@ void z_disco_floor::post_setup()
     BFBBSTUB("z_disco_floor::post_setup");
 }
 
+void z_disco_floor::destroy()
+{
+    BFBBSTUB("z_disco_floor::destroy");
+}
+
 void z_disco_floor::init(void *ent, void *asset)
 {
     BFBBSTUB("z_disco_floor::init");

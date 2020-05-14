@@ -52,6 +52,15 @@ void add_camera_tweaks()
     return;
 }
 
+void xCameraExit(xCamera *cam)
+{
+    if (cam->lo_cam)
+    {
+        iCameraDestroy(cam->lo_cam);
+        cam->lo_cam = NULL;
+    }
+}
+
 void xCameraReset(xCamera *cam, float d, float h, float pitch)
 {
     float goal_p;

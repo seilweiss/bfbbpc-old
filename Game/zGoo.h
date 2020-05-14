@@ -2,5 +2,6 @@
 #define ZGOO_H
 
 void zGooInit(int nobj);
+void zGooExit();
 
 #endif

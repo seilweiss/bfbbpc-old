@@ -63,3 +63,8 @@ void xFXScenePrepare()
 {
     return;
 }
+
+void xFXSceneFinish()
+{
+    BFBBSTUB("xFXSceneFinish");
+}

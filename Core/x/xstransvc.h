@@ -27,6 +27,7 @@ struct st_STRAN_DATA
 int xSTStartup(st_PACKER_ASSETTYPE *handlers);
 int xSTPreLoadScene(unsigned int sid, void *userdata, int flg_hiphop);
 int xSTQueueSceneAssets(unsigned int sid, int flg_hiphop);
+void xSTUnLoadScene(unsigned int sid, int flg_hiphop);
 float xSTLoadStep(unsigned int sid);
 void xSTDisconnect(unsigned int sid, int flg_hiphop);
 int xSTSwitchScene(unsigned int sid, void *userdata,

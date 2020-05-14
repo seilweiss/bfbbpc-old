@@ -5,6 +5,7 @@
 
 void zSurfaceInit();
 void zSurfaceRegisterMapper(unsigned int assetId);
+void zSurfaceExit();
 void zSurfaceSetup(xSurface *s);
 
 #endif

@@ -6,3 +6,8 @@ void xDecalInit()
 {
     BFBBSTUB("xDecalInit");
 }
+
+void xDecalDestroy()
+{
+    return;
+}

@@ -56,6 +56,11 @@ void xSceneInit(xScene *sc, unsigned short num_trigs, unsigned short num_stats,
     xCollideFastInit(sc);
 }
 
+void xSceneExit(xScene *sc)
+{
+    return;
+}
+
 void xSceneSetup(xScene *sc)
 {
     xEnvSetup(sc->env);

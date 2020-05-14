@@ -11,3 +11,8 @@ void xParSysSetup(xParSys *t)
 {
     BFBBSTUB("xParSysSetup");
 }
+
+void xParSysExit(xParSys *t)
+{
+    BFBBSTUB("xParSysExit");
+}

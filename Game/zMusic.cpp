@@ -6,3 +6,8 @@ void zMusicInit()
 {
     BFBBSTUB("zMusicInit");
 }
+
+void zMusicKill()
+{
+    BFBBSTUB("zMusicKill");
+}

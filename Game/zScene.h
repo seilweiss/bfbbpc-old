@@ -50,6 +50,8 @@ extern unsigned char HACK_BASETYPE;
 extern _tagClimate gClimate;
 extern _zEnv *gCurEnv;
 
+typedef xBase *(*zSceneForAllBaseCallBack)(xBase *b, zScene *s, void *data);
+
 void zSceneInitEnvironmentalSoundEffect();
 
 extern unsigned int gTransitionSceneID;
@@ -60,9 +62,13 @@ const char *zSceneGetName(unsigned int gameID);
 const char *zSceneGetName(xBase *b);
 void add_scene_tweaks();
 void zSceneInit(unsigned int theSceneID, int reloadInProgress);
+void zSceneForAllBase(zSceneForAllBaseCallBack func, void *data);
+void zSceneSave(zScene *ent, xSerial *s);
+void zSceneExit(int beginReload);
 void zSceneEnableVisited(zScene *s);
 int zSceneSetup_serialTraverseCB(unsigned int clientID, xSerial *xser);
 void zSceneSetup();
+void zSceneForAllBase(zSceneForAllBaseCallBack func, int baseType, void *data);
 void zSceneMemLvlChkCB();
 
 #endif

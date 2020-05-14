@@ -3,6 +3,8 @@
 
 void xSndSceneInit();
 void xSndInit();
+void xSndUpdate();
+void xSndStopAll(unsigned int mask);
 void xSndExit();
 
 #endif

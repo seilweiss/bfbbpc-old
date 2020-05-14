@@ -27,6 +27,11 @@ void zEntPickup_Reset(zEntPickup *ent)
     BFBBSTUB("zEntPickup_Reset");
 }
 
+void zEntPickup_FlushGrabbed()
+{
+    BFBBSTUB("zEntPickup_FlushGrabbed");
+}
+
 void zEntPickup_SceneEnter()
 {
     BFBBSTUB("zEntPickup_SceneEnter");

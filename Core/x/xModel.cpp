@@ -144,3 +144,8 @@ static void CameraDestroy(RwCamera *camera)
         RwCameraDestroy(camera);
     }
 }
+
+void xModel_SceneExit(RpWorld *world)
+{
+    RpWorldRemoveCamera(world, subcamera);
+}

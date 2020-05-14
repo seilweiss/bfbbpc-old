@@ -2,5 +2,6 @@
 #define XPTANKPOOL_H
 
 void xPTankPoolSceneEnter();
+void xPTankPoolSceneExit();
 
 #endif

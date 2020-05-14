@@ -11,11 +11,13 @@
 #include "zGame.h"
 #include "xSkyDome.h"
 #include "xEvent.h"
+#include "xSnd.h"
 
 #include "print.h"
 
 static int sFirstBoot = 1;
 static float sAttractMode_timer;
+static int sInMenu;
 
 void zMenuInit(unsigned int theSceneID)
 {
@@ -34,7 +36,12 @@ void zMenuInit(unsigned int theSceneID)
 
 void zMenuExit()
 {
-    BFBBSTUB("zMenuExit");
+    zMusicKill();
+    xSndStopAll(~0x4);
+    xCameraExit(&globals.camera);
+    zSceneExit(0);
+
+    sInMenu = 0;
 }
 
 void zMenuSetup()

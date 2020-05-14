@@ -311,6 +311,7 @@
     <ClInclude Include="Core\x\xstransvc.h" />
     <ClInclude Include="Core\x\xString.h" />
     <ClInclude Include="Core\x\xSurface.h" />
+    <ClInclude Include="Core\x\xSystem.h" />
     <ClInclude Include="Core\x\xTimer.h" />
     <ClInclude Include="Core\x\xTRC.h" />
     <ClInclude Include="Core\x\xUpdateCull.h" />
@@ -382,6 +383,7 @@
     <ClInclude Include="Game\zParCmd.h" />
     <ClInclude Include="Game\zParEmitter.h" />
     <ClInclude Include="Game\zParPTank.h" />
+    <ClInclude Include="Game\zParSys.h" />
     <ClInclude Include="Game\zPendulum.h" />
     <ClInclude Include="Game\zPickupTable.h" />
     <ClInclude Include="Game\zPlatform.h" />
@@ -475,6 +477,7 @@
     <ClCompile Include="Core\x\xstransvc.cpp" />
     <ClCompile Include="Core\x\xString.cpp" />
     <ClCompile Include="Core\x\xSurface.cpp" />
+    <ClCompile Include="Core\x\xSystem.cpp" />
     <ClCompile Include="Core\x\xTimer.cpp" />
     <ClCompile Include="Core\x\xTRC.cpp" />
     <ClCompile Include="Core\x\xUpdateCull.cpp" />

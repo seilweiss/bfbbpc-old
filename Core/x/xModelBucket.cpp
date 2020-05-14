@@ -28,3 +28,8 @@ void xModelBucket_Init()
 {
     BFBBSTUB("xModelBucket_Init");
 }
+
+void xModelBucket_Deinit()
+{
+    BFBBSTUB("xModelBucket_Deinit");
+}

@@ -89,5 +89,6 @@ extern int xModelInstStaticAlloc;
 
 void xModelInit();
 void xModelPoolInit(unsigned int count, unsigned int numMatrices);
+void xModel_SceneExit(RpWorld *world);
 
 #endif

@@ -33,6 +33,7 @@ struct _zLight : xBase
 void zLightResetAll(xEnv *env);
 void zLightInit(void *b, void *tasset);
 void zLightResolveLinks();
+void zLightDestroyAll();
 void zLightSetVolume(zVolume *vol);
 
 #endif

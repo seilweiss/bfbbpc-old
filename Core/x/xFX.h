@@ -18,5 +18,6 @@ void xFXShutdown();
 void xFXSceneInit();
 void xFXSceneSetup();
 void xFXScenePrepare();
+void xFXSceneFinish();
 
 #endif

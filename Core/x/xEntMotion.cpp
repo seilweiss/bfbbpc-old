@@ -6,3 +6,8 @@ void xEntMotionDebugInit(unsigned short num_xems)
 {
     BFBBSTUB("xEntMotionDebugInit");
 }
+
+void xEntMotionDebugExit()
+{
+    BFBBSTUB("xEntMotionDebugExit");
+}

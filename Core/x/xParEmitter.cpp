@@ -11,3 +11,8 @@ void xParEmitterSetup(xParEmitter *t)
 {
     BFBBSTUB("xParEmitterSetup");
 }
+
+void xParEmitterDestroy()
+{
+    BFBBSTUB("xParEmitterDestroy");
+}

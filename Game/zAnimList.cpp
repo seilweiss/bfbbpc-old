@@ -6,3 +6,8 @@ void zAnimListInit()
 {
     BFBBSTUB("zAnimListInit");
 }
+
+void zAnimListExit()
+{
+    BFBBSTUB("zAnimListExit");
+}

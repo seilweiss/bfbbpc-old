@@ -5,6 +5,8 @@
 #include "iFile.h"
 #include "iTRC.h"
 
+#include "print.h"
+
 #include <string.h>
 #include <stdio.h>
 
@@ -14,6 +16,7 @@ static st_PACKER_READ_FUNCS *g_pkrf;
 static st_PACKER_ASSETTYPE *g_typeHandlers;
 
 static void XST_reset_raw();
+static void XST_unlock_all();
 static st_STRAN_SCENE *XST_lock_next();
 static char *XST_translate_sid_path(unsigned int sid, const char *ext);
 static int XST_PreLoadScene(st_STRAN_SCENE *sdata, const char *fname);
@@ -22,6 +25,7 @@ static void XST_unlock(st_STRAN_SCENE *sdata);
 static st_STRAN_SCENE *XST_find_bySID(unsigned int sid, int findTheHOP);
 static int XST_cnt_locked();
 static st_STRAN_SCENE *XST_nth_locked(int n);
+static st_STRAN_SCENE *XST_get_rawinst(int n);
 
 int xSTStartup(st_PACKER_ASSETTYPE *handlers)
 {
@@ -148,6 +152,49 @@ int xSTQueueSceneAssets(unsigned int sid, int flg_hiphop)
     }
 
     return result;
+}
+
+void xSTUnLoadScene(unsigned int sid, int flg_hiphop)
+{
+    st_STRAN_SCENE *sdata;
+    int cnt;
+    int i;
+
+    if (sid == 0)
+    {
+        cnt = XST_cnt_locked();
+
+        for (i = 0; i < cnt; i++)
+        {
+            sdata = XST_nth_locked(i);
+
+            if (sdata->spkg)
+            {
+                g_pkrf->Done(sdata->spkg);
+            }
+
+            sdata->spkg = NULL;
+        }
+
+        XST_unlock_all();
+    }
+    else
+    {
+        sdata = XST_find_bySID(sid,
+            ((flg_hiphop & XST_SCENE_HIPHOP_MASK) == XST_SCENE_HIP) ? 1 : 0);
+
+        if (sdata)
+        {
+            if (sdata->spkg)
+            {
+                g_pkrf->Done(sdata->spkg);
+            }
+
+            sdata->spkg = NULL;
+        }
+
+        XST_unlock(sdata);
+    }
 }
 
 float xSTLoadStep(unsigned int sid)
@@ -405,6 +452,27 @@ static void XST_unlock(st_STRAN_SCENE *sdata)
             memset(sdata, 0, sizeof(st_STRAN_SCENE));
         }
     }
+}
+
+static void XST_unlock_all()
+{
+    int i;
+
+    if (g_xstdata.loadlock)
+    {
+        for (i = 0; i < 16; i++)
+        {
+            if (g_xstdata.loadlock & (1 << i))
+            {
+                XST_unlock(XST_get_rawinst(i));
+            }
+        }
+    }
+}
+
+static st_STRAN_SCENE *XST_get_rawinst(int n)
+{
+    return &g_xstdata.hipscn[n];
 }
 
 static int XST_cnt_locked()

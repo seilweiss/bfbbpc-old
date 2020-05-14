@@ -567,6 +567,12 @@
     <ClInclude Include="Core\x\xFloatAndVoid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Game\zParSys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\x\xSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\zMain.cpp">
@@ -1038,6 +1044,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\zGrid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\x\xSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

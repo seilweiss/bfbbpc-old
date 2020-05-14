@@ -14,6 +14,7 @@ struct zScene;
 void zDispatcher_Startup();
 void zDispatcher_Shutdown();
 void zDispatcher_scenePrepare();
+void zDispatcher_sceneFinish();
 st_ZDISPATCH_DATA *zDispatcher_memPool(int cnt);
 st_ZDISPATCH_DATA *zDispatcher_getInst(st_ZDISPATCH_DATA *pool, int idx);
 void zDispatcher_Init(st_ZDISPATCH_DATA *dspdata, xBaseAsset *bass);

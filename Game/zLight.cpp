@@ -17,6 +17,11 @@ void zLightResolveLinks()
     BFBBSTUB("zLightResolveLinks");
 }
 
+void zLightDestroyAll()
+{
+    BFBBSTUB("zLightDestroyAll");
+}
+
 void zLightSetVolume(zVolume *vol)
 {
     BFBBSTUB("zLightSetVolume");

@@ -169,5 +169,6 @@ struct xEntMotion
 };
 
 void xEntMotionDebugInit(unsigned short num_xems);
+void xEntMotionDebugExit();
 
 #endif

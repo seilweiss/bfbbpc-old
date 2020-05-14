@@ -6,3 +6,8 @@ void zGridInit(zScene *s)
 {
     BFBBSTUB("zGridInit");
 }
+
+void zGridExit(zScene *s)
+{
+    BFBBSTUB("zGridExit");
+}

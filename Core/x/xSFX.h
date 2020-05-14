@@ -27,6 +27,7 @@ struct xSFX : xBase
     float cachedOuterDistSquared;
 };
 
+void xSFXEnvironmentalStreamSceneExit();
 void xSFXInit(void *t, void *asset);
 
 #endif

@@ -12,6 +12,11 @@ void zSurfaceRegisterMapper(unsigned int assetId)
     BFBBSTUB("zSurfaceRegisterMapper");
 }
 
+void zSurfaceExit()
+{
+    BFBBSTUB("zSurfaceExit");
+}
+
 void zSurfaceSetup(xSurface *s)
 {
     BFBBSTUB("zSurfaceSetup");

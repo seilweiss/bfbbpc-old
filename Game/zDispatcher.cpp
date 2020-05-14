@@ -19,6 +19,11 @@ void zDispatcher_scenePrepare()
     BFBBSTUB("zDispatcher_scenePrepare");
 }
 
+void zDispatcher_sceneFinish()
+{
+    BFBBSTUB("zDispatcher_sceneFinish");
+}
+
 st_ZDISPATCH_DATA *zDispatcher_memPool(int cnt)
 {
     BFBBSTUB("zDispatcher_memPool");

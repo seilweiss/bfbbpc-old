@@ -6,3 +6,8 @@ void xPTankPoolSceneEnter()
 {
     BFBBSTUB("xPTankPoolSceneEnter");
 }
+
+void xPTankPoolSceneExit()
+{
+    BFBBSTUB("xPTankPoolSceneExit");
+}
