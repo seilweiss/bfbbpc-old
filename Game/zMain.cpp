@@ -80,7 +80,7 @@ int main(int argc, char **argv)
     zMainLoadFontHIP();
     xfont::init();
 
-    //zMainFirstScreen(1);
+    zMainFirstScreen(1);
 
     zMainShowProgressBar();
 

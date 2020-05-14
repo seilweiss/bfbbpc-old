@@ -48,5 +48,7 @@ void xBaseLoad(xBase *ent, xSerial *s)
 
 void xBaseReset(xBase *xb, xBaseAsset *asset)
 {
-    xb->baseFlags = (xb->baseFlags & ~XBASE_UNK10) | (asset->baseFlags & XBASE_UNK10);
+    xb->baseFlags =
+        (xb->baseFlags & ~XBASE_RECSHADOW) |
+        (asset->baseFlags & XBASE_RECSHADOW);
 }

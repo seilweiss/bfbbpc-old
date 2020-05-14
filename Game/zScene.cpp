@@ -119,42 +119,42 @@ static unsigned int zSceneInitFunc_MovePoint(zScene *s, zSceneObjectInstanceDesc
 
 static zSceneObjectInstanceDesc sInitTable[] =
 {
-    "Trig", eBaseTypeTrigger, 'TRIG', sizeof(zEntTrigger), zSceneInitFunc_DefaultEnt, zEntTriggerInit, NULL,
-    "Move Point", eBaseTypeMovePoint, 'MVPT', sizeof(zMovePoint), zSceneInitFunc_MovePoint, NULL, NULL,
-    "Pickup", eBaseTypePickup, 'PKUP', sizeof(zEntPickup), zSceneInitFunc_DefaultEnt, zEntPickupInit, NULL,
-    "Simple", eBaseTypeStatic, 'SIMP', sizeof(zEntSimpleObj), zSceneInitFunc_DefaultEnt, zEntSimpleObj_Init, NULL,
-    "ParticleSystem", eBaseTypeParticleSystem, 'PARS', sizeof(xParSys), zSceneInitFunc_Default, xParSysInit, NULL,
-    "ParticleEmitter", eBaseTypeParticleEmitter, 'PARE', sizeof(xParEmitter), zSceneInitFunc_Default, xParEmitterInit, NULL,
-    "Track", eBaseTypeTrackPhysics, 'TRCK', sizeof(zEntSimpleObj), zSceneInitFunc_DefaultEnt, zEntTrackPhysics_Init, NULL,
-    "Platform", eBaseTypePlatform, 'PLAT', sizeof(zPlatform), zSceneInitFunc_DefaultEnt, zPlatform_Init, NULL,
-    "Pendulum", eBaseTypePendulum, 'PEND', sizeof(_zPendulum), zSceneInitFunc_DefaultEnt, zPendulum_Init, NULL,
-    "Hanger", eBaseTypeHangable, 'HANG', sizeof(zEntHangable), zSceneInitFunc_DefaultEnt, zEntHangable_Init, NULL,
-    "DestructObj", eBaseTypeDestructObj, 'DSTR', sizeof(zEntDestructObj), zSceneInitFunc_DefaultEnt, zEntDestructObj_Init, NULL,
-    "Boulder", eBaseTypeBoulder, 'BOUL', sizeof(xEntBoulder), zSceneInitFunc_DefaultEnt, xEntBoulder_Init, NULL,
-    "NPC", eBaseTypeNPC, 'VIL ', 0, zSceneInitFunc_SBNPC, NULL, NULL,
-    "Button", eBaseTypeButton, 'BUTN', sizeof(_zEntButton), zSceneInitFunc_DefaultEnt, zEntButton_Init, NULL,
-    "Player", eBaseTypePlayer, 'PLYR', sizeof(zEnt), zSceneInitFunc_Player, NULL, NULL,
-    "Timer", eBaseTypeTimer, 'TIMR', sizeof(xTimer), zSceneInitFunc_Default, xTimerInit, NULL,
-    "Counter", eBaseTypeCounter, 'CNTR', sizeof(_xCounter), zSceneInitFunc_Default, xCounterInit, NULL,
-    "SFX", eBaseTypeSFX, 'SFX ', sizeof(xSFX), zSceneInitFunc_Default, xSFXInit, NULL,
-    "Group", eBaseTypeGroup, 'GRUP', sizeof(xGroup), zSceneInitFunc_Default, xGroupInit, NULL,
-    "Portal", eBaseTypePortal, 'PORT', sizeof(_zPortal), zSceneInitFunc_Default, zPortalInit, NULL,
-    "Camera", eBaseTypeCamera, 'CAM ', sizeof(zCamMarker), zSceneInitFunc_Camera, NULL, NULL,
-//	"Surface", eBaseTypeSurface, 'SURF', sizeof(xSurface), zSceneInitFunc_Surface, NULL, NULL,
-    "Gust", eBaseTypeGust, 'GUST', sizeof(zGust), zSceneInitFunc_Gust, NULL, NULL,
-    "Volume", eBaseTypeVolume, 'VOLU', sizeof(zVolume), zSceneInitFunc_Volume, NULL, NULL,
-    "Conditional", eBaseTypeCond, 'COND', sizeof(_zConditional), zSceneInitFunc_Default, zConditionalInit, NULL,
-    "Lob Master", eBaseTypeLobMaster, 'LOBM', 0, zSceneInitFunc_LobMaster, NULL, NULL,
+//  "Trig", eBaseTypeTrigger, 'TRIG', sizeof(zEntTrigger), zSceneInitFunc_DefaultEnt, zEntTriggerInit, NULL,
+//  "Move Point", eBaseTypeMovePoint, 'MVPT', sizeof(zMovePoint), zSceneInitFunc_MovePoint, NULL, NULL,
+//  "Pickup", eBaseTypePickup, 'PKUP', sizeof(zEntPickup), zSceneInitFunc_DefaultEnt, zEntPickupInit, NULL,
+//  "Simple", eBaseTypeStatic, 'SIMP', sizeof(zEntSimpleObj), zSceneInitFunc_DefaultEnt, zEntSimpleObj_Init, NULL,
+//  "ParticleSystem", eBaseTypeParticleSystem, 'PARS', sizeof(xParSys), zSceneInitFunc_Default, xParSysInit, NULL,
+//  "ParticleEmitter", eBaseTypeParticleEmitter, 'PARE', sizeof(xParEmitter), zSceneInitFunc_Default, xParEmitterInit, NULL,
+//  "Track", eBaseTypeTrackPhysics, 'TRCK', sizeof(zEntSimpleObj), zSceneInitFunc_DefaultEnt, zEntTrackPhysics_Init, NULL,
+//  "Platform", eBaseTypePlatform, 'PLAT', sizeof(zPlatform), zSceneInitFunc_DefaultEnt, zPlatform_Init, NULL,
+//  "Pendulum", eBaseTypePendulum, 'PEND', sizeof(_zPendulum), zSceneInitFunc_DefaultEnt, zPendulum_Init, NULL,
+//  "Hanger", eBaseTypeHangable, 'HANG', sizeof(zEntHangable), zSceneInitFunc_DefaultEnt, zEntHangable_Init, NULL,
+//  "DestructObj", eBaseTypeDestructObj, 'DSTR', sizeof(zEntDestructObj), zSceneInitFunc_DefaultEnt, zEntDestructObj_Init, NULL,
+//  "Boulder", eBaseTypeBoulder, 'BOUL', sizeof(xEntBoulder), zSceneInitFunc_DefaultEnt, xEntBoulder_Init, NULL,
+//  "NPC", eBaseTypeNPC, 'VIL ', 0, zSceneInitFunc_SBNPC, NULL, NULL,
+//  "Button", eBaseTypeButton, 'BUTN', sizeof(_zEntButton), zSceneInitFunc_DefaultEnt, zEntButton_Init, NULL,
+//  "Player", eBaseTypePlayer, 'PLYR', sizeof(zEnt), zSceneInitFunc_Player, NULL, NULL,
+//  "Timer", eBaseTypeTimer, 'TIMR', sizeof(xTimer), zSceneInitFunc_Default, xTimerInit, NULL,
+//  "Counter", eBaseTypeCounter, 'CNTR', sizeof(_xCounter), zSceneInitFunc_Default, xCounterInit, NULL,
+//  "SFX", eBaseTypeSFX, 'SFX ', sizeof(xSFX), zSceneInitFunc_Default, xSFXInit, NULL,
+//  "Group", eBaseTypeGroup, 'GRUP', sizeof(xGroup), zSceneInitFunc_Default, xGroupInit, NULL,
+//  "Portal", eBaseTypePortal, 'PORT', sizeof(_zPortal), zSceneInitFunc_Default, zPortalInit, NULL,
+//  "Camera", eBaseTypeCamera, 'CAM ', sizeof(zCamMarker), zSceneInitFunc_Camera, NULL, NULL,
+//  "Surface", eBaseTypeSurface, 'SURF', sizeof(xSurface), zSceneInitFunc_Surface, NULL, NULL,
+//  "Gust", eBaseTypeGust, 'GUST', sizeof(zGust), zSceneInitFunc_Gust, NULL, NULL,
+//  "Volume", eBaseTypeVolume, 'VOLU', sizeof(zVolume), zSceneInitFunc_Volume, NULL, NULL,
+//  "Conditional", eBaseTypeCond, 'COND', sizeof(_zConditional), zSceneInitFunc_Default, zConditionalInit, NULL,
+//  "Lob Master", eBaseTypeLobMaster, 'LOBM', 0, zSceneInitFunc_LobMaster, NULL, NULL,
     "Env", eBaseTypeEnv, 'ENV ', sizeof(_zEnv), zSceneInitFunc_Default, zEnvInit, NULL,
-//	"Dispatcher", eBaseTypeDispatcher, 'DPAT', 0, zSceneInitFunc_Dispatcher, NULL, NULL,
-    "UI", eBaseTypeUI, 'UI  ', sizeof(_zUI), zSceneInitFunc_DefaultEnt, zUI_Init, NULL,
-    "UI Font", eBaseTypeUIFont, 'UIFT', sizeof(zUIFont), zSceneInitFunc_Default, zUIFont_Init, NULL,
-    "Fog", eBaseTypeFog, 'FOG ', sizeof(_xFog), zSceneInitFunc_Default, xFogInit, NULL,
-    "Light", eBaseTypeLight, 'LITE', sizeof(_zLight), zSceneInitFunc_Default, zLightInit, NULL,
-    "CutSceneMgr", eBaseTypeCutsceneMgr, 'CSNM', sizeof(zCutsceneMgr), zSceneInitFunc_Default, zCutsceneMgrInit, NULL,
-    "EGenerator", eBaseTypeEGenerator, 'EGEN', sizeof(zEGenerator), zSceneInitFunc_DefaultEnt, zEGenerator_Init, NULL,
-    "Script", eBaseTypeScript, 'SCRP', sizeof(_zScript), zSceneInitFunc_Default, zScriptInit, NULL,
-    "Disco Floor", eBaseTypeDiscoFloor, 'DSCO', sizeof(z_disco_floor), zSceneInitFunc_Default, z_disco_floor::init, NULL,
+//  "Dispatcher", eBaseTypeDispatcher, 'DPAT', 0, zSceneInitFunc_Dispatcher, NULL, NULL,
+//  "UI", eBaseTypeUI, 'UI  ', sizeof(_zUI), zSceneInitFunc_DefaultEnt, zUI_Init, NULL,
+//  "UI Font", eBaseTypeUIFont, 'UIFT', sizeof(zUIFont), zSceneInitFunc_Default, zUIFont_Init, NULL,
+//  "Fog", eBaseTypeFog, 'FOG ', sizeof(_xFog), zSceneInitFunc_Default, xFogInit, NULL,
+//  "Light", eBaseTypeLight, 'LITE', sizeof(_zLight), zSceneInitFunc_Default, zLightInit, NULL,
+//  "CutSceneMgr", eBaseTypeCutsceneMgr, 'CSNM', sizeof(zCutsceneMgr), zSceneInitFunc_Default, zCutsceneMgrInit, NULL,
+//  "EGenerator", eBaseTypeEGenerator, 'EGEN', sizeof(zEGenerator), zSceneInitFunc_DefaultEnt, zEGenerator_Init, NULL,
+//  "Script", eBaseTypeScript, 'SCRP', sizeof(_zScript), zSceneInitFunc_Default, zScriptInit, NULL,
+//  "Disco Floor", eBaseTypeDiscoFloor, 'DSCO', sizeof(z_disco_floor), zSceneInitFunc_Default, z_disco_floor::init, NULL,
     0
 };
 
@@ -1194,10 +1194,10 @@ void zSceneSetup()
 
     for (unsigned int i = 0; i < s->num_ents; i++)
     {
-        xEnt *ent = s->ents[i];
-
-        if (ent->baseType == eBaseTypeNPC)
+        if (s->ents[i]->baseType == eBaseTypeNPC)
         {
+            xEnt *ent = s->ents[i];
+
             zLODTable *lod = zLOD_Get(ent);
             RpAtomic *tryshad = NULL;
 
@@ -1230,20 +1230,23 @@ void zSceneSetup()
 
         for (unsigned int i = 0; i < s->num_update_base; i++)
         {
-            xEnt *bdriven = (xEnt *)s->update_base[i];
-
-            if ((bdriven->baseFlags & 0x20) && bdriven->driver)
+            if (s->update_base[i]->baseFlags & XBASE_ISENT)
             {
-                for (unsigned int j = i + 1; j < s->num_update_base; j++)
+                xEnt *bdriven = (xEnt *)s->update_base[i];
+
+                if (bdriven->driver)
                 {
-                    if (bdriven->driver == s->update_base[j])
+                    for (unsigned int j = i + 1; j < s->num_update_base; j++)
                     {
-                        driven_swapped = 1;
+                        if (bdriven->driver == s->update_base[j])
+                        {
+                            driven_swapped = 1;
 
-                        xBase *btmp = s->update_base[i];
+                            xBase *btmp = s->update_base[i];
 
-                        s->update_base[i] = s->update_base[j];
-                        s->update_base[j] = btmp;
+                            s->update_base[i] = s->update_base[j];
+                            s->update_base[j] = btmp;
+                        }
                     }
                 }
             }
@@ -1276,13 +1279,15 @@ void zSceneSetup()
 
                 for (i = 0; i < zsc->num_ents; i++)
                 {
-                    xEnt *tgtent = zsc->ents[i];
-
-                    if ((tgtent->flags & 0x20) &&
-                        tgtent->model &&
-                        (tgtent->model->PipeFlags & 0xC0) == 0x40)
+                    if ((zsc->ents[i]->baseFlags & XBASE_ISENT))
                     {
-                        tgtent->lightKit = objLightKit;
+                        xEnt *tgtent = zsc->ents[i];
+
+                        if (tgtent->model &&
+                            (tgtent->model->PipeFlags & 0xC0) == 0x40)
+                        {
+                            tgtent->lightKit = objLightKit;
+                        }
                     }
                 }
             }
@@ -1308,12 +1313,11 @@ void zSceneSetup()
                     {
                         xBase *itamz = xGroupGetItemPtr(group, j);
 
-                        if (itamz)
+                        if (itamz && (itamz->baseFlags & XBASE_ISENT))
                         {
                             xEnt *entitam = (xEnt *)itamz;
 
-                            if ((entitam->baseFlags & 0x20) &&
-                                entitam->model &&
+                            if (entitam->model &&
                                 (entitam->model->PipeFlags & 0xC0) == 0x40)
                             {
                                 entitam->lightKit = lkit;
@@ -1354,24 +1358,20 @@ void zSceneSetup()
     unsigned int numPrimeMovers = 0; // r24
     unsigned int numDriven = 0; // r25
 
-    xEnt *ent;
-
     for (i = 0; i < s->num_ents; i++)
     {
-        ent = s->ents[i];
-
-        if (ent->baseFlags & 0x20)
+        if (s->ents[i]->baseFlags & XBASE_ISENT)
         {
-            ent->isCulled = 0;
+            s->ents[i]->isCulled = 0;
         }
     }
 
     for (i = 0; i < s->num_ents; i++)
     {
-        ent = s->ents[i];
-
-        if (ent->baseFlags & 0x20)
+        if (s->ents[i]->baseFlags & XBASE_ISENT)
         {
+            xEnt *ent = s->ents[i];
+
             if (ent->driver)
             {
                 if (!ent->isCulled)
@@ -1416,11 +1416,11 @@ void zSceneSetup()
                     {
                         xBase *gbase = xGroupGetItemPtr(grp, k);
 
-                        if (gbase)
+                        if (gbase && (gbase->baseFlags & XBASE_ISENT))
                         {
                             xEnt *gent = (xEnt *)gbase;
 
-                            if ((gent->baseFlags & 0x20) && gent->isCulled)
+                            if (gent->isCulled)
                             {
                                 if (gent->isCulled == 1)
                                 {
@@ -1470,46 +1470,52 @@ void zSceneSetup()
 
         for (i = 0; i < s->num_ents; i++)
         {
-            xEnt *ent = s->ents[i];
-
-            if ((ent->baseFlags & 0x20) && ent->isCulled == 1)
+            if (s->ents[i]->baseFlags & XBASE_ISENT)
             {
-                xGroupAsset *gasset = r8->asset;
+                xEnt *ent = s->ents[i];
 
-                r8->item = r7;
-
-                *r7 = ent;
-                r7++;
-
-                gasset->itemCount++;
-
-                for (j = 0; j < s->num_ents; j++)
+                if (ent->isCulled == 1)
                 {
-                    xEnt *other = s->ents[j];
+                    xGroupAsset *gasset = r8->asset;
 
-                    if ((other->baseFlags & 0x20) && other->isCulled == 2)
+                    r8->item = r7;
+
+                    *r7 = ent;
+                    r7++;
+
+                    gasset->itemCount++;
+
+                    for (j = 0; j < s->num_ents; j++)
                     {
-                        while (other->driver)
+                        if ((s->ents[j]->baseFlags & XBASE_ISENT))
                         {
-                            other = other->driver;
-                        }
+                            xEnt *other = s->ents[j];
 
-                        if (ent == other)
-                        {
-                            *r7 = other;
-                            r7++;
+                            if (other->isCulled == 2)
+                            {
+                                while (other->driver)
+                                {
+                                    other = other->driver;
+                                }
 
-                            gasset->itemCount++;
+                                if (ent == other)
+                                {
+                                    *r7 = other;
+                                    r7++;
+
+                                    gasset->itemCount++;
+                                }
+                            }
                         }
                     }
-                }
 
-                if (gasset->itemCount > 1)
-                {
-                    numGroups++;
-                }
+                    if (gasset->itemCount > 1)
+                    {
+                        numGroups++;
+                    }
 
-                r8++;
+                    r8++;
+                }
             }
         }
     }
@@ -1525,10 +1531,10 @@ void zSceneSetup()
 
         for (i = 0; i < s->num_base; i++)
         {
-            xGroup *grp = (xGroup *)s->base[i];
-
-            if (grp->baseType == eBaseTypeGroup)
+            if (s->base[i]->baseType == eBaseTypeGroup)
             {
+                xGroup *grp = (xGroup *)s->base[i];
+
                 for (j = 0; j < grp->linkCount; j++)
                 {
                     // should be grp->link[j] ...?
@@ -1555,8 +1561,8 @@ void zSceneSetup()
     globals.updateMgr =
         xUpdateCull_Init((void **)entList, entCount, tempGrpList, numGroups);
 
-    globals.updateMgr->activateCB = (xUpdateCullMgrCallBack)ActivateCB;
-    globals.updateMgr->deactivateCB = (xUpdateCullMgrCallBack)DeactivateCB;
+    //globals.updateMgr->activateCB = (xUpdateCullMgrCallBack)ActivateCB;
+    //globals.updateMgr->deactivateCB = (xUpdateCullMgrCallBack)DeactivateCB;
 
     FloatAndVoid defaultDist;
     defaultDist.f = 4900.0f;
@@ -1596,7 +1602,7 @@ void zSceneSetup()
 
     for (i = 0; i < s->num_ents; i++)
     {
-        if (s->ents[i]->baseFlags & 0x20)
+        if (s->ents[i]->baseFlags & XBASE_ISENT)
         {
             s->ents[i]->isCulled = 0;
         }

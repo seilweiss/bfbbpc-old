@@ -27,9 +27,13 @@ struct xBase
     xBaseEventCallBack eventFunc;
 };
 
-#define XBASE_ENABLED 0x1
-#define XBASE_VALID   0x4
-#define XBASE_UNK10   0x10
+/* Base flags */
+#define XBASE_ENABLED    0x1  // Base is enabled
+#define XBASE_PERSISTENT 0x2  // Save/restore last state
+#define XBASE_VALID      0x4  // Base is valid
+#define XBASE_CSNVISIBLE 0x8  // (Ent) Visible during cutscenes
+#define XBASE_RECSHADOW  0x10 // (Ent) Receive shadows from other ents
+#define XBASE_ISENT      0x20 // (Ent) Base is an ent
 
 void xBaseInit(xBase *xb, xBaseAsset *asset);
 void xBaseSetup(xBase *xb);
