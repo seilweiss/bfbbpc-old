@@ -2,6 +2,11 @@
 
 #include "print.h"
 
+void zEntPlayerControlOn(zControlOwner owner)
+{
+    BFBBSTUB("zEntPlayerControlOn");
+}
+
 void CalcJumpImpulse(zJumpParam *param, const zPlayerSettings *settings)
 {
     BFBBSTUB("CalcJumpImpulse");

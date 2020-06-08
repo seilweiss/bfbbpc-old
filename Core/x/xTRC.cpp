@@ -6,9 +6,16 @@
 
 #include "print.h"
 
+_tagTRCPadInfo gTrcPad[4];
+
 void xTRCInit()
 {
     BFBBSTUB("xTRCInit");
+}
+
+void xTRCPad(int pad_id, _tagTRCState state)
+{
+    return;
 }
 
 void RenderText(const char *text, bool enabled)

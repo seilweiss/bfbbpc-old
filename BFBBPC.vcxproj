@@ -232,6 +232,7 @@
     <ClInclude Include="Core\p2\iSystem.h" />
     <ClInclude Include="Core\p2\iTime.h" />
     <ClInclude Include="Core\p2\iTRC.h" />
+    <ClInclude Include="Core\p2\iWindow.h" />
     <ClInclude Include="Core\p2\print.h" />
     <ClInclude Include="Core\x\iCamera.h" />
     <ClInclude Include="Core\x\xAnim.h" />
@@ -317,6 +318,7 @@
     <ClInclude Include="Core\x\xUpdateCull.h" />
     <ClInclude Include="Core\x\xutil.h" />
     <ClInclude Include="Core\x\xVec3.h" />
+    <ClInclude Include="Core\x\xVec3Inlines.h" />
     <ClInclude Include="Core\x\xVolume.h" />
     <ClInclude Include="Game\zActionLine.h" />
     <ClInclude Include="Game\zAnimList.h" />
@@ -346,6 +348,7 @@
     <ClInclude Include="Game\zEntTrigger.h" />
     <ClInclude Include="Game\zEnv.h" />
     <ClInclude Include="Game\zFeet.h" />
+    <ClInclude Include="Game\zFMV.h" />
     <ClInclude Include="Game\zFX.h" />
     <ClInclude Include="Game\zGame.h" />
     <ClInclude Include="Game\zGameExtras.h" />
@@ -380,6 +383,7 @@
     <ClInclude Include="Game\zNPCTypeTest.h" />
     <ClInclude Include="Game\zNPCTypeTiki.h" />
     <ClInclude Include="Game\zNPCTypeVillager.h" />
+    <ClInclude Include="Game\zPad.h" />
     <ClInclude Include="Game\zParCmd.h" />
     <ClInclude Include="Game\zParEmitter.h" />
     <ClInclude Include="Game\zParPTank.h" />
@@ -389,6 +393,7 @@
     <ClInclude Include="Game\zPlatform.h" />
     <ClInclude Include="Game\zPortal.h" />
     <ClInclude Include="Game\zRenderState.h" />
+    <ClInclude Include="Game\zSaveLoad.h" />
     <ClInclude Include="Game\zScene.h" />
     <ClInclude Include="Game\zScript.h" />
     <ClInclude Include="Game\zShrapnel.h" />
@@ -409,15 +414,16 @@
     <ClCompile Include="Core\p2\iEnv.cpp" />
     <ClCompile Include="Core\p2\iFile.cpp" />
     <ClCompile Include="Core\p2\iLight.cpp" />
-    <ClCompile Include="Core\p2\iMath.cpp" />
     <ClCompile Include="Core\p2\iMath3.cpp" />
     <ClCompile Include="Core\p2\iMemMgr.cpp" />
     <ClCompile Include="Core\p2\iModel.cpp" />
+    <ClCompile Include="Core\p2\iPad.cpp" />
     <ClCompile Include="Core\p2\iSnd.cpp" />
     <ClCompile Include="Core\p2\iScrFX.cpp" />
     <ClCompile Include="Core\p2\iSystem.cpp" />
     <ClCompile Include="Core\p2\iTime.cpp" />
     <ClCompile Include="Core\p2\iTRC.cpp" />
+    <ClCompile Include="Core\p2\iWindow.cpp" />
     <ClCompile Include="Core\p2\print.cpp" />
     <ClCompile Include="Core\x\iCamera.cpp" />
     <ClCompile Include="Core\x\xAnim.cpp" />
@@ -510,6 +516,7 @@
     <ClCompile Include="Game\zEntTrigger.cpp" />
     <ClCompile Include="Game\zEnv.cpp" />
     <ClCompile Include="Game\zFeet.cpp" />
+    <ClCompile Include="Game\zFMV.cpp" />
     <ClCompile Include="Game\zFX.cpp" />
     <ClCompile Include="Game\zGame.cpp" />
     <ClCompile Include="Game\zGameExtras.cpp" />
@@ -549,6 +556,7 @@
     <ClCompile Include="Game\zPlatform.cpp" />
     <ClCompile Include="Game\zPortal.cpp" />
     <ClCompile Include="Game\zRenderState.cpp" />
+    <ClCompile Include="Game\zSaveLoad.cpp" />
     <ClCompile Include="Game\zScene.cpp" />
     <ClCompile Include="Game\zScript.cpp" />
     <ClCompile Include="Game\zShrapnel.cpp" />

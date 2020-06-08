@@ -146,10 +146,10 @@ basic_rect<int> find_bounds(const iColor_tag *bits, const basic_rect<int> &r, in
         {
             if ((pmode && p->a) || (!pmode && p->r))
             {
-                minx = (x < minx) ? x : minx;
-                maxx = (x > maxx) ? x : maxx;
-                miny = (y < miny) ? y : miny;
-                maxy = (y > maxy) ? y : maxy;
+                minx = xmin(x, minx);
+                maxx = xmax(x, maxx);
+                miny = xmin(y, miny);
+                maxy = xmax(y, maxy);
             }
 
             p++;
@@ -1641,7 +1641,7 @@ float xtextbox::layout::yextent(float max, int &size, int begin_jot, int end_jot
 
     const jot_line &line = _lines[i];
 
-    size = ((line.last >= end_jot) ? end_jot : line.last) - begin_jot;
+    size = xmin(line.last, end_jot) - begin_jot;
 
     return line.bounds.y + line.bounds.h - _lines[begin_line].bounds.y;
 }

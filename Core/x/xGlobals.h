@@ -29,12 +29,12 @@ struct xGlobals
     unsigned int QuarterSpeed;
     float update_dt;
     int useHIPHOP;
-    unsigned char NoMusic;
+    bool NoMusic;
     char currentActivePad;
-    unsigned char firstStartPressed;
+    bool firstStartPressed;
     unsigned int minVSyncCnt;
-    unsigned char dontShowPadMessageDuringLoadingOrCutScene;
-    unsigned char autoSaveFeature;
+    bool dontShowPadMessageDuringLoadingOrCutScene;
+    bool autoSaveFeature;
 };
 
 #endif

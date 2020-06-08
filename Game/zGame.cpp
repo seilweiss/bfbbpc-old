@@ -336,7 +336,15 @@ void zGameScreenTransitionEnd()
     gGameWhereAmI = eGameWhere_TransitionEnded;
 }
 
+// Todo: Remove this!
+// the global camera requires a target matrix
+// this is a temporary solution
+static xMat4x3 TEMP_CAM_TARGET_MAT = {};
+
 void zGameSetupPlayer()
 {
     BFBBSTUB("zGameSetupPlayer");
+
+    xCameraSetTargetMatrix(&globals.camera, &TEMP_CAM_TARGET_MAT);
+    xCameraSetTargetOMatrix(&globals.camera, &TEMP_CAM_TARGET_MAT);
 }

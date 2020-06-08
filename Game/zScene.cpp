@@ -1748,6 +1748,16 @@ int zSceneSetup_serialTraverseCB(unsigned int clientID, xSerial *xser)
     return 1;
 }
 
+void zSceneUpdate(float elapsedSec)
+{
+    BFBBSTUB("zSceneUpdate");
+}
+
+void zSceneRender()
+{
+    BFBBSTUB("zSceneRender");
+}
+
 static void zSceneObjHashtableInit(int size)
 {
     scobj_idbps = (IDBasePair *)xMemAlloc(size * sizeof(IDBasePair), 0);

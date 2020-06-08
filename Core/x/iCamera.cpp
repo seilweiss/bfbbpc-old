@@ -5,6 +5,7 @@
 #include "iMath.h"
 #include "xMath.h"
 #include "xShadow.h"
+#include "iSystem.h"
 
 #include <rwcore.h>
 #include <rpworld.h>
@@ -96,6 +97,126 @@ void iCameraDestroy(RwCamera *camera)
     }
 }
 
+void iCameraBegin(RwCamera *cam, int clear)
+{
+    BFBBSTUB("iCameraBegin");
+
+    if (clear)
+    {
+        /*
+        if (xglobals->fog.type != rwFOGTYPENAFOGTYPE)
+        {
+            RwCameraClear(cam, &xglobals->fog.bgcolor,
+                          rwCAMERACLEARIMAGE | rwCAMERACLEARZ);
+        }
+        else
+        {
+            RwCameraClear(cam, NULL, rwCAMERACLEARZ);
+        }
+        */
+
+        RwRGBA black = { 0, 0, 0, 0 };
+        RwCameraClear(cam, &black, rwCAMERACLEARIMAGE | rwCAMERACLEARZ);
+    }
+
+    RwCameraSetNearClipPlane(cam, sCameraNearClip);
+    RwCameraBeginUpdate(cam);
+}
+
+void iCameraEnd(RwCamera *cam)
+{
+    iScrFxCameraEndScene(cam);
+
+    RwCameraEndUpdate(cam);
+
+    iScrFxPostCameraEnd(cam);
+}
+
+void iCameraShowRaster(RwCamera *cam)
+{
+    RwCameraShowRaster(cam, NULL, FULLSCREEN ? rwRASTERFLIPWAITVSYNC : 0);
+}
+
+void iCameraFrustumPlanes(RwCamera *cam, xVec4 *frustplane)
+{
+    RwFrustumPlane *rwPlane = cam->frustumPlanes;
+
+    frustplane[0].x = rwPlane[2].plane.normal.x;
+    frustplane[1].x = rwPlane[2].plane.normal.y;
+    frustplane[2].x = rwPlane[2].plane.normal.z;
+    frustplane[3].x = rwPlane[2].plane.distance;
+
+    frustplane[0].y = rwPlane[4].plane.normal.x;
+    frustplane[1].y = rwPlane[4].plane.normal.y;
+    frustplane[2].y = rwPlane[4].plane.normal.z;
+    frustplane[3].y = rwPlane[4].plane.distance;
+
+    frustplane[0].z = rwPlane[5].plane.normal.x;
+    frustplane[1].z = rwPlane[5].plane.normal.y;
+    frustplane[2].z = rwPlane[5].plane.normal.z;
+    frustplane[3].z = rwPlane[5].plane.distance;
+
+    frustplane[0].w = rwPlane[3].plane.normal.x;
+    frustplane[1].w = rwPlane[3].plane.normal.y;
+    frustplane[2].w = rwPlane[3].plane.normal.z;
+    frustplane[3].w = rwPlane[3].plane.distance;
+
+    frustplane[4].x = rwPlane[1].plane.normal.x;
+    frustplane[5].x = rwPlane[1].plane.normal.y;
+    frustplane[6].x = rwPlane[1].plane.normal.z;
+    frustplane[7].x = rwPlane[1].plane.distance;
+
+    frustplane[4].y = rwPlane[0].plane.normal.x;
+    frustplane[5].y = rwPlane[0].plane.normal.y;
+    frustplane[6].y = rwPlane[0].plane.normal.z;
+    frustplane[7].y = rwPlane[0].plane.distance;
+
+    frustplane[4].z = rwPlane[2].plane.normal.x;
+    frustplane[5].z = rwPlane[2].plane.normal.y;
+    frustplane[6].z = rwPlane[2].plane.normal.z;
+    frustplane[7].z = rwPlane[2].plane.distance;
+
+    frustplane[4].w = rwPlane[4].plane.normal.x;
+    frustplane[5].w = rwPlane[4].plane.normal.y;
+    frustplane[6].w = rwPlane[4].plane.normal.z;
+    frustplane[7].w = rwPlane[4].plane.distance;
+
+    frustplane[8].x = rwPlane[2].plane.normal.x;
+    frustplane[9].x = rwPlane[2].plane.normal.y;
+    frustplane[10].x = rwPlane[2].plane.normal.z;
+    frustplane[11].x = rwPlane[2].plane.distance;
+
+    frustplane[8].y = rwPlane[4].plane.normal.x;
+    frustplane[9].y = rwPlane[4].plane.normal.y;
+    frustplane[10].y = rwPlane[4].plane.normal.z;
+    frustplane[11].y = rwPlane[4].plane.distance;
+
+    frustplane[8].z = rwPlane[5].plane.normal.x;
+    frustplane[9].z = rwPlane[5].plane.normal.y;
+    frustplane[10].z = rwPlane[5].plane.normal.z;
+    frustplane[11].z = rwPlane[5].plane.distance;
+
+    frustplane[8].w = rwPlane[3].plane.normal.x;
+    frustplane[9].w = rwPlane[3].plane.normal.y;
+    frustplane[10].w = rwPlane[3].plane.normal.z;
+    frustplane[11].w = rwPlane[3].plane.distance;
+}
+
+void iCameraUpdatePos(RwCamera *cam, xMat4x3 *pos)
+{
+    RwFrame *f = RwCameraGetFrame(cam);
+    RwMatrix *m;
+
+    m = RwFrameGetMatrix(f);
+    xMat4x3Copy((xMat4x3 *)m, pos);
+
+    m = RwFrameGetLTM(f);
+    xMat4x3Copy((xMat4x3 *)m, pos);
+
+    RwFrameOrthoNormalize(f);
+    RwFrameUpdateObjects(f);
+}
+
 void iCameraSetFOV(RwCamera *cam, float fov)
 {
     RwV2d vw;
@@ -136,6 +257,11 @@ void iCameraSetFogParams(iFogParams *fp, float time)
         xglobals->fog_t0 = iTimeGet();
         xglobals->fog_t1 = xglobals->fog_t0 + iTimeSecsToTicks(time);
     }
+}
+
+void iCameraUpdateFog(RwCamera *cam, iTime t)
+{
+    BFBBSTUB("iCameraUpdateFog");
 }
 
 void iCameraSetFogRenderStates()

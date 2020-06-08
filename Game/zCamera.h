@@ -4,6 +4,29 @@
 #include "xCamera.h"
 #include "zCamMarker.h"
 
+enum camera_owner_enum
+{
+    CO_BOULDER = 0x1,
+    CO_CRUISE_BUBBLE = 0x2,
+    CO_BUNGEE = 0x4,
+    CO_BOSS = 0x8,
+    CO_OOB = 0x10,
+    CO_ZIPLINE = 0x20,
+    CO_TURRET = 0x40,
+    CO_REWARDANIM = 0x80
+};
+
+struct zFlyKey
+{
+    int frame;
+    float matrix[12];
+    float aperture[2];
+    float focal;
+};
+
+#define ZCAM_NEAR_ON      0x1
+#define ZCAM_NEAR_INDOORS 0x2
+
 extern float zcam_pad_pyaw_scale;
 extern float zcam_pad_pitch_scale;
 extern float zcam_near_d;
@@ -62,5 +85,7 @@ extern float zcam_fovcurr;
 extern float zcam_fovdest;
 
 void zCameraReset(xCamera *cam);
+void zCameraDisableTracking(camera_owner_enum owner);
+void zCameraUpdate(xCamera *cam, float dt);
 
 #endif

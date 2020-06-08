@@ -14,5 +14,6 @@ struct zCameraFly : xBase
 };
 
 void zCameraFly_Setup(zCameraFly *fly);
+unsigned int zCameraFlyProcessStopEvent();
 
 #endif

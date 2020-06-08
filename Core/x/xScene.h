@@ -49,4 +49,10 @@ void xSceneExit(xScene *sc);
 void xSceneSetup(xScene *sc);
 void xSceneAddEnt(xScene *sc, xEnt *ent);
 
+typedef void(*xRayHitsEntCallBack)(xScene *sc, xRay3 *r, xQCData *qcr, xEnt *ent,
+                               void *colldata);
+
+void xRayHitsGrid(xGrid *grid, xScene *sc, xRay3 *r, xRayHitsEntCallBack rentcb,
+                  xQCData *qcr, void *data);
+
 #endif

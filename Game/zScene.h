@@ -68,6 +68,8 @@ void zSceneExit(int beginReload);
 void zSceneEnableVisited(zScene *s);
 int zSceneSetup_serialTraverseCB(unsigned int clientID, xSerial *xser);
 void zSceneSetup();
+void zSceneUpdate(float elapsedSec);
+void zSceneRender();
 void zSceneForAllBase(zSceneForAllBaseCallBack func, int baseType, void *data);
 void zSceneMemLvlChkCB();
 

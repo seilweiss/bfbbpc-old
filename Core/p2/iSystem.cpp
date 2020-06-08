@@ -41,30 +41,6 @@ RwMemoryFunctions *psGetMemoryFunctions()
 void iVSync()
 {
     Sleep(16);
-
-    /*
-    HWND window = GetActiveWindow();
-
-    MSG msg;
-    BOOL bRet;
-
-    while ((bRet = GetMessage(&msg, window, 0, 0)) != 0)
-    {
-        if (bRet == -1)
-        {
-            break;
-        }
-
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-
-        if (msg.message == WM_PAINT)
-        {
-            Sleep(16);
-            break;
-        }
-    }
-    */
 }
 
 static void iTRCInit()

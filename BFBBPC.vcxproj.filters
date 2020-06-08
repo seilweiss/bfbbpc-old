@@ -573,6 +573,21 @@
     <ClInclude Include="Core\x\xSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Game\zFMV.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\zSaveLoad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\x\xVec3Inlines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\zPad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\p2\iWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\zMain.cpp">
@@ -744,9 +759,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\zCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\p2\iMath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\zEntPlayerBungeeState.cpp">
@@ -1047,6 +1059,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\x\xSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\zFMV.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\zSaveLoad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\p2\iPad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\p2\iWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

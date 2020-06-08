@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+unsigned int gFrameCount = 0;
+
 void xprintf(const char *format, ...)
 {
     va_list valist;

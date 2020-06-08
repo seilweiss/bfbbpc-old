@@ -1,5 +1,7 @@
 #include "xString.h"
 
+#include "xMathInlines.h"
+
 #define BFBB_NOPRINT
 
 #include "print.h"
@@ -107,7 +109,7 @@ int imemcmp(const void *d1, const void *d2, unsigned int size)
 
 int icompare(const substr &s1, const substr &s2)
 {
-    unsigned int len = (s1.size < s2.size) ? s1.size : s2.size;
+    unsigned int len = xmin(s1.size, s2.size);
     int cmp = imemcmp(s1.text, s2.text, len);
 
     if (cmp != 0)

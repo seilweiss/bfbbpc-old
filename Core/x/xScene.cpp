@@ -70,3 +70,9 @@ void xSceneAddEnt(xScene *sc, xEnt *ent)
 {
     BFBBSTUB("xSceneAddEnt");
 }
+
+void xRayHitsGrid(xGrid *grid, xScene *sc, xRay3 *r, xRayHitsEntCallBack rentcb,
+                  xQCData *qcr, void *data)
+{
+    BFBBSTUB("xRayHitsGrid");
+}

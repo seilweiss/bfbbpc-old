@@ -7,6 +7,16 @@ void xScrFxInit()
     BFBBSTUB("xScrFxInit");
 }
 
+void xScrFxUpdate(RwCamera *cam, float dt)
+{
+    BFBBSTUB("xScrFxUpdate");
+}
+
+void xScrFxDrawScreenSizeRectangle()
+{
+    BFBBSTUB("xScrFxDrawScreenSizeRectangle");
+}
+
 void xScrFxFade(iColor_tag *base, iColor_tag *dest, float seconds, void(*callback)(),
                 int hold)
 {
@@ -26,4 +36,9 @@ void xScrFxLetterBoxSetSize(float size)
 void xScrFxLetterBoxSetAlpha(unsigned char alpha)
 {
     BFBBSTUB("xScrFxLetterBoxSetAlpha");
+}
+
+void xScrFxLetterbox(int enable)
+{
+    BFBBSTUB("xScrFxLetterbox");
 }

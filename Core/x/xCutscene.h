@@ -88,6 +88,9 @@ struct xCutscene
     XCSNNosey *cb_nosey;
 };
 
+struct xCamera;
+
 void xCutscene_Init(void *toc);
+void xCutscene_SetCamera(xCutscene *csn, xCamera *cam);
 
 #endif

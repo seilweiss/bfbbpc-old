@@ -82,9 +82,9 @@ void zCameraTweakGlobal_Add(unsigned int owner, float priority, float time, floa
 
     sCamTweakList[i].owner = owner;
     sCamTweakList[i].priority = priority;
-    sCamTweakList[i].time = (time > 0.001f) ? time : 0.001f;
+    sCamTweakList[i].time = xmax(time, 0.001f);
     sCamTweakList[i].pitch = DEG2RAD(pitch);
-    sCamTweakList[i].distMult = (distMult > 0.001f) ? distMult : 0.001f;
+    sCamTweakList[i].distMult = xmax(distMult, 0.001f);
 
     sCamTweakCount++;
 

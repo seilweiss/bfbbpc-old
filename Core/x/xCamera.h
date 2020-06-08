@@ -101,7 +101,25 @@ void xCameraExit(xCamera *cam);
 void xCameraMove(xCamera *cam, unsigned int flags, float dgoal, float hgoal, float pgoal,
                  float tm, float tm_acc, float tm_dec);
 void xCameraReset(xCamera *cam, float d, float h, float pitch);
+
+void SweptSphereHitsCameraEnt(xScene *sc, xRay3 *ray, xQCData *qcd, xEnt *ent,
+                              void *data);
+
+void xCameraLook(xCamera *cam, unsigned int flags, const xQuat *orn_goal,
+                 float tm, float tm_acc, float tm_dec);
 void xCameraUpdate(xCamera *cam, float dt);
+void xCameraBegin(xCamera *cam, int clear);
+void xCameraEnd(xCamera *cam, float seconds, int update_scrn_fx);
+void xCameraShowRaster(xCamera *cam);
 void xCameraSetScene(xCamera *cam, xScene *sc);
+void xCameraSetTargetMatrix(xCamera *cam, xMat4x3 *mat);
+void xCameraSetTargetOMatrix(xCamera *cam, xMat4x3 *mat);
+void xCameraMove(xCamera *cam, const xVec3 &loc, float maxSpeed);
+float xCameraGetFOV(const xCamera *cam);
+void xCameraFOV(xCamera *cam, float fov, float maxSpeed, float dt);
+void xCameraLookYPR(xCamera *cam, unsigned int flags, float yaw, float pitch, float roll,
+                    float tm, float tm_acc, float tm_dec);
+void xCameraRotate(xCamera *cam, const xVec3 &v, float roll, float time, float accel,
+                   float decl);
 
 #endif

@@ -34,6 +34,8 @@
 #include "zCutsceneMgr.h"
 #include "zGameState.h"
 #include "iTRC.h"
+#include "zPad.h"
+#include "iWindow.h"
 
 #include <windows.h>
 #include <stdio.h>
@@ -67,7 +69,7 @@ int main(int argc, char **argv)
     unsigned int options;
 
     memset(&globals, 0, sizeof(globals));
-    globals.firstStartPressed = 1;
+    globals.firstStartPressed = true;
 
     options = 0;
     iSystemInit(options);
@@ -158,13 +160,13 @@ static int ParseFloatList(float *dest, const char *strbuf, int max)
 
 static void zLedgeAdjust(zLedgeGrabParams *params)
 {
-    params->animGrab *= 2 / FRAMES_PER_SEC;
+    params->animGrab *= 2 * ONE_FRAME;
 }
 
 static void zMainParseINIGlobals(xIniFile *ini)
 {
-    globals.player.g.AnalogMin = xIniGetInt(ini, "g.AnalogMin", 32);
-    globals.player.g.AnalogMax = xIniGetInt(ini, "g.AnalogMax", 110);
+    globals.player.g.AnalogMin = xIniGetInt(ini, "g.AnalogMin", ZPAD_ANALOG_MIN);
+    globals.player.g.AnalogMax = xIniGetInt(ini, "g.AnalogMax", ZPAD_ANALOG_MAX);
 
     xScrFxLetterBoxSetSize(xIniGetFloat(ini, "ScrFxLetterBoxSize", 0.0f));
     xScrFxLetterBoxSetAlpha(xIniGetInt(ini, "ScrFxLetterBoxAlpha", 255));
@@ -211,15 +213,15 @@ static void zMainParseINIGlobals(xIniFile *ini)
     globals.player.g.BSpinMaxFrame = xIniGetFloat(ini, "g.BSpinMaxFrame", 20.0f);
     globals.player.g.BSpinRadius = xIniGetFloat(ini, "g.BSpinRadius", 0.3f);
 
-    globals.player.g.BSpinMinFrame *= 2 / FRAMES_PER_SEC;
-    globals.player.g.BSpinMaxFrame *= 2 / FRAMES_PER_SEC;
+    globals.player.g.BSpinMinFrame *= 2 * ONE_FRAME;
+    globals.player.g.BSpinMaxFrame *= 2 * ONE_FRAME;
 
     globals.player.g.SandyMeleeMinFrame = xIniGetFloat(ini, "g.SandyMeleeMinFrame", 1.0f);
     globals.player.g.SandyMeleeMaxFrame = xIniGetFloat(ini, "g.SandyMeleeMaxFrame", 9.0f);
     globals.player.g.SandyMeleeRadius = xIniGetFloat(ini, "g.SandyMeleeRadius", 0.3f);
 
-    globals.player.g.SandyMeleeMinFrame *= 2 / FRAMES_PER_SEC;
-    globals.player.g.SandyMeleeMaxFrame *= 2 / FRAMES_PER_SEC;
+    globals.player.g.SandyMeleeMinFrame *= 2 * ONE_FRAME;
+    globals.player.g.SandyMeleeMaxFrame *= 2 * ONE_FRAME;
 
     globals.player.g.DamageTimeHit = xIniGetFloat(ini, "g.DamageTimeHit", 0.5f);
     globals.player.g.DamageTimeSurface = xIniGetFloat(ini, "g.DamageTimeSurface", 1.0f);
@@ -342,8 +344,8 @@ static void zMainParseINIGlobals(xIniFile *ini)
     gSkipTimeCutscene = xIniGetFloat(ini, "gSkipTimeCutscene", gSkipTimeCutscene);
     gSkipTimeFlythrough = xIniGetFloat(ini, "gSkipTimeFlythrough", gSkipTimeFlythrough);
 
-    gSkipTimeCutscene = (gSkipTimeCutscene > 1.0f) ? gSkipTimeCutscene : 1.0f;
-    gSkipTimeFlythrough = (gSkipTimeFlythrough > 1.0f) ? gSkipTimeFlythrough : 1.0f;
+    gSkipTimeCutscene = xmax(gSkipTimeCutscene, 1.0f);
+    gSkipTimeFlythrough = xmax(gSkipTimeFlythrough, 1.0f);
 
     globals.player.carry.minDist = xIniGetFloat(ini, "carry.minDist", 0.675f);
     globals.player.carry.maxDist = xIniGetFloat(ini, "carry.maxDist", 1.9f);
@@ -900,10 +902,10 @@ static void zMainLoop()
         else
         {
             sShowMenuOnBoot = 1;
-            globals.firstStartPressed = 1;
+            globals.firstStartPressed = true;
 
             zGameModeSwitch(eGameMode_Game);
-            zGameStateSwitch(eGameState_Unk00);
+            zGameStateSwitch(eGameState_FirstTime);
         }
 
         if (!newGameSceneID)
@@ -1065,14 +1067,14 @@ void zMainFirstScreen(int mode)
 
         RwCameraEndUpdate(cam);
 
-        RwCameraShowRaster(cam, GetActiveWindow(),
-                           FULLSCREEN ? rwRASTERFLIPWAITVSYNC : 0);
+        RwCameraShowRaster(cam, NULL, FULLSCREEN ? rwRASTERFLIPWAITVSYNC : 0);
     }
 
     // 3 seconds
     for (int vbl = 180; vbl != 0; vbl--)
     {
         iTRCDisk::CheckDVDAndResetState();
+        iWindowUpdate();
         iVSync();
     }
 
@@ -1099,8 +1101,7 @@ void zMainMemCardRenderText(const char *text, bool enabled)
 
     RwCameraEndUpdate(cam);
 
-    RwCameraShowRaster(cam, GetActiveWindow(),
-                       FULLSCREEN ? rwRASTERFLIPWAITVSYNC : 0);
+    RwCameraShowRaster(cam, NULL, FULLSCREEN ? rwRASTERFLIPWAITVSYNC : 0);
 
     iCameraDestroy(cam);
 }
@@ -1134,75 +1135,4 @@ static void zMainLoadFontHIP()
     t = iTimeGet();
     xUtil_idtag2string('FONT', 0);
     iTimeDiffSec(t);
-}
-
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
-{
-    const char CLASS_NAME[] = "SpongeBob";
-    WNDCLASS wc = {};
-    HWND hwnd;
-
-    wc.lpfnWndProc = WindowProc;
-    wc.hInstance = hInstance;
-    wc.lpszClassName = CLASS_NAME;
-    //wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
-    wc.hCursor = LoadCursor(hInstance, IDC_ARROW);
-
-    RegisterClass(&wc);
-
-    RECT rect = {};
-    rect.left = 0;
-    rect.top = 0;
-    rect.right = SCREEN_WIDTH;
-    rect.bottom = SCREEN_HEIGHT;
-
-    if (!AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE))
-    {
-        return 0;
-    }
-
-    rect.right -= rect.left;
-    rect.bottom -= rect.top;
-
-    hwnd = CreateWindowEx(
-        0,
-        CLASS_NAME,
-        "SpongeBob SquarePants: Battle for Bikini Bottom",
-        WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, CW_USEDEFAULT, rect.right, rect.bottom,
-        NULL,
-        NULL,
-        hInstance,
-        NULL
-    );
-
-    if (hwnd == NULL)
-    {
-        return 0;
-    }
-
-    ShowWindow(hwnd, nShowCmd);
-
-    return main(__argc, __argv);
-}
-
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-    switch (uMsg)
-    {
-        case WM_DESTROY:
-        {
-            PostQuitMessage(0);
-            return 0;
-        }
-
-        case WM_PAINT:
-        {
-            return 0;
-        }
-    }
-
-    return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }

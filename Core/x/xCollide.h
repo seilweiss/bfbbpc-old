@@ -2,6 +2,8 @@
 #define XCOLLIDE_H
 
 #include "xModel.h"
+#include "iMath3.h"
+#include "xQuickCull.h"
 
 struct xScene;
 
@@ -44,6 +46,44 @@ struct xParabola
     float maxTime;
 };
 
+struct xSweptSphere
+{
+    xVec3 start;
+    xVec3 end;
+    float radius;
+    float dist;
+    xiMat4x3Union basis;
+    xiMat4x3Union invbasis;
+    xBox box;
+    xQCData qcd;
+    float boxsize;
+    float curdist;
+    xVec3 contact;
+    xVec3 polynorm;
+    unsigned int oid;
+    void *optr;
+    xModelInstance *mptr;
+    int hitIt;
+    xVec3 worldPos;
+    xVec3 worldContact;
+    xVec3 worldNormal;
+    xVec3 worldTangent;
+    xVec3 worldPolynorm;
+};
+
+struct xRay3
+{
+    xVec3 origin;
+    xVec3 dir;
+    float min_t;
+    float max_t;
+    int flags;
+};
+
+struct xEnv;
+
 void xCollideInit(xScene *sc);
+void xSweptSpherePrepare(xSweptSphere *sws, xVec3 *start, xVec3 *end, float radius);
+int xSweptSphereToEnv(xSweptSphere *sws, xEnv *env);
 
 #endif

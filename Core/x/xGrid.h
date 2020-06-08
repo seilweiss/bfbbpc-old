@@ -14,4 +14,23 @@ struct xGridBound
     xGridBound *next;
 };
 
+struct xGrid
+{
+	unsigned char ingrid_id;
+	unsigned char pad[3];
+	unsigned short nx;
+	unsigned short nz;
+	float minx;
+	float minz;
+	float maxx;
+	float maxz;
+	float csizex;
+	float csizez;
+	float inv_csizex;
+	float inv_csizez;
+	float maxr;
+	xGridBound **cells;
+	xGridBound *other;
+};
+
 #endif

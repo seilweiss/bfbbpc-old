@@ -7,6 +7,9 @@
 #define FULLSCREEN 0
 
 #define FRAMES_PER_SEC 60.0f
+#define ONE_FRAME      (1.0f / FRAMES_PER_SEC)
+
+#define CAMERA_FOV 75.0f
 
 inline float NSCREENX(float x)
 {

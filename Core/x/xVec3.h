@@ -10,4 +10,7 @@ struct xVec3
     static xVec3 m_Null;
 };
 
+float xVec3Normalize(xVec3 *o, const xVec3 *v);
+float xVec3Dot(const xVec3 *a, const xVec3 *b);
+
 #endif

@@ -9,6 +9,8 @@
 #include "xBound.h"
 #include "xShadowSimple.h"
 
+#include "print.h"
+
 struct xEntAsset : xBaseAsset
 {
     unsigned char flags;
@@ -129,5 +131,11 @@ struct xEnt : xBase
 void xEntSceneInit();
 void xEntSceneExit();
 xBox *xEntGetAllEntsBox();
+
+inline unsigned int xEntIsVisible(const xEnt *ent)
+{
+    BFBBSTUB("xEntIsVisible");
+    return 0;
+}
 
 #endif
