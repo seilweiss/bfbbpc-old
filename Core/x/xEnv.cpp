@@ -23,3 +23,11 @@ void xEnvSetup(xEnv *env)
     env->lightKit = NULL;
     gCurXEnv = env;
 }
+
+void xEnvRender(xEnv *env)
+{
+    if (env->geom)
+    {
+        iEnvRender(env->geom);
+    }
+}

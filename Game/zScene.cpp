@@ -85,12 +85,27 @@
 #include "zFX.h"
 #include "zParSys.h"
 #include "xSystem.h"
+#include "xSkyDome.h"
+#include "zNPCGlyph.h"
+#include "zNPCHazard.h"
+#include "zEntPlayerOOBState.h"
+#include "xParMgr.h"
+#include "zGameState.h"
+#include "xTRC.h"
+#include "zEntCruiseBubble.h"
+#include "xDraw.h"
+#include "zHud.h"
+#include "xCM.h"
 
 #include "print.h"
 
 #include <stdio.h>
 
 unsigned char HACK_BASETYPE;
+
+static int bytesNeeded;
+static int availOnDisk;
+static int neededFiles;
 
 static unsigned int enableScreenAdj;
 
@@ -1110,6 +1125,8 @@ static void DeactivateCB(xBase *base)
 
 void zSceneSetup()
 {
+    BFBBSTUB("zSceneSetup");
+
     zScene *s = globals.sceneCur;
 
     globals.cmgr = NULL;
@@ -1753,9 +1770,255 @@ void zSceneUpdate(float elapsedSec)
     BFBBSTUB("zSceneUpdate");
 }
 
+static void zSceneRenderPreFX()
+{
+    zScene *s = globals.sceneCur;
+
+    globals.currWorld = s->env->geom->world;
+
+    xLightKit_Enable(NULL, globals.currWorld);
+
+    zRenderState(SDRS_SkyBack);
+
+    xSkyDome_Render();
+
+    zRenderState(SDRS_Environment);
+
+    zLightAddLocalEnv();
+    zEnvRender(s->env);
+    zLightRemoveLocalEnv();
+
+    zRenderState(SDRS_OpaqueModels);
+
+    z_disco_floor::render_all();
+
+    unsigned int shadowHackCase = 0;
+
+    xEnt **entptr = &s->act_ents[s->num_act_ents - 1];
+    xEnt **entlast = &s->act_ents[
+        s->baseCount[eBaseTypePickup] +
+        s->baseCount[eBaseTypeStatic] +
+        s->baseCount[eBaseTypeTrigger]];
+
+    xModelBucket_Begin();
+
+    zEntSimpleObj_MgrUpdateRender(globals.currWorld, sTimeElapsed);
+    zEntSimpleObj_MgrCustomRender();
+
+    while (entptr >= entlast)
+    {
+        xEnt *ent = *entptr;
+
+        if (ent->collType != 0x1)
+        {
+            if (ent->collType == 0x10)
+            {
+                shadowHackCase = 1;
+            }
+            else if (ent->render)
+            {
+                xLightKit_Enable(ent->lightKit, globals.currWorld);
+
+                ent->render(ent);
+            }
+        }
+
+        entptr--;
+    }
+
+    zShrapnel_Render();
+
+    zEntPickup_Render(
+        (zEntPickup *)s->baseList[eBaseTypePickup],
+        s->baseCount[eBaseTypePickup]);
+
+    xModelBucket_RenderOpaque();
+
+    zNPCCommon_Glyphs_RenderAll(1);
+    zNPCCommon_Hazards_RenderAll(1);
+
+    xLightKit_Enable(NULL, globals.currWorld);
+
+    zEntPickup_RenderList(
+        (zEntPickup *)s->baseList[eBaseTypePickup],
+        s->baseCount[eBaseTypePickup]);
+
+    if (shadowHackCase == 1 &&
+        globals.player.Transparent <= 0 &&
+        !oob_state::render())
+    {
+        xLightKit_Enable(globals.player.ent.lightKit, globals.currWorld);
+
+        globals.player.ent.render(&globals.player.ent);
+
+        xLightKit_Enable(NULL, globals.currWorld);
+    }
+
+    if (globals.cmgr && globals.cmgr->csn->Ready)
+    {
+        xLightKit *objLightKit = NULL;
+
+        if (globals.sceneCur->zen->easset->objectLightKit)
+        {
+            objLightKit = (xLightKit *)
+                xSTFindAsset(globals.sceneCur->zen->easset->objectLightKit, NULL);
+        }
+
+        if (objLightKit)
+        {
+            xLightKit_Enable(objLightKit, globals.currWorld);
+        }
+
+        xCutscene_Render(globals.cmgr->csn, NULL, NULL, NULL);
+
+        if (objLightKit)
+        {
+            xLightKit_Enable(NULL, globals.currWorld);
+        }
+    }
+
+    zEntPlayer_ShadowModelEnable();
+    xShadowManager_Render();
+    zEntPlayer_ShadowModelDisable();
+
+    xShadowSimple_Render();
+
+    zRenderState(SDRS_AlphaModels);
+
+    xModelBucket_RenderAlpha();
+    z_disco_floor::effects_render_all();
+    xFXRingRender();
+
+    zRenderState(SDRS_Lightning);
+
+    zLightningRender();
+    zActionLineRender();
+
+    zRenderState(SDRS_Streak);
+
+    xFXStreakRender();
+    xFXShineRender();
+    xFXRibbonRender();
+    xFXAuraRender();
+
+    zRenderState(SDRS_Particles);
+
+    zParSys *psys = (zParSys *)s->baseList[eBaseTypeParticleSystem];
+
+    for (int i = s->baseCount[eBaseTypeParticleSystem] - 1; i >= 0; i--)
+    {
+        xParSysRender(psys);
+        psys++;
+    }
+
+    xLightKit_Enable(NULL, globals.currWorld);
+
+    zRenderState(SDRS_NPCVisual);
+
+    zNPCMgr_scenePostRender();
+    zNPCCommon_Glyphs_RenderAll(0);
+    zNPCCommon_Hazards_RenderAll(0);
+
+    zRenderState(SDRS_AlphaModels);
+
+    xParMgrRender();
+    zParPTankRender();
+    xPTankPoolRender();
+    zNPCMgr_scenePostParticleRender();
+    xDecalRender();
+}
+
+static void zSceneRenderPostFX()
+{
+    zRenderState(SDRS_Glare);
+
+    xScrFXGlareRender(&globals.camera);
+    xScrFXFullScreenGlareRender();
+
+    if (zGameModeGet() == eGameMode_Intro &&
+        (zGameStateGet() == eIntroState_Sony || zGameStateGet() == eIntroState_Publisher))
+    {
+        render_mem_card_no_space(bytesNeeded, availOnDisk, neededFiles,
+                                 zGameStateGet() == eIntroState_Sony);
+    }
+
+    cruise_bubble::render_screen();
+    oob_state::fx_render();
+
+    zRenderState(SDRS_Font);
+
+    ztextbox::render_all();
+    ztalkbox::render_all();
+
+    zRenderState(SDRS_Font);
+
+    xDrawEnd();
+    xDrawBegin();
+
+    RwCameraEndUpdate(globals.camera.lo_cam);
+    RwCameraClear(globals.camera.lo_cam, NULL, rwCAMERACLEARZ);
+    RwCameraBeginUpdate(globals.camera.lo_cam);
+
+    zUIRenderAll();
+
+    eGameMode mode = (eGameMode)zGameModeGet();
+
+    if (mode != eGameMode_Game && mode != eGameMode_Stall)
+    {
+        RwRenderStateSet(rwRENDERSTATETEXTURERASTER, (void *)NULL);
+        zSceneSpawnRandomBubbles();
+
+        if (mode == eGameMode_Pause || mode == eGameMode_Save)
+        {
+            zParPTankUpdate(sTimeElapsed);
+        }
+
+        zParPTankRender();
+    }
+
+    switch (mode)
+    {
+    case eGameMode_WorldMap:
+        break;
+    case eGameMode_ConceptArtGallery:
+        break;
+    case eGameMode_Load:
+        break;
+    default:
+        zRenderState(SDRS_HUD);
+        zhud::render();
+    }
+
+    xParMgrRender();
+
+    if (!zGameIsPaused())
+    {
+        xCMrender();
+    }
+
+    if (zGameModeGet() == eGameMode_Intro &&
+        (zGameStateGet() == eIntroState_Sony || zGameStateGet() == eIntroState_Publisher))
+    {
+        render_mem_card_no_space(bytesNeeded, availOnDisk, neededFiles,
+                                 zGameStateGet() == eIntroState_Sony);
+    }
+
+    xTRCRender();
+
+    if (zGameModeGet() == eGameMode_Intro &&
+        zGameStateGet() == eIntroState_License)
+    {
+        xScrFxDrawScreenSizeRectangle();
+    }
+}
+
 void zSceneRender()
 {
-    BFBBSTUB("zSceneRender");
+    zSceneRenderPreFX();
+
+    xScrFxRender(globals.camera.lo_cam);
+
+    zSceneRenderPostFX();
 }
 
 static void zSceneObjHashtableInit(int size)
@@ -1883,4 +2146,9 @@ void zSceneMemLvlChkCB()
 void zSceneEnableVisited(zScene *s)
 {
     BFBBSTUB("zSceneEnableVisited");
+}
+
+void zSceneSpawnRandomBubbles()
+{
+    BFBBSTUB("zSceneSpawnRandomBubbles");
 }

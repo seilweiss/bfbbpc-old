@@ -11,3 +11,8 @@ void xDecalDestroy()
 {
     return;
 }
+
+void xDecalRender()
+{
+    return;
+}

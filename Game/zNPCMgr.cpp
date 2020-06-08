@@ -32,6 +32,16 @@ void zNPCMgr_scenePostSetup()
     BFBBSTUB("zNPCMgr_scenePostSetup");
 }
 
+void zNPCMgr_scenePostRender()
+{
+    BFBBSTUB("zNPCMgr_scenePostRender");
+}
+
+void zNPCMgr_scenePostParticleRender()
+{
+    BFBBSTUB("zNPCMgr_scenePostParticleRender");
+}
+
 xEnt *zNPCMgr_createNPCInst(xEntAsset *assdat)
 {
     BFBBSTUB("zNPCMgr_createNPCInst");

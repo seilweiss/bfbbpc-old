@@ -34,6 +34,8 @@ void zLightResetAll(xEnv *env);
 void zLightInit(void *b, void *tasset);
 void zLightResolveLinks();
 void zLightDestroyAll();
+void zLightAddLocalEnv();
+void zLightRemoveLocalEnv();
 void zLightSetVolume(zVolume *vol);
 
 #endif

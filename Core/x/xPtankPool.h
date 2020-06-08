@@ -3,5 +3,6 @@
 
 void xPTankPoolSceneEnter();
 void xPTankPoolSceneExit();
+void xPTankPoolRender();
 
 #endif

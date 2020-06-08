@@ -7,5 +7,6 @@
 void xShadowInit();
 void xShadowSetWorld(RpWorld *world);
 void xShadowManager_Init(int numEnts);
+void xShadowManager_Render();
 
 #endif

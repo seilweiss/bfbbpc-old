@@ -11,3 +11,8 @@ void xPTankPoolSceneExit()
 {
     BFBBSTUB("xPTankPoolSceneExit");
 }
+
+void xPTankPoolRender()
+{
+    BFBBSTUB("xPTankPoolRender");
+}

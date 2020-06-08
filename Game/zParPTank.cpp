@@ -21,3 +21,13 @@ void zParPTankExit()
 {
     BFBBSTUB("zParPTankExit");
 }
+
+void zParPTankUpdate(float dt)
+{
+    BFBBSTUB("zParPTankUpdate");
+}
+
+void zParPTankRender()
+{
+    BFBBSTUB("zParPTankRender");
+}

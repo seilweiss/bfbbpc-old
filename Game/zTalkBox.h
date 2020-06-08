@@ -65,6 +65,7 @@ struct ztalkbox : xBase
 
     static void load_settings(xIniFile &ini);
     static void init();
+    static void render_all();
 };
 
 #endif

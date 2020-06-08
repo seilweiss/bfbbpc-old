@@ -2,6 +2,7 @@
 #define ZENV_H
 
 #include "xBase.h"
+#include "xEnv.h"
 
 struct xEnvAsset : xBaseAsset
 {
@@ -33,5 +34,6 @@ int zEnvEventCB(xBase *from, xBase *to, unsigned int toEvent, const float *toPar
                 xBase *toParamWidget);
 void zEnvSetup(_zEnv *env);
 void zEnvStartingCamera(_zEnv *env);
+void zEnvRender(xEnv *env);
 
 #endif

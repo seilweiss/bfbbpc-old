@@ -1,5 +1,7 @@
 #include "iModel.h"
 
+#include "xMathInlines.h"
+
 #include <rwcore.h>
 #include <rpworld.h>
 
@@ -28,4 +30,27 @@ void iModelInit()
 
         RpLightSetColor(sEmptyAmbientLight, &black);
     }
+}
+
+int iModelCull(RpAtomic *model, RwMatrix *mat)
+{
+    RwCamera *cam = RwCameraGetCurrentCamera();
+    RwSphere sph;
+
+    RwV3dTransformPoints(&sph.center, &model->boundingSphere.center, 1, mat);
+
+    RwReal f1 = RwV3dDotProduct(&mat->right, &mat->right);
+    RwReal f3 = RwV3dDotProduct(&mat->up, &mat->up);
+    RwReal f4 = RwV3dDotProduct(&mat->at, &mat->at);
+
+    sph.radius = model->boundingSphere.radius * xsqrt(xmax(f1, xmax(f3, f4)));
+
+    model->worldBoundingSphere = sph;
+
+    if (!cam)
+    {
+        return 1;
+    }
+
+    return (RwCameraFrustumTestSphere(cam, &sph) == rwSPHEREOUTSIDE);
 }

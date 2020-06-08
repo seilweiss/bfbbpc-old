@@ -6,3 +6,8 @@ void zActionLineInit()
 {
     BFBBSTUB("zActionLineInit");
 }
+
+void zActionLineRender()
+{
+    BFBBSTUB("zActionLineRender");
+}

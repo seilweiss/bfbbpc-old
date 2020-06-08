@@ -48,6 +48,7 @@ struct xIniFile;
 
 void zUI_Init();
 void zUI_Init(void *ent, void *asset);
+void zUIRenderAll();
 void zUI_ParseINI(xIniFile *ini);
 void zUI_ScenePortalInit(zScene *zsc);
 

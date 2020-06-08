@@ -13,9 +13,19 @@ void xTRCInit()
     BFBBSTUB("xTRCInit");
 }
 
+void xTRCRender()
+{
+    BFBBSTUB("xTRCRender");
+}
+
 void xTRCPad(int pad_id, _tagTRCState state)
 {
     return;
+}
+
+void render_mem_card_no_space(int needed, int available, int neededFiles, bool enabled)
+{
+    BFBBSTUB("render_mem_card_no_space");
 }
 
 void RenderText(const char *text, bool enabled)

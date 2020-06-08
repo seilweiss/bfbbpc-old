@@ -80,6 +80,7 @@ struct ztextbox : xBase
     RwRaster *bgtex;
 
     static void init();
+    static void render_all();
 };
 
 #endif

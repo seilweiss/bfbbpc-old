@@ -29,6 +29,21 @@ void xModelBucket_Init()
     BFBBSTUB("xModelBucket_Init");
 }
 
+void xModelBucket_Begin()
+{
+    BFBBSTUB("xModelBucket_Begin");
+}
+
+void xModelBucket_RenderOpaque()
+{
+    BFBBSTUB("xModelBucket_RenderOpaque");
+}
+
+void xModelBucket_RenderAlpha()
+{
+    BFBBSTUB("xModelBucket_RenderAlpha");
+}
+
 void xModelBucket_Deinit()
 {
     BFBBSTUB("xModelBucket_Deinit");

@@ -89,6 +89,45 @@ void zEnvStartingCamera(_zEnv *env)
     BFBBSTUB("zEnvStartingCamera");
 }
 
+void zEnvRender(xEnv *env)
+{
+    BFBBSTUB("zEnvRender");
+
+    /*
+    RpWorld *world = env->geom->world;
+    int num = RpWorldGetNumMaterials(world);
+
+    for (int i = 0; i < num; i++)
+    {
+        xSurface *sp = zSurfaceGetSurface(i);
+        zSurfaceProps *pp = (zSurfaceProps *)sp->moprops;
+
+        if (pp && pp->asset && (pp->texanim_flags & 0x1))
+        {
+            RpMaterial *mp = RpWorldGetMaterial(world, i);
+
+            if (mp)
+            {
+                xGroup *g = (xGroup *)pp->texanim[0].group_ptr;
+
+                if (g)
+                {
+                    unsigned int texid = xGroupGetItem(g, pp->texanim[0].group_idx);
+                    RwTexture *texptr = (RwTexture *)xSTFindAsset(texid, NULL);
+
+                    if (texptr)
+                    {
+                        RpMaterialSetTexture(mp, texptr);
+                    }
+                }
+            }
+        }
+    }
+    */
+    
+    xEnvRender(env);
+}
+
 int zEnvEventCB(xBase *from, xBase *to, unsigned int toEvent, const float *toParam,
                 xBase *toParamWidget)
 {

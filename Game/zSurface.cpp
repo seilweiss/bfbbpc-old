@@ -1,5 +1,7 @@
 #include "zSurface.h"
 
+#include <stdlib.h>
+
 #include "print.h"
 
 void zSurfaceInit()
@@ -15,6 +17,12 @@ void zSurfaceRegisterMapper(unsigned int assetId)
 void zSurfaceExit()
 {
     BFBBSTUB("zSurfaceExit");
+}
+
+xSurface *zSurfaceGetSurface(unsigned int mat_id)
+{
+    BFBBSTUB("zSurfaceGetSurface");
+    return NULL;
 }
 
 void zSurfaceSetup(xSurface *s)

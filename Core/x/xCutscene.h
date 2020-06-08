@@ -2,6 +2,7 @@
 #define XCUTSCENE_H
 
 #include "xFile.h"
+#include "xEnt.h"
 
 struct xCutsceneInfo
 {
@@ -92,5 +93,6 @@ struct xCamera;
 
 void xCutscene_Init(void *toc);
 void xCutscene_SetCamera(xCutscene *csn, xCamera *cam);
+void xCutscene_Render(xCutscene *csn, xEnt **, int *, float *);
 
 #endif

@@ -6,3 +6,8 @@ void zLightningInit()
 {
     BFBBSTUB("zLightningInit");
 }
+
+void zLightningRender()
+{
+    BFBBSTUB("zLightningRender");
+}

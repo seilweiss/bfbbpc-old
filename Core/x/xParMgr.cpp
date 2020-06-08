@@ -6,3 +6,8 @@ void xParMgrInit()
 {
     BFBBSTUB("xParMgrInit");
 }
+
+void xParMgrRender()
+{
+    BFBBSTUB("xParMgrRender");
+}

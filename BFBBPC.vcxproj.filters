@@ -588,6 +588,21 @@
     <ClInclude Include="Core\p2\iWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Game\zNPCGlyph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\zNPCHazard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\zEntCruiseBubble.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\zHud.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\x\xCM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\zMain.cpp">
@@ -1071,6 +1086,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\p2\iWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\zNPCGlyph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\zNPCHazard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\zEntCruiseBubble.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\zHud.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\x\xCM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

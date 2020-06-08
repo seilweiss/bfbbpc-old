@@ -40,6 +40,8 @@ void zEntPickup_Setup(zEntPickup *p);
 void zEntPickup_Setup();
 void zEntPickup_Reset(zEntPickup *ent);
 void zEntPickup_FlushGrabbed();
+void zEntPickup_Render(zEntPickup *plist, unsigned int pcount);
+void zEntPickup_RenderList(zEntPickup *plist, unsigned int pcount);
 void zEntPickup_SceneEnter();
 void zEntPickup_RewardPostSetup();
 

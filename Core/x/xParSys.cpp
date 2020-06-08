@@ -16,3 +16,8 @@ void xParSysExit(xParSys *t)
 {
     BFBBSTUB("xParSysExit");
 }
+
+void xParSysRender(xBase *b)
+{
+    BFBBSTUB("xParSysRender");
+}

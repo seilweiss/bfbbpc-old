@@ -244,6 +244,7 @@
     <ClInclude Include="Core\x\xCamera.h" />
     <ClInclude Include="Core\x\xClimate.h" />
     <ClInclude Include="Core\x\xClumpColl.h" />
+    <ClInclude Include="Core\x\xCM.h" />
     <ClInclude Include="Core\x\xCollide.h" />
     <ClInclude Include="Core\x\xCollideFast.h" />
     <ClInclude Include="Core\x\xColor.h" />
@@ -337,6 +338,7 @@
     <ClInclude Include="Game\zEGenerator.h" />
     <ClInclude Include="Game\zEnt.h" />
     <ClInclude Include="Game\zEntButton.h" />
+    <ClInclude Include="Game\zEntCruiseBubble.h" />
     <ClInclude Include="Game\zEntDestructObj.h" />
     <ClInclude Include="Game\zEntHangable.h" />
     <ClInclude Include="Game\zEntPickup.h" />
@@ -357,6 +359,7 @@
     <ClInclude Include="Game\zGoo.h" />
     <ClInclude Include="Game\zGrid.h" />
     <ClInclude Include="Game\zGust.h" />
+    <ClInclude Include="Game\zHud.h" />
     <ClInclude Include="Game\zLasso.h" />
     <ClInclude Include="Game\zLight.h" />
     <ClInclude Include="Game\zLightning.h" />
@@ -365,6 +368,8 @@
     <ClInclude Include="Game\zMenu.h" />
     <ClInclude Include="Game\zMovePoint.h" />
     <ClInclude Include="Game\zMusic.h" />
+    <ClInclude Include="Game\zNPCGlyph.h" />
+    <ClInclude Include="Game\zNPCHazard.h" />
     <ClInclude Include="Game\zNPCMgr.h" />
     <ClInclude Include="Game\zNPCSndTable.h" />
     <ClInclude Include="Game\zNPCTypeAmbient.h" />
@@ -433,6 +438,7 @@
     <ClCompile Include="Core\x\xCamera.cpp" />
     <ClCompile Include="Core\x\xClimate.cpp" />
     <ClCompile Include="Core\x\xClumpColl.cpp" />
+    <ClCompile Include="Core\x\xCM.cpp" />
     <ClCompile Include="Core\x\xCollide.cpp" />
     <ClCompile Include="Core\x\xCollideFast.cpp" />
     <ClCompile Include="Core\x\xCounter.cpp" />
@@ -505,6 +511,7 @@
     <ClCompile Include="Game\zEGenerator.cpp" />
     <ClCompile Include="Game\zEnt.cpp" />
     <ClCompile Include="Game\zEntButton.cpp" />
+    <ClCompile Include="Game\zEntCruiseBubble.cpp" />
     <ClCompile Include="Game\zEntDestructObj.cpp" />
     <ClCompile Include="Game\zEntHangable.cpp" />
     <ClCompile Include="Game\zEntPickup.cpp" />
@@ -524,6 +531,7 @@
     <ClCompile Include="Game\zGoo.cpp" />
     <ClCompile Include="Game\zGrid.cpp" />
     <ClCompile Include="Game\zGust.cpp" />
+    <ClCompile Include="Game\zHud.cpp" />
     <ClCompile Include="Game\zLasso.cpp" />
     <ClCompile Include="Game\zLight.cpp" />
     <ClCompile Include="Game\zLightning.cpp" />
@@ -532,6 +540,8 @@
     <ClCompile Include="Game\zMenu.cpp" />
     <ClCompile Include="Game\zMovePoint.cpp" />
     <ClCompile Include="Game\zMusic.cpp" />
+    <ClCompile Include="Game\zNPCGlyph.cpp" />
+    <ClCompile Include="Game\zNPCHazard.cpp" />
     <ClCompile Include="Game\zNPCMgr.cpp" />
     <ClCompile Include="Game\zNPCTypeAmbient.cpp" />
     <ClCompile Include="Game\zNPCTypeBoss.cpp" />

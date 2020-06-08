@@ -7,6 +7,16 @@ void zEntPlayerControlOn(zControlOwner owner)
     BFBBSTUB("zEntPlayerControlOn");
 }
 
+void zEntPlayer_ShadowModelEnable()
+{
+    BFBBSTUB("zEntPlayer_ShadowModelEnable");
+}
+
+void zEntPlayer_ShadowModelDisable()
+{
+    BFBBSTUB("zEntPlayer_ShadowModelDisable");
+}
+
 void CalcJumpImpulse(zJumpParam *param, const zPlayerSettings *settings)
 {
     BFBBSTUB("CalcJumpImpulse");

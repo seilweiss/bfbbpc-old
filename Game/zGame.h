@@ -104,6 +104,7 @@ void zGameSetup();
 
 extern unsigned char sHackSmoothedUpdate;
 
+int zGameIsPaused();
 void zGameLoop();
 
 extern RwCamera *sGameScreenTransCam;

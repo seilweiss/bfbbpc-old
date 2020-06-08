@@ -21,6 +21,11 @@ void zUI_Init(void *ent, void *asset)
     BFBBSTUB("zUI_Init");
 }
 
+void zUIRenderAll()
+{
+    BFBBSTUB("zUIRenderAll");
+}
+
 void zUI_ParseINI(xIniFile *ini)
 {
     BFBBSTUB("zUI_ParseINI");

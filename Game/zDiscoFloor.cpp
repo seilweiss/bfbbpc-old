@@ -17,6 +17,16 @@ void z_disco_floor::destroy()
     BFBBSTUB("z_disco_floor::destroy");
 }
 
+void z_disco_floor::render_all()
+{
+    BFBBSTUB("z_disco_floor::render_all");
+}
+
+void z_disco_floor::effects_render_all()
+{
+    BFBBSTUB("z_disco_floor::effects_render_all");
+}
+
 void z_disco_floor::init(void *ent, void *asset)
 {
     BFBBSTUB("z_disco_floor::init");

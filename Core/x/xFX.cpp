@@ -7,6 +7,11 @@ void xFXInit()
     BFBBSTUB("xFXInit");
 }
 
+void xFXRingRender()
+{
+    BFBBSTUB("xFXRingRender");
+}
+
 void xFX_SceneEnter(RpWorld *world)
 {
     BFBBSTUB("xFX_SceneEnter");
@@ -29,14 +34,34 @@ void xFXStreakInit()
     BFBBSTUB("xFXStreakInit");
 }
 
+void xFXStreakRender()
+{
+    BFBBSTUB("xFXStreakRender");
+}
+
 void xFXShineInit()
 {
     BFBBSTUB("xFXShineInit");
 }
 
+void xFXShineRender()
+{
+    BFBBSTUB("xFXShineRender");
+}
+
 void xFXRibbonSceneEnter()
 {
     BFBBSTUB("xFXRibbonSceneEnter");
+}
+
+void xFXRibbonRender()
+{
+    BFBBSTUB("xFXRibbonRender");
+}
+
+void xFXAuraRender()
+{
+    BFBBSTUB("xFXAuraRender");
 }
 
 void xFXStartup()

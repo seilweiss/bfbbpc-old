@@ -25,3 +25,8 @@ xBase *xGroupGetItemPtr(xGroup *g, unsigned int index)
     BFBBSTUB("xGroupGetItemPtr");
     return NULL;
 }
+
+unsigned int xGroupGetItem(xGroup *g, unsigned int index)
+{
+    return ((unsigned int *)(g->asset + 1))[index];
+}

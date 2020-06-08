@@ -69,6 +69,7 @@ void zSceneEnableVisited(zScene *s);
 int zSceneSetup_serialTraverseCB(unsigned int clientID, xSerial *xser);
 void zSceneSetup();
 void zSceneUpdate(float elapsedSec);
+void zSceneSpawnRandomBubbles();
 void zSceneRender();
 void zSceneForAllBase(zSceneForAllBaseCallBack func, int baseType, void *data);
 void zSceneMemLvlChkCB();

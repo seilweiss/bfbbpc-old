@@ -69,6 +69,8 @@ struct z_disco_floor : xBase
     static void init();
     static void post_setup();
     static void destroy();
+    static void render_all();
+    static void effects_render_all();
     static void init(void *ent, void *asset);
 
     void setup();

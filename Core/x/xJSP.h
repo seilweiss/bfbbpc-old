@@ -12,6 +12,9 @@ struct xJSPNodeInfo
     int nodeFlags;
 };
 
+#define XJSPNODE_TOGGLEZBUFFER  0x2
+#define XJSPNODE_TOGGLEBACKCULL 0x4
+
 struct xJSPHeader
 {
     char idtag[4];

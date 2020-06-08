@@ -63,6 +63,26 @@ void zGameLoop()
     BFBBSTUB("zGameLoop");
 }
 
+int zGameIsPaused()
+{
+    if (gGameMode == eGameMode_Stall)
+    {
+        return 1;
+    }
+
+    if (gGameMode == eGameMode_Pause)
+    {
+        return 1;
+    }
+
+    if (gGameMode == eGameMode_Save)
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
 void zGameTakeSnapShot(RwCamera *cam)
 {
     return;

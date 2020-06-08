@@ -22,6 +22,16 @@ void zLightDestroyAll()
     BFBBSTUB("zLightDestroyAll");
 }
 
+void zLightAddLocalEnv()
+{
+    BFBBSTUB("zLightAddLocalEnv");
+}
+
+void zLightRemoveLocalEnv()
+{
+    BFBBSTUB("zLightRemoveLocalEnv");
+}
+
 void zLightSetVolume(zVolume *vol)
 {
     BFBBSTUB("zLightSetVolume");

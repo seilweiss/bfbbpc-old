@@ -7,6 +7,16 @@ void zEntSimpleObj_MgrInit(zEntSimpleObj **entList, unsigned int entCount)
     BFBBSTUB("zEntSimpleObj_MgrInit");
 }
 
+void zEntSimpleObj_MgrUpdateRender(RpWorld *world, float dt)
+{
+    BFBBSTUB("zEntSimpleObj_MgrUpdateRender");
+}
+
+void zEntSimpleObj_MgrCustomRender()
+{
+    BFBBSTUB("zEntSimpleObj_MgrCustomRender");
+}
+
 void zEntTrackPhysics_Init(void *ent, void *asset)
 {
     BFBBSTUB("zEntTrackPhysics_Init");

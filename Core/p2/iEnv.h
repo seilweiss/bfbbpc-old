@@ -21,5 +21,6 @@ struct iEnv
 void iEnvStartup();
 void iEnvLoad(iEnv *env, const void *data, unsigned int datasize, int dataType);
 void iEnvDefaultLighting(iEnv *env);
+void iEnvRender(iEnv *env);
 
 #endif

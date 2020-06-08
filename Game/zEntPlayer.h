@@ -163,6 +163,8 @@ enum zControlOwner
 
 void zEntPlayerControlOn(zControlOwner owner);
 void CalcJumpImpulse(zJumpParam *param, const zPlayerSettings *settings);
+void zEntPlayer_ShadowModelEnable();
+void zEntPlayer_ShadowModelDisable();
 void zEntPlayerExit(xEnt *ent);
 void zEntPlayer_LoadSounds();
 void zEntPlayer_UnloadSounds();

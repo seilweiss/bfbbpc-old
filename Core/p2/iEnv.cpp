@@ -3,6 +3,8 @@
 #include "iCamera.h"
 #include "iSystem.h"
 #include "xMemMgr.h"
+#include "iModel.h"
+#include "xJSP.h"
 
 static RpWorld *sPipeWorld;
 static RwCamera *sPipeCamera;
@@ -105,4 +107,99 @@ void iEnvLoad(iEnv *env, const void *data, unsigned int datasize, int dataType)
 void iEnvDefaultLighting(iEnv *env)
 {
     return;
+}
+
+static void Jsp_ClumpRender(RpClump *clump, xJSPNodeInfo *nodeInfo)
+{
+    int backcullon = 1;
+    int zbufferon = 1;
+
+    RwLLLink *cur = rwLinkListGetFirstLLLink(&clump->atomicList);
+    RwLLLink *end = rwLinkListGetTerminator(&clump->atomicList);
+
+    while (cur != end)
+    {
+        RpAtomic *apAtom = rwLLLinkGetData(cur, RpAtomic, inClumpLink);
+
+        if (rwObjectTestFlags(apAtom, rpATOMICRENDER))
+        {
+            RwFrame *frame = (RwFrame *)rwObjectGetParent(apAtom);
+
+            if (!iModelCull(apAtom, &frame->ltm))
+            {
+                if (backcullon)
+                {
+                    if (nodeInfo->nodeFlags & XJSPNODE_TOGGLEBACKCULL)
+                    {
+                        backcullon = 0;
+                        RwRenderStateSet(rwRENDERSTATECULLMODE, (void *)rwCULLMODECULLNONE);
+                    }
+                }
+                else
+                {
+                    if (nodeInfo->nodeFlags & XJSPNODE_TOGGLEBACKCULL)
+                    {
+                        backcullon = 1;
+                        RwRenderStateSet(rwRENDERSTATECULLMODE, (void *)rwCULLMODECULLBACK);
+                    }
+                }
+
+                if (zbufferon)
+                {
+                    if (nodeInfo->nodeFlags & XJSPNODE_TOGGLEZBUFFER)
+                    {
+                        zbufferon = 0;
+                        RwRenderStateSet(rwRENDERSTATEZWRITEENABLE, (void *)FALSE);
+                    }
+                }
+                else
+                {
+                    if (nodeInfo->nodeFlags & XJSPNODE_TOGGLEZBUFFER)
+                    {
+                        zbufferon = 1;
+                        RwRenderStateSet(rwRENDERSTATEZWRITEENABLE, (void *)TRUE);
+                    }
+                }
+
+                RpAtomicRender(apAtom);
+            }
+        }
+
+        cur = rwLLLinkGetNext(cur);
+        nodeInfo++;
+    }
+}
+
+static void JspPS2_ClumpRender(RpClump *clump, xJSPNodeInfo *nodeInfo)
+{
+    int backcullon;
+    int zbufferon;
+    RwLLLink *cur;
+    RwLLLink *end;
+    RpAtomic *apAtom;
+    RwFrame *frame;
+    int insideFlag;
+}
+
+static iEnv *lastEnv;
+
+void iEnvRender(iEnv *env)
+{
+    RwRenderStateSet(rwRENDERSTATESRCBLEND, (void *)rwBLENDSRCALPHA);
+    RwRenderStateSet(rwRENDERSTATEDESTBLEND, (void *)rwBLENDINVSRCALPHA);
+
+    if (env->jsp)
+    {
+#ifdef PS2
+        JspPS2_ClumpRender(env->jsp->clump, env->jsp->jspNodeList);
+#else
+        Jsp_ClumpRender(env->jsp->clump, env->jsp->jspNodeList);
+#endif
+    }
+    else
+    {
+        RpWorldRender(env->world);
+    }
+
+    lastEnv = env;
 }

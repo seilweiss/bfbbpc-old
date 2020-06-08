@@ -66,5 +66,6 @@ struct zLightning
 };
 
 void zLightningInit();
+void zLightningRender();
 
 #endif

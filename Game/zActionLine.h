@@ -2,5 +2,6 @@
 #define ZACTIONLINE_H
 
 void zActionLineInit();
+void zActionLineRender();
 
 #endif

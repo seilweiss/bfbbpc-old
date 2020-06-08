@@ -3,5 +3,6 @@
 
 void xDecalInit();
 void xDecalDestroy();
+void xDecalRender();
 
 #endif

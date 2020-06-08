@@ -32,6 +32,16 @@ void zEntPickup_FlushGrabbed()
     BFBBSTUB("zEntPickup_FlushGrabbed");
 }
 
+void zEntPickup_Render(zEntPickup *plist, unsigned int pcount)
+{
+    BFBBSTUB("zEntPickup_Render");
+}
+
+void zEntPickup_RenderList(zEntPickup *plist, unsigned int pcount)
+{
+    BFBBSTUB("zEntPickup_RenderList");
+}
+
 void zEntPickup_SceneEnter()
 {
     BFBBSTUB("zEntPickup_SceneEnter");

@@ -12,6 +12,11 @@ void xScrFxUpdate(RwCamera *cam, float dt)
     BFBBSTUB("xScrFxUpdate");
 }
 
+void xScrFxRender(RwCamera *cam)
+{
+    BFBBSTUB("xScrFxRender");
+}
+
 void xScrFxDrawScreenSizeRectangle()
 {
     BFBBSTUB("xScrFxDrawScreenSizeRectangle");
@@ -41,4 +46,14 @@ void xScrFxLetterBoxSetAlpha(unsigned char alpha)
 void xScrFxLetterbox(int enable)
 {
     BFBBSTUB("xScrFxLetterbox");
+}
+
+void xScrFXFullScreenGlareRender()
+{
+    BFBBSTUB("xScrFXFullScreenGlareRender");
+}
+
+void xScrFXGlareRender(xCamera *cam)
+{
+    BFBBSTUB("xScrFXGlareRender");
 }

@@ -15,5 +15,6 @@ extern xEnv *gCurXEnv;
 
 void xEnvLoadBsp(xEnv *env, const void *data, unsigned int datasize, int dataType);
 void xEnvSetup(xEnv *env);
+void xEnvRender(xEnv *env);
 
 #endif

@@ -5,5 +5,7 @@ void zParPTankInit();
 void zParPTankSceneEnter();
 void zParPTankSceneExit();
 void zParPTankExit();
+void zParPTankUpdate(float dt);
+void zParPTankRender();
 
 #endif
