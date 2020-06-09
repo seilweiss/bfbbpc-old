@@ -22,8 +22,13 @@ enum _tagPadInit
 };
 
 struct _tagxPad;
+struct _tagxRumble;
 
 int iPadInit();
 _tagxPad *iPadEnable(_tagxPad *pad, short port);
+int iPadUpdate(_tagxPad *pad, unsigned int *on);
+void iPadRumbleFx(_tagxPad *p, _tagxRumble *r, float time_passed);
+void iPadStopRumble(_tagxPad *pad);
+void iPadStartRumble(_tagxPad *pad, _tagxRumble *rumble);
 
 #endif

@@ -84,6 +84,9 @@ extern float zcam_ttm;
 extern float zcam_fovcurr;
 extern float zcam_fovdest;
 
+// temp
+extern int zcam_debug;
+
 void zCameraReset(xCamera *cam);
 void zCameraDisableTracking(camera_owner_enum owner);
 void zCameraUpdate(xCamera *cam, float dt);

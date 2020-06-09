@@ -31,7 +31,7 @@ void render_mem_card_no_space(int needed, int available, int neededFiles, bool e
 void RenderText(const char *text, bool enabled)
 {
     static xtextbox tb = xtextbox::create(
-            xfont::create(1, NSCREENX(19.0f), NSCREENY(22.0f), 0.0f,
+            xfont::create(XFONT_ID_ARIAL, NSCREENX(19.0f), NSCREENY(22.0f), 0.0f,
             xColorFromRGBA(255, 230, 0, 255), screen_bounds),
         screen_bounds, 0x2, 0.0f, 0.0f, 0.0f, 0.0f);
 

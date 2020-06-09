@@ -24,6 +24,8 @@
 #include "xTRC.h"
 #include "iWindow.h"
 
+#include "DebugText.h"
+
 #include "print.h"
 
 #define ATTRACT_MODE_TIME 48.264f
@@ -41,6 +43,11 @@ static float holdTmr = 10.0f;
 static int zMenuIsPaused();
 static unsigned int zMenuUpdateMode();
 static int zMenuLoopContinue();
+
+int zMenuRunning()
+{
+    return sInMenu;
+}
 
 void zMenuInit(unsigned int theSceneID)
 {
@@ -268,6 +275,8 @@ unsigned int zMenuLoop()
 
             xScrFxDrawScreenSizeRectangle();
         }
+
+        DebugText_Render();
 
         xDrawEnd();
 

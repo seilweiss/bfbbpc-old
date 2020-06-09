@@ -72,6 +72,9 @@ float zcam_ttm;
 float zcam_fovcurr;
 float zcam_fovdest;
 
+// temp
+int zcam_debug = 0;
+
 namespace
 {
 enum WallJumpViewState
@@ -272,7 +275,7 @@ static int zCameraFlyUpdate(xCamera *cam, float dt)
     }
 
     flyFrame = FRAMES_PER_SEC / 2 * zcam_flytime;
-    flyIdx = xfloor(flyFrame);
+    flyIdx = (int)xfloor(flyFrame);
     flyLerp = flyFrame - xfloor(flyFrame);
 
     numKeys = zcam_flysize / sizeof(zFlyKey);
@@ -597,6 +600,49 @@ static void zCameraFreeLookSetGoals(xCamera *cam, float pitch_s, float &dgoal,
     }
 }
 
+static void zCameraDebugUpdate(xCamera *cam, float dt)
+{
+    float movespd = 10.0f * dt;
+    float rotspd = 2.0f * dt;
+
+    if (globals.pad0->on & XPAD_BUTTON_DBG_CAM_SPRINT)
+    {
+        movespd *= 2.0f;
+        rotspd *= 2.0f;
+    }
+
+    xVec3 rot;
+    xMat3x3GetEuler(&cam->mat, &rot);
+
+    xVec3 drot;
+    drot.x = ((float)globals.pad0->analog2.x / 127) * rotspd;
+    drot.y = -((float)globals.pad0->analog2.y / 127) * rotspd;
+    drot.z = 0.0f;
+
+    xVec3AddTo(&rot, &drot);
+    xMat3x3Euler(&cam->mat, &rot);
+    
+    xVec3 dpos;
+    dpos.x = -((float)globals.pad0->analog1.x / 127) * movespd;
+    dpos.z = -((float)globals.pad0->analog1.y / 127) * movespd;
+    
+    dpos.y = 0.0f;
+
+    if (globals.pad0->on & XPAD_BUTTON_DBG_CAM_UP)
+    {
+        dpos.y += movespd;
+    }
+    
+    if (globals.pad0->on & XPAD_BUTTON_DBG_CAM_DOWN)
+    {
+        dpos.y -= movespd;
+    }
+
+    xMat4x3MoveLocalRight(&cam->mat, dpos.x);
+    xMat4x3MoveLocalUp(&cam->mat, dpos.y);
+    xMat4x3MoveLocalAt(&cam->mat, dpos.z);
+}
+
 void zCameraUpdate(xCamera *cam, float dt)
 {
     if (globals.sceneCur->sceneID == 'HB02' ||
@@ -646,6 +692,19 @@ void zCameraUpdate(xCamera *cam, float dt)
         }
 
         xCutscene_SetCamera(globals.cmgr->csn, cam);
+        iCameraUpdatePos(cam->lo_cam, &cam->mat);
+
+        return;
+    }
+
+    if (globals.pad0->pressed & XPAD_BUTTON_DBG_CAM_TOGGLE)
+    {
+        zcam_debug = !zcam_debug;
+    }
+    
+    if (zcam_debug)
+    {
+        zCameraDebugUpdate(cam, dt);
         iCameraUpdatePos(cam->lo_cam, &cam->mat);
 
         return;
@@ -926,7 +985,7 @@ void zCameraUpdate(xCamera *cam, float dt)
     {
         float velx = (cam->tgt_mat->pos.x - cam->tgt_omat->pos.x - tran_accum.x) / dt;
         float velz = (cam->tgt_mat->pos.z - cam->tgt_omat->pos.z - tran_accum.z) / dt;
-        float camx = cam->tgt_mat->pos.x = cam->mat.pos.x;
+        float camx = cam->tgt_mat->pos.x - cam->mat.pos.x;
         float camz = cam->tgt_mat->pos.z - cam->mat.pos.z;
 
         float cammag = xsqrt(xsqr(camx) + xsqr(camz));

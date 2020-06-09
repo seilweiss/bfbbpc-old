@@ -3,5 +3,6 @@
 
 void zGameExtras_NewGameReset();
 void zGame_HackGalleryInit();
+unsigned int zGame_HackIsGallery();
 
 #endif

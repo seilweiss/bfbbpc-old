@@ -7,6 +7,11 @@
 
 #include <rwcore.h>
 
+#define XFONT_ID_SB      0
+#define XFONT_ID_ARIAL   1
+#define XFONT_ID_SYSTEM  2
+#define XFONT_ID_NUMBERS 3
+
 struct xfont
 {
     unsigned int id;

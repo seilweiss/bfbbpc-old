@@ -816,7 +816,7 @@ void xCameraUpdate(xCamera *cam, float dt)
 
     for (i = 0; i < num_updates; i++)
     {
-        sCamCollis = (i == num_updates - 1);
+        //sCamCollis = (i == num_updates - 1);
 
         _xCameraUpdate(cam, sdt);
     }
@@ -876,7 +876,7 @@ void xCameraMove(xCamera *cam, unsigned int flags, float dgoal, float hgoal, flo
     cam->hgoal = hgoal;
     cam->pgoal = pgoal;
 
-    if (tm > 0.0f)
+    if (tm <= 0.0f)
     {
         if (cam->tgt_mat)
         {

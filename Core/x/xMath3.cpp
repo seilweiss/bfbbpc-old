@@ -43,34 +43,55 @@ void xMath3Init()
 
 void xMat3x3GetEuler(const xMat3x3 *m, xVec3 *a)
 {
-    float pitch;
     float yaw;
+    float pitch;
     float roll;
 
-    yaw = -xasin(m->at.y);
+    pitch = -xasin(m->at.y);
 
-    if (yaw < (PI / 2))
+    if (pitch < (PI / 2))
     {
-        if (yaw > (-PI / 2))
+        if (pitch > (-PI / 2))
         {
-            pitch = xatan2(m->at.x, m->at.z);
+            yaw = xatan2(m->at.x, m->at.z);
             roll = xatan2(m->right.y, m->up.y);
         }
         else
         {
-            pitch = -xatan2(-m->up.x, m->right.x);
+            yaw = -xatan2(-m->up.x, m->right.x);
             roll = 0.0f;
         }
     }
     else
     {
-        pitch = xatan2(-m->up.x, m->right.x);
+        yaw = xatan2(-m->up.x, m->right.x);
         roll = 0.0f;
     }
 
-    a->x = pitch;
-    a->y = yaw;
+    a->x = yaw;
+    a->y = pitch;
     a->z = roll;
+}
+
+void xMat4x3MoveLocalRight(xMat4x3 *m, float mag)
+{
+    m->pos.x += m->right.x * mag;
+    m->pos.y += m->right.y * mag;
+    m->pos.z += m->right.z * mag;
+}
+
+void xMat4x3MoveLocalUp(xMat4x3 *m, float mag)
+{
+    m->pos.x += m->up.x * mag;
+    m->pos.y += m->up.y * mag;
+    m->pos.z += m->up.z * mag;
+}
+
+void xMat4x3MoveLocalAt(xMat4x3 *m, float mag)
+{
+    m->pos.x += m->at.x * mag;
+    m->pos.y += m->at.y * mag;
+    m->pos.z += m->at.z * mag;
 }
 
 float xMat3x3LookVec(xMat3x3 *m, const xVec3 *at)
@@ -141,6 +162,11 @@ float xMat3x3LookVec(xMat3x3 *m, const xVec3 *at)
     m->flags = 0;
 
     return vec_len;
+}
+
+void xMat3x3Euler(xMat3x3 *m, const xVec3 *ypr)
+{
+    xMat3x3Euler(m, ypr->x, ypr->y, ypr->z);
 }
 
 void xMat3x3Euler(xMat3x3 *m, float yaw, float pitch, float roll)

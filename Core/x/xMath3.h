@@ -80,7 +80,11 @@ extern xQuat g_IQ;
 
 void xMath3Init();
 void xMat3x3GetEuler(const xMat3x3 *m, xVec3 *a);
+void xMat4x3MoveLocalRight(xMat4x3 *m, float mag);
+void xMat4x3MoveLocalUp(xMat4x3 *m, float mag);
+void xMat4x3MoveLocalAt(xMat4x3 *m, float mag);
 float xMat3x3LookVec(xMat3x3 *m, const xVec3 *at);
+void xMat3x3Euler(xMat3x3 *m, const xVec3 *ypr);
 void xMat3x3Euler(xMat3x3 *m, float yaw, float pitch, float roll);
 void xQuatFromMat(xQuat *q, const xMat3x3 *m);
 void xQuatToMat(const xQuat *q, xMat3x3 *m);

@@ -37,6 +37,8 @@
 #include "zPad.h"
 #include "iWindow.h"
 
+#include "DebugText.h"
+
 #include <windows.h>
 #include <stdio.h>
 
@@ -85,6 +87,8 @@ int main(int argc, char **argv)
     zMainFirstScreen(1);
 
     zMainShowProgressBar();
+
+    DebugText_Init();
 
     xTRCInit();
     zMainReadINI();
@@ -1023,7 +1027,7 @@ void zMainFirstScreen(int mode)
         if (mode != 0)
         {
             xtextbox tb = xtextbox::create(
-                    xfont::create(1, NSCREENX(19.0f), NSCREENY(22.0f), 0.0f,
+                    xfont::create(XFONT_ID_ARIAL, NSCREENX(19.0f), NSCREENY(22.0f), 0.0f,
                     { 255, 230, 0, 200 }, screen_bounds),
                 screen_bounds, 0x2, 0.0f, 0.0f, 0.0f, 0.0f);
 

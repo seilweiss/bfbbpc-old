@@ -3,6 +3,7 @@
 
 extern bool menu_fmv_played;
 
+int zMenuRunning();
 void zMenuInit(unsigned int theSceneID);
 void zMenuExit();
 void zMenuSetup();

@@ -2148,6 +2148,11 @@ void zSceneEnableVisited(zScene *s)
     BFBBSTUB("zSceneEnableVisited");
 }
 
+unsigned int zScene_ScreenAdjustMode()
+{
+    return enableScreenAdj;
+}
+
 void zSceneSpawnRandomBubbles()
 {
     BFBBSTUB("zSceneSpawnRandomBubbles");

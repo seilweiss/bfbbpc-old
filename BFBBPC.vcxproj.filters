@@ -603,6 +603,9 @@
     <ClInclude Include="Core\x\xCM.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Game\DebugText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\zMain.cpp">
@@ -1101,6 +1104,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\x\xCM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\DebugText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

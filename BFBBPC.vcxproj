@@ -188,6 +188,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>Core;Core/x;Core/p2;Game;$(RWGSDK)/include/d3d9</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>26812;4018;4996</DisableSpecificWarnings>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -321,6 +322,7 @@
     <ClInclude Include="Core\x\xVec3.h" />
     <ClInclude Include="Core\x\xVec3Inlines.h" />
     <ClInclude Include="Core\x\xVolume.h" />
+    <ClInclude Include="Game\DebugText.h" />
     <ClInclude Include="Game\zActionLine.h" />
     <ClInclude Include="Game\zAnimList.h" />
     <ClInclude Include="Game\zAssetTypes.h" />
@@ -495,6 +497,7 @@
     <ClCompile Include="Core\x\xUpdateCull.cpp" />
     <ClCompile Include="Core\x\xutil.cpp" />
     <ClCompile Include="Core\x\xVec3.cpp" />
+    <ClCompile Include="Game\DebugText.cpp" />
     <ClCompile Include="Game\zActionLine.cpp" />
     <ClCompile Include="Game\zAnimList.cpp" />
     <ClCompile Include="Game\zAssetTypes.cpp" />
