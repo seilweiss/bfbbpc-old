@@ -188,7 +188,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>Core;Core/x;Core/p2;Game;$(RWGSDK)/include/d3d9</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>26812;4018;4996</DisableSpecificWarnings>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
