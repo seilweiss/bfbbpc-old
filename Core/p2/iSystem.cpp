@@ -10,6 +10,8 @@
 #include "xMath3.h"
 #include "xShadow.h"
 #include "xFX.h"
+#include "xString.h"
+#include "xstransvc.h"
 
 #include "print.h"
 
@@ -210,6 +212,34 @@ static void iRenderWareExit()
 
 static RwTexture *TextureRead(const RwChar *name, const RwChar *maskName)
 {
-    BFBBSTUB("TextureRead");
-    return NULL;
+    RwChar tmpname[256];
+    RwTexture *result;
+    unsigned int assetid;
+    unsigned int tmpsize;
+
+    sprintf(tmpname, "%s.rw3", name);
+
+    assetid = xStrHash(tmpname);
+    result = (RwTexture *)xSTFindAsset(assetid, &tmpsize);
+
+    if (result)
+    {
+        // gamecube raster ext stuff
+        /*
+        RwRaster *raster = RwTextureGetRaster(result);
+
+        if (raster && RwRasterGetDepth(raster) < 8 && ...)
+        {
+            result = NULL;
+        }
+        */
+    }
+
+    if (result)
+    {
+        strcpy(RwTextureGetName(result), name);
+        strcpy(RwTextureGetMaskName(result), maskName);
+    }
+
+    return result;
 }

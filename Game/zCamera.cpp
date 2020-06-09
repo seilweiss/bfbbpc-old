@@ -896,8 +896,8 @@ void zCameraUpdate(xCamera *cam, float dt)
         if (globals.pad0->analog2.x > ZPAD_ANALOG_MIN)
         {
             int x = xmax(xmin(globals.pad0->analog2.x, ZPAD_ANALOG_MAX), ZPAD_ANALOG_MIN);
-            //float dp = ONE_FRAME * (x - ZPAD_ANALOG_MIN) * zcam_pad_pyaw_scale;
-            float dp = dt * (x - ZPAD_ANALOG_MIN) * zcam_pad_pyaw_scale;
+            float dp = ONE_FRAME * (x - ZPAD_ANALOG_MIN) * zcam_pad_pyaw_scale;
+            //float dp = ONE_FRAME / dt * (x - ZPAD_ANALOG_MIN) * zcam_pad_pyaw_scale;
 
             if (lassocam_enabled && stop_track == 0)
             {
@@ -924,8 +924,8 @@ void zCameraUpdate(xCamera *cam, float dt)
         else if (globals.pad0->analog2.x < -ZPAD_ANALOG_MIN)
         {
             int x = xmax(xmin(globals.pad0->analog2.x, -ZPAD_ANALOG_MIN), -ZPAD_ANALOG_MAX);
-            //float dp = ONE_FRAME * (x + ZPAD_ANALOG_MIN) * zcam_pad_pyaw_scale;
-            float dp = dt * (x + ZPAD_ANALOG_MIN) * zcam_pad_pyaw_scale;
+            float dp = ONE_FRAME * (x + ZPAD_ANALOG_MIN) * zcam_pad_pyaw_scale;
+            //float dp = ONE_FRAME / dt * (x + ZPAD_ANALOG_MIN) * zcam_pad_pyaw_scale;
 
             if (lassocam_enabled && stop_track == 0)
             {
@@ -959,8 +959,8 @@ void zCameraUpdate(xCamera *cam, float dt)
         {
             int y = xmax(xmin(globals.pad0->analog2.y, ZPAD_ANALOG_MAX), ZPAD_ANALOG_MIN);
 
-            //pitch_s = ONE_FRAME * (y - ZPAD_ANALOG_MIN) * zcam_pad_pitch_scale;
-            pitch_s = ONE_FRAME / dt * (y - ZPAD_ANALOG_MIN) * zcam_pad_pitch_scale;
+            pitch_s = ONE_FRAME * (y - ZPAD_ANALOG_MIN) * zcam_pad_pitch_scale;
+            //pitch_s = ONE_FRAME / dt * (y - ZPAD_ANALOG_MIN) * zcam_pad_pitch_scale;
 
             if (pitch_s > 1.0f)
             {
@@ -973,8 +973,8 @@ void zCameraUpdate(xCamera *cam, float dt)
         {
             int y = xmax(xmin(globals.pad0->analog2.y, -ZPAD_ANALOG_MIN), -ZPAD_ANALOG_MAX);
 
-            //pitch_s = ONE_FRAME * (y + ZPAD_ANALOG_MIN) * zcam_pad_pitch_scale;
-            pitch_s = ONE_FRAME / dt * (y + ZPAD_ANALOG_MIN) * zcam_pad_pitch_scale;
+            pitch_s = ONE_FRAME * (y + ZPAD_ANALOG_MIN) * zcam_pad_pitch_scale;
+            //pitch_s = ONE_FRAME / dt * (y + ZPAD_ANALOG_MIN) * zcam_pad_pitch_scale;
 
             if (pitch_s < -1.0f)
             {
