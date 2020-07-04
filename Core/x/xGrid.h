@@ -33,4 +33,6 @@ struct xGrid
 	xGridBound *other;
 };
 
+void xGridBoundInit(xGridBound *gridb, void *data);
+
 #endif

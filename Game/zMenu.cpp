@@ -248,11 +248,11 @@ unsigned int zMenuLoop()
 
         int paused = zMenuIsPaused();
 
-        //zSceneUpdate(time_elapsed);
+        zSceneUpdate(time_elapsed);
 
         if (!paused)
         {
-            //globals.player.ent.update(&globals.player.ent, globals.sceneCur, time_elapsed);
+            globals.player.ent.update(&globals.player.ent, globals.sceneCur, time_elapsed);
         }
 
         xSndUpdate();

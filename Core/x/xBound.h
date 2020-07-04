@@ -4,6 +4,10 @@
 #include "xMath3.h"
 #include "xQuickCull.h"
 
+#define XBOUND_TYPE_UNK0 0
+#define XBOUND_TYPE_UNK1 1
+#define XBOUND_TYPE_UNK4 4
+
 struct xBound
 {
     xQCData qcd;

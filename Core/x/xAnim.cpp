@@ -12,8 +12,21 @@ void xAnimTempTransitionInit(unsigned int count)
     BFBBSTUB("xAnimTempTransitionInit");
 }
 
+xAnimState *xAnimTableGetState(xAnimTable *table, const char *name)
+{
+    BFBBSTUB("xAnimPoolInit");
+    return NULL;
+}
+
 void xAnimPoolInit(xMemPool *pool, unsigned int count, unsigned int singles,
                    unsigned int blendFlags, unsigned int effectMax)
 {
     BFBBSTUB("xAnimPoolInit");
+}
+
+xAnimPlay *xAnimPoolAlloc(xMemPool *pool, void *object, xAnimTable *table,
+                          xModelInstance *modelInst)
+{
+    BFBBSTUB("xAnimPoolAlloc");
+    return NULL;
 }

@@ -2,6 +2,9 @@
 
 #include "print.h"
 
+static int sBucketClipCullCount;
+static xModelBucket **sBucketClipCullList;
+
 void xModelBucket_PreCountReset()
 {
     BFBBSTUB("xModelBucket_PreCountReset");
@@ -27,6 +30,21 @@ void xModelBucket_InsertBucket(RpAtomic *data, unsigned int pipeFlags,
 void xModelBucket_Init()
 {
     BFBBSTUB("xModelBucket_Init");
+}
+
+xModelBucket **xModelBucket_GetBuckets(RpAtomic *data)
+{
+    int i;
+
+    for (i = 0; i < sBucketClipCullCount; i += 2)
+    {
+        if (sBucketClipCullList[i]->OriginalData == data)
+        {
+            return &sBucketClipCullList[i];
+        }
+    }
+
+    return NULL;
 }
 
 void xModelBucket_Begin()

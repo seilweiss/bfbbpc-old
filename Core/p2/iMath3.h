@@ -11,5 +11,7 @@ union xiMat4x3Union
 };
 
 void iMath3Init();
+void iBoxInitBoundVec(xBox *b, const xVec3 *v);
+void iBoxBoundVec(xBox *o, const xBox *b, const xVec3 *v);
 
 #endif

@@ -79,22 +79,40 @@ struct xEntShadow
     float radius[2];
 };
 
-typedef void(*xEntUpdateCallBack)(xEnt *, xScene *, float);
-typedef void(*xEntBoundUpdateCallBack)(xEnt *, xVec3 *);
+typedef void(*xEntUpdateCallBack)(xEnt *ent, xScene *sc, float dt);
+typedef void(*xEntBoundUpdateCallBack)(xEnt *ent, xVec3 *pos);
 typedef void(*xEntMoveCallBack)(xEnt *, xScene *, float, xEntFrame *);
-typedef void(*xEntRenderCallBack)(xEnt *);
-typedef void(*xEntTranslateCallBack)(xEnt *, xVec3 *, xMat4x3 *);
+typedef void(*xEntRenderCallBack)(xEnt *ent);
+typedef void(*xEntTranslateCallBack)(xEnt *ent, xVec3 *dpos, xMat4x3 *dmat);
 
 struct xFFX;
 struct anim_coll_data;
 
-#define XENT_UNK1  0x1
-#define XENT_UNK80 0x80
+// flags
+#define XENT_VISIBLE   0x1
+#define XENT_STACKABLE 0x2
+#define XENT_UNK80     0x80
 
+// pflags
+#define XENT_PUNK1 0x1
+#define XENT_PUNK2 0x2
+
+// moreFlags
+#define XENT_MESHCOLL 0x2
+#define XENT_HITTABLE 0x10
+#define XENT_ANIMCOLL 0x20
+
+// collType
+#define XENT_COLLTYPE_NA   0x0
 #define XENT_COLLTYPE_TRIG 0x1
 #define XENT_COLLTYPE_STAT 0x2
 #define XENT_COLLTYPE_DYN  0x4
 #define XENT_COLLTYPE_NPC  0x8
+#define XENT_COLLTYPE_PLYR 0x10
+
+// collLev
+#define XENT_COLLLEV_UNK4 4
+#define XENT_COLLLEV_UNK5 5
 
 struct xEnt : xBase
 {
@@ -139,11 +157,18 @@ struct xEnt : xBase
 void xEntSetTimePassed(float sec);
 void xEntSceneInit();
 void xEntSceneExit();
+void xEntUpdate(xEnt *ent, xScene *sc, float dt);
+void xEntDefaultBoundUpdate(xEnt *ent, xVec3 *pos);
+void xEntRender(xEnt *ent);
+void xEntDefaultTranslate(xEnt *ent, xVec3 *dpos, xMat4x3 *dmat);
+void xEntInit(xEnt *ent, xEntAsset *asset);
+void xEntInitForType(xEnt *ent);
+xModelInstance *xEntLoadModel(xEnt *ent, RpAtomic *imodel);
 xBox *xEntGetAllEntsBox();
 
 inline unsigned int xEntIsVisible(const xEnt *ent)
 {
-    return ((ent->flags & (XENT_UNK1 | XENT_UNK80)) == XENT_UNK1);
+    return ((ent->flags & (XENT_VISIBLE | XENT_UNK80)) == XENT_VISIBLE);
 }
 
 inline xMat4x3 *xEntGetFrame(const xEnt *ent)

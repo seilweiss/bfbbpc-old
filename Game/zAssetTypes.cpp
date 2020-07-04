@@ -5,6 +5,7 @@
 #include "xAnim.h"
 #include "xString.h"
 #include "xJSP.h"
+#include "iModel.h"
 
 #include "print.h"
 
@@ -17,6 +18,12 @@ struct AnimTableList
     const char *name;
     AnimTableConstructor constructor;
     unsigned int id;
+};
+
+struct HackModelRadius
+{
+    unsigned int assetid;
+    float radius;
 };
 
 static void *Curve_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
@@ -123,6 +130,13 @@ static st_PACKER_ASSETTYPE assetTypeHandlers[] =
     0
 };
 
+static HackModelRadius hackRadiusTable[] =
+{
+    0xFA77E6FA, 20.0f,   // scallop_bind
+    0x5BD0EDAC, 1000.0f, // RB_30_Master_laser_bind01
+    0xED21A1C6, 50.0f,   // taxi_bind
+};
+
 static xJSPHeader *sTempJSP;
 static xJSPHeader sDummyEmptyJSP;
 
@@ -200,8 +214,36 @@ void zAssetShutdown()
 static void *Model_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
                         unsigned int *outsize)
 {
-    BFBBSTUB("Model_Read");
-    return NULL;
+    RpAtomic *model;
+    unsigned int i;
+    RpAtomic *tmpModel;
+
+    model = iModelFileNew(indata, insize);
+
+    *outsize = sizeof(RpAtomic);
+
+    for (i = 0; i < (sizeof(hackRadiusTable) / sizeof(HackModelRadius)); i++)
+    {
+        if (assetid == hackRadiusTable[i].assetid)
+        {
+            tmpModel = model;
+
+            while (tmpModel)
+            {
+                tmpModel->boundingSphere.radius = hackRadiusTable[i].radius;
+                tmpModel->boundingSphere.center.x = 0.0f;
+                tmpModel->boundingSphere.center.y = 0.0f;
+                tmpModel->boundingSphere.center.z = 0.0f;
+                tmpModel->interpolator.flags &= ~rpINTERPOLATORDIRTYSPHERE;
+
+                tmpModel = iModelFile_RWMultiAtomic(tmpModel);
+            }
+
+            break;
+        }
+    }
+
+    return model;
 }
 
 static void *Curve_Read(void *, unsigned int assetid, void *indata, unsigned int insize,
@@ -213,7 +255,10 @@ static void *Curve_Read(void *, unsigned int assetid, void *indata, unsigned int
 
 static void Model_Unload(void *userdata, unsigned int)
 {
-    BFBBSTUB("Model_Unload");
+    if (userdata)
+    {
+        iModelUnload((RpAtomic *)userdata);
+    }
 }
 
 static void *BSP_Read(void *, unsigned int assetid, void *indata, unsigned int insize,

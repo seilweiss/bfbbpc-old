@@ -12,6 +12,8 @@ void zEntPlayerControlOn(zControlOwner owner)
 void zEntPlayer_Init(xEnt *ent, xEntAsset *asset)
 {
     BFBBSTUB("zEntPlayer_Init");
+
+    zEntInit((zEnt *)ent, asset, 'PLYR');
 }
 
 void zEntPlayer_ShadowModelEnable()

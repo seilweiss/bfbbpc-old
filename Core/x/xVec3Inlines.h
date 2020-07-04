@@ -5,6 +5,13 @@
 #include "xMath.h"
 #include "xMathInlines.h"
 
+inline void xVec3Init(xVec3 *v, float _x, float _y, float _z)
+{
+    v->x = _x;
+    v->y = _y;
+    v->z = _z;
+}
+
 inline void xVec3Copy(xVec3 *o, const xVec3 *v)
 {
     o->x = v->x;

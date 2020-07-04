@@ -19,6 +19,19 @@ struct xAnimPlay;
 struct xModelPool;
 struct xSurface;
 
+#define XMODEL_UNK1 0x1
+#define XMODEL_UNK2 0x2
+#define XMODEL_UNK8 0x8
+#define XMODEL_UNK2000 0x2000
+
+#define XMODEL_EXT_UNK40(flags) ((flags) >> 6 & 0x1)
+
+#define XMODEL_PIPE_UNK100000 0x100000
+#define XMODEL_PIPE_UNK800000 0x800000
+#define XMODEL_PIPE_UNKF00000 0xF00000
+
+#define XMODEL_PIPE_UNK80000 0x80000
+
 struct xModelInstance
 {
     xModelInstance *Next;
@@ -60,6 +73,27 @@ struct xModelPool
     xModelInstance *List;
 };
 
+struct xModelAssetInfo
+{
+    unsigned int Magic;
+    unsigned int NumModelInst;
+    unsigned int AnimTableID;
+    unsigned int CombatID;
+    unsigned int BrainID;
+};
+
+struct xModelAssetInst
+{
+    unsigned int ModelID;
+    unsigned short Flags;
+    unsigned char Parent;
+    unsigned char Bone;
+    float MatRight[3];
+    float MatUp[3];
+    float MatAt[3];
+    float MatPos[3];
+};
+
 struct xModelAssetParam
 {
     unsigned int HashID;
@@ -87,8 +121,13 @@ extern int xModelLookupCount;
 extern xModelPipeLookup *xModelLookupList;
 extern int xModelInstStaticAlloc;
 
+unsigned int xModelGetPipeFlags(RpAtomic *model);
 void xModelInit();
 void xModelPoolInit(unsigned int count, unsigned int numMatrices);
+xModelInstance *xModelInstanceAlloc(RpAtomic *data, void *object, unsigned short flags,
+                                    unsigned char boneIndex, unsigned char *boneRemap);
+void xModelInstanceAttach(xModelInstance *inst, xModelInstance *parent);
+void xModelEval(xModelInstance *modelInst);
 void xModel_SceneExit(RpWorld *world);
 
 inline xMat4x3 *xModelGetFrame(xModelInstance *modelInst)

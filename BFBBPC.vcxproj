@@ -460,6 +460,7 @@
     <ClCompile Include="Core\x\xFog.cpp" />
     <ClCompile Include="Core\x\xFont.cpp" />
     <ClCompile Include="Core\x\xFX.cpp" />
+    <ClCompile Include="Core\x\xGrid.cpp" />
     <ClCompile Include="Core\x\xGroup.cpp" />
     <ClCompile Include="Core\x\xhipio.cpp" />
     <ClCompile Include="Core\x\xIni.cpp" />
