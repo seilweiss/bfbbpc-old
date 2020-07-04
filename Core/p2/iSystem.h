@@ -1,8 +1,16 @@
 #ifndef ISYSTEM_H
 #define ISYSTEM_H
 
+//#ifdef _WIN32
+#if 0
+#include "iWindow.h"
+
+#define SCREEN_WIDTH gWindowWidth
+#define SCREEN_HEIGHT gWindowHeight
+#else
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
+#endif
 
 #define FULLSCREEN 0
 

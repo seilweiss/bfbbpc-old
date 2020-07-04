@@ -11,5 +11,6 @@ struct zEnt : xEnt
 
 void zEntEventAll(xBase *from, unsigned int fromEvent, unsigned int toEvent,
                   float *toParam);
+void zEntEventAllOfType(unsigned int toEvent, unsigned int type);
 
 #endif

@@ -1,5 +1,7 @@
 #include "zSurface.h"
 
+#include "xScene.h"
+
 #include <stdlib.h>
 
 #include "print.h"
@@ -28,4 +30,9 @@ xSurface *zSurfaceGetSurface(unsigned int mat_id)
 void zSurfaceSetup(xSurface *s)
 {
     BFBBSTUB("zSurfaceSetup");
+}
+
+void zSurfaceUpdate(xBase *to, xScene *sc, float dt)
+{
+    BFBBSTUB("zSurfaceUpdate");
 }

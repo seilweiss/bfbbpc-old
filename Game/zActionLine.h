@@ -2,6 +2,7 @@
 #define ZACTIONLINE_H
 
 void zActionLineInit();
+void zActionLineUpdate(float seconds);
 void zActionLineRender();
 
 #endif

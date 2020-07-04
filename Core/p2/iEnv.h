@@ -18,9 +18,12 @@ struct iEnv
     int memlvl;
 };
 
+struct xEnvAsset;
+
 void iEnvStartup();
 void iEnvLoad(iEnv *env, const void *data, unsigned int datasize, int dataType);
 void iEnvDefaultLighting(iEnv *env);
+void iEnvLightingBasics(iEnv *env, xEnvAsset *asset);
 void iEnvRender(iEnv *env);
 
 #endif

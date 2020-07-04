@@ -11,9 +11,12 @@ void xFXPreAllocMatFX(RpClump *clump);
 void xFXFireworksInit(const char *fireworksTrailEmitter, const char *fireworksEmitter1,
                       const char *fireworksEmitter2, const char *fireworksSound,
                       const char *fireworksLaunchSound);
+void xFXFireworksUpdate(float dt);
 void xFXStreakInit();
+void xFXStreakUpdate(float dt);
 void xFXStreakRender();
 void xFXShineInit();
+void xFXShineUpdate(float dt);
 void xFXShineRender();
 void xFXRibbonSceneEnter();
 void xFXRibbonRender();

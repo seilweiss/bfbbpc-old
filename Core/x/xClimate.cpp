@@ -11,3 +11,8 @@ void xClimateInitAsset(_tagClimate *climate, xEnvAsset *easset)
 {
     BFBBSTUB("xClimateInitAsset");
 }
+
+void xClimateUpdate(_tagClimate *climate, float seconds)
+{
+    BFBBSTUB("xClimateUpdate");
+}

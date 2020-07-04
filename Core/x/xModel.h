@@ -42,7 +42,7 @@ struct xModelInstance
     unsigned char BoneCount;
     unsigned char BoneIndex;
     unsigned char *BoneRemap;
-    RwMatrixTag *Mat;
+    RwMatrix *Mat;
     xVec3 Scale;
     unsigned int modelID;
     unsigned int shadowID;
@@ -90,5 +90,10 @@ extern int xModelInstStaticAlloc;
 void xModelInit();
 void xModelPoolInit(unsigned int count, unsigned int numMatrices);
 void xModel_SceneExit(RpWorld *world);
+
+inline xMat4x3 *xModelGetFrame(xModelInstance *modelInst)
+{
+    return (xMat4x3 *)modelInst->Mat;
+}
 
 #endif

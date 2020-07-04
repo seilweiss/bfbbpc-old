@@ -34,6 +34,7 @@ struct xBase
 #define XBASE_CSNVISIBLE 0x8  // (Ent) Visible during cutscenes
 #define XBASE_RECSHADOW  0x10 // (Ent) Receive shadows from other ents
 #define XBASE_ISENT      0x20 // (Ent) Base is an ent
+#define XBASE_UNK40      0x40 // (Ent) unknown
 
 void xBaseInit(xBase *xb, xBaseAsset *asset);
 void xBaseSetup(xBase *xb);

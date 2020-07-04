@@ -13,3 +13,8 @@ xAnimTable *ZNPC_AnimTable_LassoGuide()
     BFBBSTUB("ZNPC_AnimTable_LassoGuide");
     return 0;
 }
+
+void zNPCCommon_EjectPhlemOnPawz()
+{
+    BFBBSTUB("zNPCCommon_EjectPhlemOnPawz");
+}

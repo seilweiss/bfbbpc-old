@@ -68,7 +68,24 @@ void xSceneSetup(xScene *sc)
 
 void xSceneAddEnt(xScene *sc, xEnt *ent)
 {
-    BFBBSTUB("xSceneAddEnt");
+    if (ent->collType == XENT_COLLTYPE_TRIG)
+    {
+        sc->trigs[sc->num_trigs++] = ent;
+    }
+    else if (ent->collType == XENT_COLLTYPE_STAT)
+    {
+        sc->stats[sc->num_stats++] = ent;
+    }
+    else if (ent->collType == XENT_COLLTYPE_DYN)
+    {
+        sc->stats[sc->num_dyns++] = ent;
+    }
+    else if (ent->collType == XENT_COLLTYPE_NPC)
+    {
+        sc->npcs[sc->num_npcs++] = ent;
+    }
+
+    sc->act_ents[sc->num_act_ents++] = ent;
 }
 
 void xRayHitsGrid(xGrid *grid, xScene *sc, xRay3 *r, xRayHitsEntCallBack rentcb,

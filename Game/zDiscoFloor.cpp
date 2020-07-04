@@ -1,5 +1,7 @@
 #include "zDiscoFloor.h"
 
+#include "xScene.h"
+
 #include "print.h"
 
 void z_disco_floor::init()
@@ -35,4 +37,9 @@ void z_disco_floor::init(void *ent, void *asset)
 void z_disco_floor::setup()
 {
     BFBBSTUB("z_disco_floor::setup");
+}
+
+void z_disco_floor::update(xScene &sc, float dt)
+{
+    BFBBSTUB("z_disco_floor::update");
 }

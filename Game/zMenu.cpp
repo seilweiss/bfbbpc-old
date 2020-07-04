@@ -248,7 +248,7 @@ unsigned int zMenuLoop()
 
         int paused = zMenuIsPaused();
 
-        zSceneUpdate(time_elapsed);
+        //zSceneUpdate(time_elapsed);
 
         if (!paused)
         {
@@ -322,6 +322,8 @@ unsigned int zMenuLoop()
         }
 
         iWindowUpdate();
+        iCameraUpdateSize(globals.camera.lo_cam, SCREEN_WIDTH, SCREEN_HEIGHT,
+                          globals.camera.fov);
     }
     while (zMenuLoopContinue());
 

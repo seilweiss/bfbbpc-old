@@ -32,6 +32,11 @@ void zNPCMgr_scenePostSetup()
     BFBBSTUB("zNPCMgr_scenePostSetup");
 }
 
+void zNPCMgr_sceneTimestep(xScene *xscn, float dt)
+{
+    BFBBSTUB("zNPCMgr_sceneTimestep");
+}
+
 void zNPCMgr_scenePostRender()
 {
     BFBBSTUB("zNPCMgr_scenePostRender");

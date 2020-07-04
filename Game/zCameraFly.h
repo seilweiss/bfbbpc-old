@@ -13,7 +13,10 @@ struct zCameraFly : xBase
 	CameraFly_asset *casset;
 };
 
+struct xScene;
+
 void zCameraFly_Setup(zCameraFly *fly);
+void zCameraFly_Update(xBase *to, xScene *sc, float dt);
 unsigned int zCameraFlyProcessStopEvent();
 
 #endif

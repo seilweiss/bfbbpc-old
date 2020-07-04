@@ -81,7 +81,8 @@ void zEnvInit(_zEnv *env, xEnvAsset *easset)
 
 void zEnvSetup(_zEnv *env)
 {
-    BFBBSTUB("zEnvSetup");
+    xBaseSetup(env);
+    iEnvLightingBasics(globals.sceneCur->env->geom, env->easset);
 }
 
 void zEnvStartingCamera(_zEnv *env)

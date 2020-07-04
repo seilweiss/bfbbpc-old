@@ -7,3 +7,8 @@ void zEntEventAll(xBase *from, unsigned int fromEvent, unsigned int toEvent,
 {
     BFBBSTUB("zEntEventAll");
 }
+
+void zEntEventAllOfType(unsigned int toEvent, unsigned int type)
+{
+    BFBBSTUB("zEntEventAllOfType");
+}

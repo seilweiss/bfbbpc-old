@@ -155,4 +155,6 @@ struct zNPCCommon : xNPCBasic
 xAnimTable *ZNPC_AnimTable_Common();
 xAnimTable *ZNPC_AnimTable_LassoGuide();
 
+void zNPCCommon_EjectPhlemOnPawz();
+
 #endif

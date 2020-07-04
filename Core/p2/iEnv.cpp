@@ -109,6 +109,11 @@ void iEnvDefaultLighting(iEnv *env)
     return;
 }
 
+void iEnvLightingBasics(iEnv *env, xEnvAsset *asset)
+{
+    return;
+}
+
 static void Jsp_ClumpRender(RpClump *clump, xJSPNodeInfo *nodeInfo)
 {
     int backcullon = 1;

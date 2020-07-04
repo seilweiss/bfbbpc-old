@@ -32,6 +32,8 @@ float xSTLoadStep(unsigned int sid);
 void xSTDisconnect(unsigned int sid, int flg_hiphop);
 int xSTSwitchScene(unsigned int sid, void *userdata,
                    int(*progmon)(void *userdata, float progress));
+const char *xSTAssetName(unsigned int aid);
+const char *xSTAssetName(void *raw_HIP_asset);
 void *xSTFindAsset(unsigned int aid, unsigned int *size);
 int xSTAssetCountByType(unsigned int type);
 void *xSTFindAssetByType(unsigned int type, int idx, unsigned int *size);

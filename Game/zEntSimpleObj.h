@@ -19,8 +19,11 @@ struct zEntSimpleObj : zEnt
     float animTime;
 };
 
+struct zScene;
+
 void zEntSimpleObj_MgrInit(zEntSimpleObj **entList, unsigned int entCount);
 void zEntSimpleObj_MgrUpdateRender(RpWorld *world, float dt);
+void zEntSimpleObj_MgrCustomUpdate(zScene *s, float dt);
 void zEntSimpleObj_MgrCustomRender();
 
 void zEntTrackPhysics_Init(void *ent, void *asset);

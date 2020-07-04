@@ -19,3 +19,8 @@ zGust *zGustGetGust(unsigned short n)
     BFBBSTUB("zGustGetGust");
     return NULL;
 }
+
+void zGustUpdateFX(float seconds)
+{
+    BFBBSTUB("zGustUpdateFX");
+}

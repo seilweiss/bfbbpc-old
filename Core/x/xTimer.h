@@ -18,6 +18,9 @@ struct xTimer : xBase
     float secondsLeft;
 };
 
+struct xScene;
+
 void xTimerInit(void *b, void *tasset);
+void xTimerUpdate(xBase *to, xScene *sc, float dt);
 
 #endif

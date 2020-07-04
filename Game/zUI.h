@@ -39,6 +39,8 @@ struct zUIMgr : xMgr
     unsigned int m_updateMax;
     _zUI **m_update;
 
+    void PreUpdate(zScene *s, float dt);
+    void Update(zScene *s, float dt);
     void Setup(zScene *s);
 };
 
@@ -50,6 +52,8 @@ void zUI_Init();
 void zUI_Init(void *ent, void *asset);
 void zUIRenderAll();
 void zUI_ParseINI(xIniFile *ini);
+void zUI_ScenePortalSetToCurrentLevel(zScene *zsc);
 void zUI_ScenePortalInit(zScene *zsc);
+void zUI_ScenePortalUpdate();
 
 #endif

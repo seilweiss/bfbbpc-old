@@ -11,3 +11,8 @@ void zCutSceneNamesTable_clearAll()
 {
     BFBBSTUB("zCutSceneNamesTable_clearAll");
 }
+
+void zCutsceneMgrUpdate(xBase *to, xScene *sc, float dt)
+{
+    BFBBSTUB("zCutsceneMgrUpdate");
+}

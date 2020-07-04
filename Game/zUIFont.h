@@ -30,5 +30,6 @@ struct zUIFont : _zUI
 
 void zUIFontInit();
 void zUIFont_Init(void *ent, void *asset);
+void zUIFont_PreUpdate(zUIFont *ent, xScene *sc, float dt);
 
 #endif

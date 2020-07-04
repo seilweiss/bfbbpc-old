@@ -12,3 +12,8 @@ void zNPCBPatrick_AddBoundEntsToGrid(zScene *zsc)
 {
     BFBBSTUB("zNPCBPatrick_AddBoundEntsToGrid");
 }
+
+void zNPCBPatrick_GameIsPaused(zScene *zsc)
+{
+    BFBBSTUB("zNPCBPatrick_GameIsPaused");
+}

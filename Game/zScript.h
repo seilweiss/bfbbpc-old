@@ -18,6 +18,9 @@ struct _zScript : xBase
     float time;
 };
 
+struct xScene;
+
 void zScriptInit(void *b, void *tasset);
+void zScriptUpdate(xBase *to, xScene *sc, float dt);
 
 #endif

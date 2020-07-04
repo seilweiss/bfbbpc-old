@@ -47,6 +47,11 @@ void zEntPickup_SceneEnter()
     BFBBSTUB("zEntPickup_SceneEnter");
 }
 
+void zEntPickup_SceneUpdate(float dt)
+{
+    BFBBSTUB("zEntPickup_SceneUpdate");
+}
+
 void zEntPickup_RewardPostSetup()
 {
     BFBBSTUB("zEntPickup_RewardPostSetup");

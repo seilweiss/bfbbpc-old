@@ -28,6 +28,9 @@ struct zTaxi : xBase
 	float radius;
 };
 
+struct xScene;
+
 void zTaxi_Setup(zTaxi *taxi);
+void zTaxi_Update(xBase *to, xScene *sc, float dt);
 
 #endif

@@ -1,8 +1,9 @@
 #include "iWindow.h"
 
-#include "iSystem.h"
-
 #include <windows.h>
+
+unsigned int gWindowWidth = 640;
+unsigned int gWindowHeight = 480;
 
 extern int main(int argc, char **argv);
 
@@ -43,6 +44,13 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
     {
         return 0;
     }
+
+    case WM_SIZE:
+    {
+        gWindowWidth = LOWORD(lParam);
+        gWindowHeight = HIWORD(lParam);
+        return 0;
+    }
     }
 
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
@@ -64,8 +72,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     RECT rect = {};
     rect.left = 0;
     rect.top = 0;
-    rect.right = SCREEN_WIDTH;
-    rect.bottom = SCREEN_HEIGHT;
+    rect.right = gWindowWidth;
+    rect.bottom = gWindowHeight;
 
     if (!AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE))
     {

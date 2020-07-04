@@ -6,6 +6,7 @@
 #include "zTextBox.h"
 #include "zNPCTypeCommon.h"
 #include "xIni.h"
+#include "xScene.h"
 
 struct ztalkbox : xBase
 {
@@ -65,6 +66,7 @@ struct ztalkbox : xBase
 
     static void load_settings(xIniFile &ini);
     static void init();
+    static void update_all(xScene &s, float dt);
     static void render_all();
 };
 

@@ -16,3 +16,8 @@ void zEntButton_Reset(_zEntButton *ent, xScene *sc)
 {
     BFBBSTUB("zEntButton_Reset");
 }
+
+void zEntButton_SceneUpdate(float dt)
+{
+    BFBBSTUB("zEntButton_SceneUpdate");
+}

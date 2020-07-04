@@ -1,5 +1,7 @@
 #include "zLight.h"
 
+#include "xScene.h"
+
 #include "print.h"
 
 void zLightResetAll(xEnv *env)
@@ -20,6 +22,11 @@ void zLightResolveLinks()
 void zLightDestroyAll()
 {
     BFBBSTUB("zLightDestroyAll");
+}
+
+void zLightUpdate(xBase *to, xScene *sc, float dt)
+{
+    BFBBSTUB("zLightUpdate");
 }
 
 void zLightAddLocalEnv()

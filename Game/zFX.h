@@ -6,5 +6,6 @@
 
 void zFX_SpawnBubbleWall();
 void zFX_SceneExit(RpWorld *world);
+void zFXUpdate(float dt);
 
 #endif

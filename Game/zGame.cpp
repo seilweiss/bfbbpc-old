@@ -10,6 +10,9 @@
 #include "xstransvc.h"
 #include "xDebug.h"
 #include "zFX.h"
+#include "zBase.h"
+#include "xMarkerAsset.h"
+#include "zCamera.h"
 
 #include "print.h"
 
@@ -19,10 +22,16 @@
 #include <string.h>
 
 unsigned int gGameSfxReport;
+
+static unsigned int sPlayerMarkerStartID;
+static float sPlayerStartAngle;
+static int sPortalling;
+
 float sTimeElapsed;
+unsigned int startPressed = 0xFFFFFFFF;
 unsigned int gSoak;
 
-unsigned int loadMeter;
+static unsigned int loadMeter;
 
 eGameWhereAmI gGameWhereAmI;
 
@@ -356,6 +365,7 @@ void zGameScreenTransitionEnd()
     gGameWhereAmI = eGameWhere_TransitionEnded;
 }
 
+#if 1
 // Todo: Remove this!
 // the global camera requires a target matrix
 // this is a temporary solution
@@ -368,3 +378,62 @@ void zGameSetupPlayer()
     xCameraSetTargetMatrix(&globals.camera, &TEMP_CAM_TARGET_MAT);
     xCameraSetTargetOMatrix(&globals.camera, &TEMP_CAM_TARGET_MAT);
 }
+#else
+void zGameSetupPlayer()
+{
+    xEntAsset *asset;
+    int playerCount;
+    unsigned int size;
+    xMarkerAsset *m;
+
+    playerCount = xSTAssetCountByType('PLYR');
+
+    asset = (xEntAsset *)xSTFindAssetByType('PLYR', playerCount - 1, NULL);
+
+    asset->baseType = eBaseTypePlayer;
+
+    if (sPortalling)
+    {
+        if (sPlayerStartAngle > -100000000.0f)
+        {
+            asset->ang.x = DEG2RAD(sPlayerStartAngle);
+        }
+
+        sPortalling = 0;
+    }
+
+    asset->ang.y = 0.0f;
+    asset->ang.z = 0.0f;
+
+    gGameWhereAmI = eGameWhere_SetupPlayerInit;
+
+    zEntPlayer_Init(&globals.player.ent, asset);
+
+    if (sPlayerMarkerStartID)
+    {
+        m = (xMarkerAsset *)xSTFindAsset(sPlayerMarkerStartID, &size);
+
+        if (m)
+        {
+            xVec3Copy(&globals.player.ent.frame->mat.pos, &m->pos);
+            xVec3Copy(&globals.player.ent.frame->oldmat.pos, &m->pos);
+
+            xVec3Copy((xVec3 *)&globals.player.ent.model->Mat->pos, &m->pos);
+
+            xCameraSetTargetMatrix(&globals.camera, xEntGetFrame(&globals.player.ent));
+        }
+
+        sPlayerMarkerStartID = 0;
+    }
+
+    gGameWhereAmI = eGameWhere_SetupPlayerCamera;
+
+    zCameraReset(&globals.camera);
+
+    zEntPlayer_StoreCheckPoint(&globals.player.ent.frame->mat.pos,
+                               globals.player.ent.frame->rot.angle,
+                               globals.camera.id);
+
+    gGameWhereAmI = eGameWhere_SetupPlayerEnd;
+}
+#endif

@@ -810,6 +810,8 @@ static void _xCameraUpdate(xCamera *cam, float dt)
 
 void xCameraUpdate(xCamera *cam, float dt)
 {
+    BFBBSTUB("xCameraUpdate");
+
     int i;
     int num_updates = (int)xceil(144.0f * dt);
     float sdt = dt / num_updates;

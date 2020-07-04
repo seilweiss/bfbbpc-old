@@ -160,8 +160,11 @@ struct xParEmitter : xBase
     xVec3 last_attach_loc;
 };
 
+struct xScene;
+
 void xParEmitterInit(void *b, void *tasset);
 void xParEmitterSetup(xParEmitter *t);
+void xParEmitterUpdate(xBase *to, xScene *sc, float dt);
 void xParEmitterDestroy();
 
 #endif

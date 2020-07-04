@@ -163,9 +163,11 @@ enum zControlOwner
 
 void zEntPlayerControlOn(zControlOwner owner);
 void CalcJumpImpulse(zJumpParam *param, const zPlayerSettings *settings);
+void zEntPlayer_Init(xEnt *ent, xEntAsset *asset);
 void zEntPlayer_ShadowModelEnable();
 void zEntPlayer_ShadowModelDisable();
 void zEntPlayerExit(xEnt *ent);
+void zEntPlayer_StoreCheckPoint(xVec3 *pos, float rot, unsigned int initCamID);
 void zEntPlayer_LoadSounds();
 void zEntPlayer_UnloadSounds();
 

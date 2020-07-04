@@ -7,6 +7,11 @@ void zLightningInit()
     BFBBSTUB("zLightningInit");
 }
 
+void zLightningUpdate(float seconds)
+{
+    BFBBSTUB("zLightningUpdate");
+}
+
 void zLightningRender()
 {
     BFBBSTUB("zLightningRender");

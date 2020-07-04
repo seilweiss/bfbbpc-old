@@ -43,6 +43,7 @@ void zEntPickup_FlushGrabbed();
 void zEntPickup_Render(zEntPickup *plist, unsigned int pcount);
 void zEntPickup_RenderList(zEntPickup *plist, unsigned int pcount);
 void zEntPickup_SceneEnter();
+void zEntPickup_SceneUpdate(float dt);
 void zEntPickup_RewardPostSetup();
 
 #endif

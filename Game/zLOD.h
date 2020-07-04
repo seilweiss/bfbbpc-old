@@ -13,6 +13,7 @@ struct zLODTable
 };
 
 void zLOD_Setup();
+void zLOD_Update(unsigned int percent_update);
 zLODTable *zLOD_Get(xEnt *ent);
 
 #endif

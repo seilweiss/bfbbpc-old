@@ -55,6 +55,7 @@ typedef xBase *(*zSceneForAllBaseCallBack)(xBase *b, zScene *s, void *data);
 void zSceneInitEnvironmentalSoundEffect();
 
 extern unsigned int gTransitionSceneID;
+extern float gSceneUpdateTime;
 
 void zSceneSet(xBase *b, unsigned int idx);
 xBase *zSceneFindObject(unsigned int gameID);

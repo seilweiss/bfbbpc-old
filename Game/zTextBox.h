@@ -5,6 +5,7 @@
 #include "xDynAsset.h"
 #include "xMath2.h"
 #include "xFont.h"
+#include "xScene.h"
 
 #include <rwcore.h>
 
@@ -80,6 +81,7 @@ struct ztextbox : xBase
     RwRaster *bgtex;
 
     static void init();
+    static void update_all(xScene &s, float dt);
     static void render_all();
 };
 

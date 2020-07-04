@@ -29,9 +29,19 @@ void xFXFireworksInit(const char *fireworksTrailEmitter, const char *fireworksEm
     BFBBSTUB("xFXFireworksInit");
 }
 
+void xFXFireworksUpdate(float dt)
+{
+    BFBBSTUB("xFXFireworksUpdate");
+}
+
 void xFXStreakInit()
 {
     BFBBSTUB("xFXStreakInit");
+}
+
+void xFXStreakUpdate(float dt)
+{
+    BFBBSTUB("xFXStreakUpdate");
 }
 
 void xFXStreakRender()
@@ -42,6 +52,11 @@ void xFXStreakRender()
 void xFXShineInit()
 {
     BFBBSTUB("xFXShineInit");
+}
+
+void xFXShineUpdate(float dt)
+{
+    BFBBSTUB("xFXShineUpdate");
 }
 
 void xFXShineRender()

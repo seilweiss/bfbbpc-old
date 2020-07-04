@@ -94,6 +94,7 @@ enum eGameWhereAmI
 
 extern unsigned int gGameSfxReport;
 extern float sTimeElapsed;
+extern unsigned int startPressed;
 extern unsigned int gSoak;
 extern eGameWhereAmI gGameWhereAmI;
 

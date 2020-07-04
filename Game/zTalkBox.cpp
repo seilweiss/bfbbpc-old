@@ -12,6 +12,11 @@ void ztalkbox::init()
     BFBBSTUB("ztalkbox::init");
 }
 
+void ztalkbox::update_all(xScene &s, float dt)
+{
+    BFBBSTUB("ztalkbox::update_all");
+}
+
 void ztalkbox::render_all()
 {
     BFBBSTUB("ztalkbox::render_all");

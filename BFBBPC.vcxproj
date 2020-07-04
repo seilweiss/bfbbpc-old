@@ -278,6 +278,7 @@
     <ClInclude Include="Core\x\xLightKit.h" />
     <ClInclude Include="Core\x\xLinkAsset.h" />
     <ClInclude Include="Core\x\xListItem.h" />
+    <ClInclude Include="Core\x\xMarkerAsset.h" />
     <ClInclude Include="Core\x\xMath.h" />
     <ClInclude Include="Core\x\xMath2.h" />
     <ClInclude Include="Core\x\xMath3.h" />
@@ -333,6 +334,7 @@
     <ClInclude Include="Game\zCameraTweak.h" />
     <ClInclude Include="Game\zCamMarker.h" />
     <ClInclude Include="Game\zCollGeom.h" />
+    <ClInclude Include="Game\zCombo.h" />
     <ClInclude Include="Game\zConditional.h" />
     <ClInclude Include="Game\zCutsceneMgr.h" />
     <ClInclude Include="Game\zDiscoFloor.h" />
@@ -507,6 +509,7 @@
     <ClCompile Include="Game\zCameraTweak.cpp" />
     <ClCompile Include="Game\zCamMarker.cpp" />
     <ClCompile Include="Game\zCollGeom.cpp" />
+    <ClCompile Include="Game\zCombo.cpp" />
     <ClCompile Include="Game\zConditional.cpp" />
     <ClCompile Include="Game\zCutsceneMgr.cpp" />
     <ClCompile Include="Game\zDiscoFloor.cpp" />

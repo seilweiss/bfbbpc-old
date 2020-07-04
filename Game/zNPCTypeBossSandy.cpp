@@ -18,3 +18,8 @@ void zNPCBSandy_AddBoundEntsToGrid(zScene *zsc)
 {
     BFBBSTUB("zNPCBSandy_AddBoundEntsToGrid");
 }
+
+void zNPCBSandy_GameIsPaused(zScene *zsc)
+{
+    BFBBSTUB("zNPCBSandy_GameIsPaused");
+}

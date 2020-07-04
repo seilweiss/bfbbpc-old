@@ -23,6 +23,9 @@ struct zBusStop : xBase
 	float switchTimer;
 };
 
+struct xScene;
+
 void zBusStop_Setup(zBusStop *bstop);
+void zBusStop_Update(xBase *to, xScene *sc, float dt);
 
 #endif

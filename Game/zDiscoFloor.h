@@ -25,6 +25,8 @@ struct z_disco_floor_asset : xBaseAsset
     unsigned int states_size;
 };
 
+struct xScene;
+
 struct z_disco_floor : xBase
 {
     struct tile_data
@@ -74,6 +76,7 @@ struct z_disco_floor : xBase
     static void init(void *ent, void *asset);
 
     void setup();
+    void update(xScene &sc, float dt);
 };
 
 #endif

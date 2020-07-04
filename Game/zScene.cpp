@@ -96,6 +96,7 @@
 #include "xDraw.h"
 #include "zHud.h"
 #include "xCM.h"
+#include "zCombo.h"
 
 #include "print.h"
 
@@ -151,7 +152,7 @@ static zSceneObjectInstanceDesc sInitTable[] =
 //  "Boulder", eBaseTypeBoulder, 'BOUL', sizeof(xEntBoulder), zSceneInitFunc_DefaultEnt, xEntBoulder_Init, NULL,
 //  "NPC", eBaseTypeNPC, 'VIL ', 0, zSceneInitFunc_SBNPC, NULL, NULL,
 //  "Button", eBaseTypeButton, 'BUTN', sizeof(_zEntButton), zSceneInitFunc_DefaultEnt, zEntButton_Init, NULL,
-//  "Player", eBaseTypePlayer, 'PLYR', sizeof(zEnt), zSceneInitFunc_Player, NULL, NULL,
+    "Player", eBaseTypePlayer, 'PLYR', sizeof(zEnt), zSceneInitFunc_Player, NULL, NULL,
 //  "Timer", eBaseTypeTimer, 'TIMR', sizeof(xTimer), zSceneInitFunc_Default, xTimerInit, NULL,
 //  "Counter", eBaseTypeCounter, 'CNTR', sizeof(_xCounter), zSceneInitFunc_Default, xCounterInit, NULL,
 //  "SFX", eBaseTypeSFX, 'SFX ', sizeof(xSFX), zSceneInitFunc_Default, xSFXInit, NULL,
@@ -1765,9 +1766,289 @@ int zSceneSetup_serialTraverseCB(unsigned int clientID, xSerial *xser)
     return 1;
 }
 
+float gSceneUpdateTime;
+
+static xVec3 sOldPosPlayer;
+static xVec3 sOldPosCamera;
+static unsigned int sSuddenMove;
+
 void zSceneUpdate(float elapsedSec)
 {
-    BFBBSTUB("zSceneUpdate");
+    if (0.0f != elapsedSec)
+    {
+        unsigned int i;
+
+        int isPaused = zGameIsPaused();
+
+        gSceneUpdateTime = elapsedSec;
+
+        if (!isPaused)
+        {
+            zEntPickup_SceneUpdate(elapsedSec);
+            zEntButton_SceneUpdate(elapsedSec);
+        }
+
+        xEntSetTimePassed(elapsedSec);
+
+        if (globals.cmgr)
+        {
+            zCutsceneMgrUpdate(globals.cmgr, globals.sceneCur, elapsedSec);
+        }
+
+        zScene *s = globals.sceneCur;
+        xBase **b = s->update_base;
+
+        gUIMgr.PreUpdate(s, elapsedSec);
+
+        if (s->baseCount[eBaseTypeUIFont])
+        {
+            zUIFont *ui = (zUIFont *)s->baseList[eBaseTypeUIFont];
+
+            for (i = 0; i < s->baseCount[eBaseTypeUIFont]; i++)
+            {
+                zUIFont_PreUpdate(&ui[i], s, elapsedSec);
+            }
+        }
+
+        if (!isPaused)
+        {
+            zNPCMgr_sceneTimestep(s, elapsedSec);
+        }
+        else if (s->sceneID == 'B101')
+        {
+            zNPCBSandy_GameIsPaused(s);
+        }
+        else if (s->sceneID == 'B201')
+        {
+            zNPCBPatrick_GameIsPaused(s);
+        }
+
+        ztextbox::update_all(*s, elapsedSec);
+        ztalkbox::update_all(*s, elapsedSec);
+
+        gUIMgr.Update(s, elapsedSec);
+
+        if (xVec3Dist(&sOldPosPlayer, (xVec3 *)&globals.player.ent.model->Mat->pos) > 5.0f &&
+            xVec3Dist(&sOldPosCamera, &globals.camera.mat.pos) > 5.0f)
+        {
+            sSuddenMove = 1;
+        }
+        else
+        {
+            sSuddenMove = 0;
+        }
+
+        sOldPosPlayer = *(xVec3 *)&globals.player.ent.model->Mat->pos;
+        sOldPosCamera = globals.camera.mat.pos;
+
+        xUpdateCull_Update(globals.updateMgr, sSuddenMove ? 100 : 5);
+
+        for (i = 0; i < s->num_update_base; i++)
+        {
+            if (b[i]->baseFlags & XBASE_UNK40)
+            {
+                switch (b[i]->baseType)
+                {
+                case eBaseTypeUIFont:
+                {
+                    if (((zUIFont *)b[i])->update)
+                    {
+                        ((zUIFont *)b[i])->update((xEnt *)b[i], s, elapsedSec);
+                    }
+
+                    break;
+                }
+
+                case eBaseTypeZipLine:
+                {
+                    if (((xEnt *)b[i])->update && !isPaused)
+                    {
+                        ((xEnt *)b[i])->update((xEnt *)b[i], s, elapsedSec);
+                    }
+
+                    break;
+                }
+
+                case eBaseTypeTrigger:
+                case eBaseTypePickup:
+                case eBaseTypePlatform:
+                case eBaseTypeDoor:
+                case eBaseTypeSavePoint:
+                case eBaseTypeItem:
+                case eBaseTypeDynamic:
+                case eBaseTypePendulum:
+                case eBaseTypeHangable:
+                case eBaseTypeButton:
+                case eBaseTypeDestructObj:
+                case eBaseTypeEGenerator:
+                case eBaseTypeNPC:
+                case eBaseTypeBoulder:
+                case eBaseTypeTeleportBox:
+                {
+                    if (((xEnt *)b[i])->update && !isPaused)
+                    {
+                        ((xEnt *)b[i])->update((xEnt *)b[i], s, elapsedSec);
+                    }
+
+                    break;
+                }
+
+                case eBaseTypeTimer:
+                {
+                    if (!isPaused || ((xTimer *)b[i])->runsInPause)
+                    {
+                        xTimerUpdate(b[i], s, elapsedSec);
+                    }
+
+                    break;
+                }
+
+                case eBaseTypeScript:
+                {
+                    if (!isPaused)
+                    {
+                        zScriptUpdate(b[i], s, elapsedSec);
+                    }
+
+                    break;
+                }
+
+                case eBaseTypeFog:
+                {
+                    if (!isPaused)
+                    {
+                        xFogUpdate(b[i], s, elapsedSec);
+                    }
+
+                    break;
+                }
+
+                case eBaseTypeParticleEmitter:
+                {
+                    if (!isPaused)
+                    {
+                        xParEmitterUpdate(b[i], s, elapsedSec);
+                    }
+
+                    break;
+                }
+
+                case eBaseTypeParticleSystem:
+                {
+                    if (!isPaused && !zGameIsPaused())
+                    {
+                        xParSysUpdate(b[i], s, elapsedSec);
+                    }
+
+                    break;
+                }
+
+                case eBaseTypeLight:
+                {
+                    if (!isPaused)
+                    {
+                        zLightUpdate(b[i], s, elapsedSec);
+                    }
+
+                    break;
+                }
+
+                case eBaseTypeSurface:
+                {
+                    if (!isPaused || ((xSurface *)b[i])->type == 3)
+                    {
+                        zSurfaceUpdate(b[i], s, elapsedSec);
+                    }
+
+                    break;
+                }
+
+                case eBaseTypeBusStop:
+                {
+                    if (!isPaused)
+                    {
+                        zBusStop_Update(b[i], s, elapsedSec);
+                    }
+
+                    break;
+                }
+
+                case eBaseTypeDiscoFloor:
+                {
+                    if (!isPaused)
+                    {
+                        ((z_disco_floor *)b[i])->update(*s, elapsedSec);
+                    }
+
+                    break;
+                }
+
+                case eBaseTypeTaxi:
+                {
+                    if (!isPaused)
+                    {
+                        zTaxi_Update(b[i], s, elapsedSec);
+                    }
+
+                    break;
+                }
+
+                case eBaseTypeCameraFly:
+                {
+                    if (!isPaused)
+                    {
+                        zCameraFly_Update(b[i], s, elapsedSec);
+                    }
+
+                    break;
+                }
+                }
+            }
+        }
+
+        if (!isPaused)
+        {
+            zEntSimpleObj_MgrCustomUpdate(s, elapsedSec);
+        }
+
+        if (isPaused)
+        {
+            zUI_ScenePortalUpdate();
+        }
+        else
+        {
+            zUI_ScenePortalSetToCurrentLevel(s);
+        }
+
+        zNPCCommon_EjectPhlemOnPawz();
+
+        if (!isPaused)
+        {
+            zActionLineUpdate(elapsedSec);
+            xFXStreakUpdate(elapsedSec);
+            xFXShineUpdate(elapsedSec);
+            xFXFireworksUpdate(elapsedSec);
+            zLightningUpdate(elapsedSec);
+            zGustUpdateFX(elapsedSec);
+            xClimateUpdate(&gClimate, elapsedSec);
+            zShrapnel_Update(elapsedSec);
+            zCombo_Update(elapsedSec);
+            zFXUpdate(elapsedSec);
+            zLOD_Update(sSuddenMove ? 100 : 5);
+            zParPTankUpdate(elapsedSec);
+            xDecalUpdate(elapsedSec);
+            xCMupdate(elapsedSec);
+
+            if (s->pendingPortal)
+            {
+                zGameStateSwitch(eGameState_SceneSwitch);
+            }
+        }
+        else
+        {
+            zCombo_HideImmediately();
+        }
+    }
 }
 
 static void zSceneRenderPreFX()
@@ -2102,34 +2383,75 @@ static xBase *zSceneObjHashtableGet(unsigned int id)
             chkd = 0;
         }
     }
+
+    return NULL;
 }
 
 xBase *zSceneFindObject(unsigned int gameID)
 {
-    BFBBSTUB("zSceneFindObject");
-    return NULL;
+    return zSceneObjHashtableGet(gameID);
 }
 
 const char *zSceneGetName(unsigned int gameID)
 {
-    BFBBSTUB("zSceneGetName");
-    return NULL;
+    xBase *b = zSceneFindObject(gameID);
+
+    if (b)
+    {
+        return zSceneGetName(b);
+    }
+
+    return "";
 }
 
 const char *zSceneGetName(xBase *b)
 {
-    BFBBSTUB("zSceneGetName");
-    return NULL;
+    if (b)
+    {
+        const char *n = xSTAssetName(b->id);
+
+        if (n)
+        {
+            return n;
+        }
+    }
+
+    return "";
 }
 
 void zSceneForAllBase(zSceneForAllBaseCallBack func, void *data)
 {
-    BFBBSTUB("zSceneForAllBase");
+    zScene *s = globals.sceneCur;
+
+    if (s)
+    {
+        for (unsigned short i = 0; i < s->num_base; i++)
+        {
+            if (!func(s->base[i], s, data))
+            {
+                break;
+            }
+        }
+    }
 }
 
 void zSceneForAllBase(zSceneForAllBaseCallBack func, int baseType, void *data)
 {
-    BFBBSTUB("zSceneForAllBase");
+    zScene *s = globals.sceneCur;
+
+    if (s)
+    {
+        for (unsigned short i = 0; i < s->num_base; i++)
+        {
+            if (baseType == s->base[i]->baseType)
+            {
+                if (!func(s->base[i], s, data))
+                {
+                    break;
+                }
+            }
+        }
+    }
 }
 
 static xBase *zSceneExitSoundIteratorCB(xBase *b, zScene *s, void *data)
@@ -2145,7 +2467,25 @@ void zSceneMemLvlChkCB()
 
 void zSceneEnableVisited(zScene *s)
 {
-    BFBBSTUB("zSceneEnableVisited");
+    unsigned int uiNameID;
+    char uiName[64];
+    char *sceneName = xUtil_idtag2string(s->sceneID, 0);
+
+    strcpy(uiName, sceneName);
+    uiName[1] = ' ';
+    strcat(uiName, " VISITED");
+
+    uiNameID = xStrHash(uiName);
+
+    for (unsigned int i = 0; i < s->num_base; i++)
+    {
+        if (s->base[i] &&
+            s->base[i]->baseType == eBaseTypeUI &&
+            s->base[i]->id == uiNameID)
+        {
+            s->base[i]->baseFlags |= XBASE_ENABLED;
+        }
+    }
 }
 
 unsigned int zScene_ScreenAdjustMode()

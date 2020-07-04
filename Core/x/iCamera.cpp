@@ -222,7 +222,7 @@ void iCameraSetFOV(RwCamera *cam, float fov)
     RwV2d vw;
 
     vw.x = itan(0.5f * DEG2RAD(fov));
-    vw.y = 0.75f * vw.x;
+    vw.y = ((float)SCREEN_HEIGHT / SCREEN_WIDTH) * vw.x;
 
     RwCameraSetViewWindow(cam, &vw);
 }
@@ -292,5 +292,29 @@ void iCameraSetFogRenderStates()
 
         RwCameraSetFogDistance(pCamera, globals.fog.start);
         RwCameraSetFarClipPlane(pCamera, globals.fog.stop);
+    }
+}
+
+// unofficial widescreen support
+void iCameraUpdateSize(RwCamera *cam, int width, int height, float fov)
+{
+    BFBBSTUB("iCameraUpdateSize");
+    return;
+
+    RwRaster *raster = RwCameraGetRaster(cam);
+    RwInt32 curWidth = RwRasterGetWidth(raster);
+    RwInt32 curHeight = RwRasterGetHeight(raster);
+
+    if (curWidth != width || curHeight != height)
+    {
+        RwV2d vw;
+
+        RwRasterDestroy(raster);
+        RwRasterDestroy(RwCameraGetZRaster(cam));
+        
+        RwCameraSetRaster(cam, RwRasterCreate(width, height, 0, rwRASTERTYPECAMERA));
+        RwCameraSetZRaster(cam, RwRasterCreate(width, height, 0, rwRASTERTYPEZBUFFER));
+
+        iCameraSetFOV(cam, fov);
     }
 }

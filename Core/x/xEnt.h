@@ -88,6 +88,14 @@ typedef void(*xEntTranslateCallBack)(xEnt *, xVec3 *, xMat4x3 *);
 struct xFFX;
 struct anim_coll_data;
 
+#define XENT_UNK1  0x1
+#define XENT_UNK80 0x80
+
+#define XENT_COLLTYPE_TRIG 0x1
+#define XENT_COLLTYPE_STAT 0x2
+#define XENT_COLLTYPE_DYN  0x4
+#define XENT_COLLTYPE_NPC  0x8
+
 struct xEnt : xBase
 {
     xEntAsset *asset;
@@ -128,14 +136,19 @@ struct xEnt : xBase
     void *user_data;
 };
 
+void xEntSetTimePassed(float sec);
 void xEntSceneInit();
 void xEntSceneExit();
 xBox *xEntGetAllEntsBox();
 
 inline unsigned int xEntIsVisible(const xEnt *ent)
 {
-    BFBBSTUB("xEntIsVisible");
-    return 0;
+    return ((ent->flags & (XENT_UNK1 | XENT_UNK80)) == XENT_UNK1);
+}
+
+inline xMat4x3 *xEntGetFrame(const xEnt *ent)
+{
+    return xModelGetFrame(ent->model);
 }
 
 #endif

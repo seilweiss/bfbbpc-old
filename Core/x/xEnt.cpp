@@ -11,8 +11,15 @@ struct anim_coll_data
     xVec3 *normals;
 };
 
+static float sEntityTimePassed;
+
 static xBox all_ents_box;
 static int all_ents_box_init;
+
+void xEntSetTimePassed(float sec)
+{
+    sEntityTimePassed = sec;
+}
 
 void xEntSceneInit()
 {

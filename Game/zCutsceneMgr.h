@@ -43,5 +43,6 @@ struct zCutsceneMgr : xCutsceneMgr
 
 void zCutsceneMgrInit(void *b, void *tasset);
 void zCutSceneNamesTable_clearAll();
+void zCutsceneMgrUpdate(xBase *to, xScene *sc, float dt);
 
 #endif

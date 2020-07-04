@@ -27,5 +27,6 @@ struct _tagClimate
 
 void xClimateInit(_tagClimate *climate);
 void xClimateInitAsset(_tagClimate *climate, xEnvAsset *easset);
+void xClimateUpdate(_tagClimate *climate, float seconds);
 
 #endif

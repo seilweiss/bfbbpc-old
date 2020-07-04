@@ -7,6 +7,11 @@ void xDecalInit()
     BFBBSTUB("xDecalInit");
 }
 
+void xDecalUpdate(float dt)
+{
+    BFBBSTUB("xDecalUpdate");
+}
+
 void xDecalDestroy()
 {
     return;

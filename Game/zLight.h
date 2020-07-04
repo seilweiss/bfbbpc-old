@@ -30,10 +30,13 @@ struct _zLight : xBase
     int effect_idx;
 };
 
+struct xScene;
+
 void zLightResetAll(xEnv *env);
 void zLightInit(void *b, void *tasset);
 void zLightResolveLinks();
 void zLightDestroyAll();
+void zLightUpdate(xBase *to, xScene *sc, float dt);
 void zLightAddLocalEnv();
 void zLightRemoveLocalEnv();
 void zLightSetVolume(zVolume *vol);

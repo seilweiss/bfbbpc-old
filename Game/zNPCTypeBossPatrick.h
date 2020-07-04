@@ -6,5 +6,6 @@ struct zScene;
 
 xAnimTable *ZNPC_AnimTable_BossPatrick();
 void zNPCBPatrick_AddBoundEntsToGrid(zScene *zsc);
+void zNPCBPatrick_GameIsPaused(zScene *zsc);
 
 #endif

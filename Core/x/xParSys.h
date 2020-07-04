@@ -33,9 +33,12 @@ struct xParSys : xBase
     RwTexture *txtr_particle;
 };
 
+struct xScene;
+
 void xParSysInit(void *b, void *tasset);
 void xParSysSetup(xParSys *t);
 void xParSysExit(xParSys *t);
+void xParSysUpdate(xBase *to, xScene *sc, float dt);
 void xParSysRender(xBase *b);
 
 #endif

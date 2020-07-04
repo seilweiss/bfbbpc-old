@@ -262,6 +262,54 @@ int xSTSwitchScene(unsigned int sid, void *userdata,
     return rc;
 }
 
+const char *xSTAssetName(unsigned int aid)
+{
+    const char *aname = NULL;
+    st_STRAN_SCENE *sdata;
+    int scncnt = XST_cnt_locked();
+    int i;
+
+    for (i = 0; i < scncnt; i++)
+    {
+        sdata = XST_nth_locked(i);
+
+        if (sdata->spkg)
+        {
+            aname = g_pkrf->AssetName(sdata->spkg, aid);
+
+            if (aname)
+            {
+                break;
+            }
+        }
+    }
+
+    return aname;
+}
+
+const char *xSTAssetName(void *raw_HIP_asset)
+{
+    const char *aname = NULL;
+    unsigned int aid;
+    st_STRAN_SCENE *sdata;
+    int scncnt = XST_cnt_locked();
+    int i;
+
+    for (i = 0; i < scncnt; i++)
+    {
+        sdata = XST_nth_locked(i);
+        aid = PKRAssetIDFromInst(raw_HIP_asset);
+        aname = g_pkrf->AssetName(sdata->spkg, aid);
+
+        if (aname)
+        {
+            break;
+        }
+    }
+
+    return aname;
+}
+
 void *xSTFindAsset(unsigned int aid, unsigned int *size)
 {
     void *memloc = NULL;

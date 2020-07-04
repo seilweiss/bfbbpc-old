@@ -20,7 +20,10 @@ struct _xFog : xBase
     xFogAsset *tasset;
 };
 
+struct xScene;
+
 void xFogClearFog();
 void xFogInit(void *b, void *tasset);
+void xFogUpdate(xBase *to, xScene *sc, float dt);
 
 #endif

@@ -212,6 +212,7 @@ struct zShrapnelAsset
 
 void zShrapnel_GameInit();
 void zShrapnel_SceneInit(zScene *sc);
+void zShrapnel_Update(float dt);
 void zShrapnel_Render();
 
 #endif

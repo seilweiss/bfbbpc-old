@@ -1,5 +1,7 @@
 #include "zEntSimpleObj.h"
 
+#include "zScene.h"
+
 #include "print.h"
 
 void zEntSimpleObj_MgrInit(zEntSimpleObj **entList, unsigned int entCount)
@@ -10,6 +12,11 @@ void zEntSimpleObj_MgrInit(zEntSimpleObj **entList, unsigned int entCount)
 void zEntSimpleObj_MgrUpdateRender(RpWorld *world, float dt)
 {
     BFBBSTUB("zEntSimpleObj_MgrUpdateRender");
+}
+
+void zEntSimpleObj_MgrCustomUpdate(zScene *s, float dt)
+{
+    BFBBSTUB("zEntSimpleObj_MgrCustomUpdate");
 }
 
 void zEntSimpleObj_MgrCustomRender()

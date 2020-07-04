@@ -24,4 +24,6 @@ void iCameraSetFogParams(iFogParams *fp, float time);
 void iCameraUpdateFog(RwCamera *cam, iTime t);
 void iCameraSetFogRenderStates();
 
+void iCameraUpdateSize(RwCamera *cam, int width, int height, float fov);
+
 #endif
