@@ -2,6 +2,54 @@
 
 #include "print.h"
 
+static bool _xSingleCompare(char c1, char c2)
+{
+    switch (c2)
+    {
+    case '?':
+    case '*':
+    case '+':
+    {
+        return true;
+    }
+    case '#':
+    {
+        return (c1 >= '0' && c1 <= '9');
+    }
+    }
+
+    return (c1 == c2);
+}
+
+static bool _xSingleCompare(char c, const char *s)
+{
+    while (*s)
+    {
+        if (_xSingleCompare(c, *s))
+        {
+            return true;
+        }
+
+        s++;
+    }
+
+    return false;
+}
+
+static bool _xCharIn(char c, const char *s)
+{
+    while (*s)
+    {
+        if (c == *s)
+        {
+            return true;
+        }
+        s++;
+    }
+
+    return false;
+}
+
 void xAnimInit()
 {
     BFBBSTUB("xAnimInit");
