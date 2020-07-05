@@ -9,6 +9,11 @@ void load_settings(xIniFile &ini)
     BFBBSTUB("oob_state::load_settings");
 }
 
+void init()
+{
+    BFBBSTUB("oob_state::init");
+}
+
 bool render()
 {
     BFBBSTUB("oob_state::render");

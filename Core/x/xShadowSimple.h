@@ -30,6 +30,7 @@ struct xShadowSimpleCache
 };
 
 void xShadowSimple_Init();
+void xShadowSimple_CacheInit(xShadowSimpleCache *cache, xEnt *ent, unsigned char alpha);
 void xShadowSimple_Render();
 
 #endif

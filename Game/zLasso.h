@@ -32,6 +32,7 @@ struct zLasso
     xModelInstance *model;
 };
 
+void zLasso_Init(zLasso *lasso, xModelInstance *model, float x, float y, float z);
 void zLasso_scenePrepare();
 
 #endif

@@ -20,6 +20,11 @@ zGust *zGustGetGust(unsigned short n)
     return NULL;
 }
 
+void zGustUpdateEnt(xEnt *ent, xScene *, float dt, void *gdata)
+{
+    BFBBSTUB("zGustUpdateEnt");
+}
+
 void zGustUpdateFX(float seconds)
 {
     BFBBSTUB("zGustUpdateFX");

@@ -14,7 +14,7 @@ void xAnimTempTransitionInit(unsigned int count)
 
 xAnimState *xAnimTableGetState(xAnimTable *table, const char *name)
 {
-    BFBBSTUB("xAnimPoolInit");
+    BFBBSTUB("xAnimTableGetState");
     return NULL;
 }
 

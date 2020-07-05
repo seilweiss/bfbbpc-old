@@ -100,6 +100,22 @@ struct xEntBoulder;
 struct zEntHangable;
 struct zPlatform;
 
+#define SB_MODEL_BODY          0
+#define SB_MODEL_ARM_L         1
+#define SB_MODEL_ARM_R         2
+#define SB_MODEL_ASS           3
+#define SB_MODEL_UNDERWEAR     4
+#define SB_MODEL_WAND          5
+#define SB_MODEL_TONGUE        6
+#define SB_MODEL_BUBBLE_HELMET 7
+#define SB_MODEL_BUBBLE_SHOE_L 8
+#define SB_MODEL_BUBBLE_SHOE_R 9
+#define SB_MODEL_SHADOW_BODY   10
+#define SB_MODEL_SHADOW_ARM_L  11
+#define SB_MODEL_SHADOW_ARM_R  12
+#define SB_MODEL_SHADOW_WAND   13
+#define SB_MODEL_COUNT         14
+
 struct zPlayerGlobals
 {
     zEnt ent;
@@ -244,8 +260,8 @@ struct zPlayerGlobals
     float SlideTrackDecay;
     float SlideTrackLean;
     float SlideTrackLand;
-    unsigned char sb_model_indices[14];
-    xModelInstance *sb_models[14];
+    unsigned char sb_model_indices[SB_MODEL_COUNT];
+    xModelInstance *sb_models[SB_MODEL_COUNT];
     unsigned int currentPlayer;
     xVec3 PredictRotate;
     xVec3 PredictTranslate;

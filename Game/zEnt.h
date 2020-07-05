@@ -18,5 +18,6 @@ void zEntEventAll(xBase *from, unsigned int fromEvent, unsigned int toEvent,
                   float *toParam);
 void zEntEventAllOfType(unsigned int toEvent, unsigned int type);
 xModelInstance *zEntRecurseModelInfo(void *info, xEnt *ent);
+xModelAssetParam *zEntGetModelParams(unsigned int assetID, unsigned int *size);
 
 #endif

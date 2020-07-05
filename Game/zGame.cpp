@@ -368,7 +368,7 @@ void zGameScreenTransitionEnd()
 #if 1
 // Todo: Remove this!
 // the global camera requires a target matrix
-// this is a temporary solution
+// this is a temporary solution until zEntPlayer_Reset is implemented
 static xMat4x3 TEMP_CAM_TARGET_MAT = {};
 #endif
 
@@ -402,7 +402,7 @@ void zGameSetupPlayer()
 
     zEntPlayer_Init(&globals.player.ent, asset);
 
-#if 1
+#if 1 // REMOVE!!!
     xCameraSetTargetMatrix(&globals.camera, &TEMP_CAM_TARGET_MAT);
     xCameraSetTargetOMatrix(&globals.camera, &TEMP_CAM_TARGET_MAT);
 #endif

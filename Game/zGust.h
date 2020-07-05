@@ -4,6 +4,7 @@
 #include "xBase.h"
 #include "xMath3.h"
 #include "zVolume.h"
+#include "xEnt.h"
 
 struct zGustAsset : xBaseAsset
 {
@@ -24,9 +25,17 @@ struct zGust : xBase
     float debris_timer;
 };
 
+struct zGustData
+{
+    unsigned int gust_on;
+    zGust *g[4];
+    float lerp[4];
+};
+
 void zGustInit();
 void zGustSetup();
 zGust *zGustGetGust(unsigned short n);
+void zGustUpdateEnt(xEnt *ent, xScene *, float dt, void *gdata);
 void zGustUpdateFX(float seconds);
 
 #endif

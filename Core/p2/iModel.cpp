@@ -3,12 +3,14 @@
 #include "xMathInlines.h"
 #include "iCamera.h"
 #include "iSystem.h"
+#include "xModel.h"
 
 #include <rwcore.h>
 #include <rpworld.h>
 #include <rphanim.h>
 #include <rpskin.h>
 #include <rpmatfx.h>
+#include <rpusrdat.h>
 
 RpWorld *instance_world;
 RwCamera *instance_camera;
@@ -345,4 +347,168 @@ int iModelCull(RpAtomic *model, RwMatrix *mat)
     }
 
     return (RwCameraFrustumTestSphere(cam, &sph) == rwSPHEREOUTSIDE);
+}
+
+static unsigned int iModelTagUserData(xModelTag *tag, RpAtomic *model, float x, float y,
+                                      float z, int closeV)
+{
+    int i;
+    int count;
+    RpUserDataArray *array;
+    RpUserDataArray *testarray;
+    float distSqr;
+    float closeDistSqr;
+    int numTags;
+    int t;
+    xModelTag *tagList;
+
+    count = RpGeometryGetUserDataArrayCount(RpAtomicGetGeometry(model));
+    array = NULL;
+
+    for (i = 0; i < count; i++)
+    {
+        testarray = RpGeometryGetUserDataArray(RpAtomicGetGeometry(model), i);
+
+        if (strcmp(testarray->name, "HI_Tags") == 0)
+        {
+            array = testarray;
+            break;
+        }
+    }
+
+    if (!array)
+    {
+        memset(tag, 0, sizeof(xModelTag));
+        return 0;
+    }
+
+    distSqr = 1000000000.0f;
+
+    numTags = *(int *)array->data;
+    tagList = (xModelTag *)((int *)array->data + 1);
+
+    if (closeV < 0 || closeV > numTags)
+    {
+        closeV = 0;
+
+        for (t = 0; t < numTags; t++)
+        {
+            closeDistSqr =
+                xsqr(tagList[t].v.x - x) +
+                xsqr(tagList[t].v.y - y) +
+                xsqr(tagList[t].v.z - z);
+
+            if (closeDistSqr < distSqr)
+            {
+                closeV = t;
+                distSqr = closeDistSqr;
+            }
+        }
+
+        if (tag)
+        {
+            *tag = tagList[closeV];
+        }
+    }
+    else
+    {
+        if (tag)
+        {
+            *tag = tagList[closeV];
+        }
+    }
+
+    return closeV;
+}
+
+static unsigned int iModelTagInternal(xModelTag *tag, RpAtomic *model, float x, float y,
+                                      float z, int closeV)
+{
+    RpGeometry *geom;
+    RwV3d *vert;
+    int v;
+    int numV;
+    float distSqr;
+    float closeDistSqr;
+    RpSkin *skin;
+    const RwMatrixWeights *wt;
+
+    geom = RpAtomicGetGeometry(model);
+    vert = RpMorphTargetGetVertices(RpGeometryGetMorphTarget(geom, 0));
+
+    if (!vert)
+    {
+        return iModelTagUserData(tag, model, x, y, z, closeV);
+    }
+
+    numV = RpGeometryGetNumVertices(geom);
+    distSqr = 1000000000.0f;
+
+    if (closeV < 0 || closeV > numV)
+    {
+        closeV = 0;
+
+        for (v = 0; v < numV; v++)
+        {
+            closeDistSqr =
+                xsqr(vert[v].x - x) +
+                xsqr(vert[v].y - y) +
+                xsqr(vert[v].z - z);
+
+            if (closeDistSqr < distSqr)
+            {
+                closeV = v;
+                distSqr = closeDistSqr;
+            }
+        }
+
+        if (tag)
+        {
+            tag->v.x = x;
+            tag->v.y = y;
+            tag->v.z = z;
+        }
+    }
+    else
+    {
+        if (tag)
+        {
+            tag->v.x = vert[closeV].x;
+            tag->v.y = vert[closeV].y;
+            tag->v.z = vert[closeV].z;
+        }
+    }
+
+    if (tag)
+    {
+        skin = RpSkinGeometryGetSkin(RpAtomicGetGeometry(model));
+
+        if (skin)
+        {
+            wt = RpSkinGetVertexBoneWeights(skin);
+
+            tag->matidx = RpSkinGetVertexBoneIndices(skin)[closeV];
+
+            tag->wt[0] = wt[closeV].w0;
+            tag->wt[1] = wt[closeV].w1;
+            tag->wt[2] = wt[closeV].w2;
+            tag->wt[3] = wt[closeV].w3;
+        }
+        else
+        {
+            tag->matidx = 0;
+
+            tag->wt[0] = 0.0f;
+            tag->wt[1] = 0.0f;
+            tag->wt[2] = 0.0f;
+            tag->wt[3] = 0.0f;
+        }
+    }
+
+    return closeV;
+}
+
+unsigned int iModelTagSetup(xModelTag *tag, RpAtomic *model, float x, float y, float z)
+{
+    return iModelTagInternal(tag, model, x, y, z, -1);
 }

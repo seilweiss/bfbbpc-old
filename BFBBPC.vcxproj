@@ -228,6 +228,7 @@
     <ClInclude Include="Core\p2\iMemMgr.h" />
     <ClInclude Include="Core\p2\iModel.h" />
     <ClInclude Include="Core\p2\iPad.h" />
+    <ClInclude Include="Core\p2\iParMgr.h" />
     <ClInclude Include="Core\p2\iScrFX.h" />
     <ClInclude Include="Core\p2\iSnd.h" />
     <ClInclude Include="Core\p2\iSystem.h" />
@@ -427,6 +428,7 @@
     <ClCompile Include="Core\p2\iMemMgr.cpp" />
     <ClCompile Include="Core\p2\iModel.cpp" />
     <ClCompile Include="Core\p2\iPad.cpp" />
+    <ClCompile Include="Core\p2\iParMgr.cpp" />
     <ClCompile Include="Core\p2\iSnd.cpp" />
     <ClCompile Include="Core\p2\iScrFX.cpp" />
     <ClCompile Include="Core\p2\iSystem.cpp" />
@@ -567,6 +569,7 @@
     <ClCompile Include="Game\zNPCTypeTiki.cpp" />
     <ClCompile Include="Game\zNPCTypeVillager.cpp" />
     <ClCompile Include="Game\zParCmd.cpp" />
+    <ClCompile Include="Game\zParEmitter.cpp" />
     <ClCompile Include="Game\zParPTank.cpp" />
     <ClCompile Include="Game\zPendulum.cpp" />
     <ClCompile Include="Game\zPickupTable.cpp" />

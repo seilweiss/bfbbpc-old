@@ -161,8 +161,28 @@ enum zControlOwner
     CONTROL_OWNER_CUTSCENE = 0x8000
 };
 
+enum _CurrentPlayer
+{
+    eCurrentPlayerSpongeBob,
+    eCurrentPlayerPatrick,
+    eCurrentPlayerSandy,
+    eCurrentPlayerCount
+};
+
+struct xEntBoulder;
+
+extern xEntBoulder *boulderVehicle;
+extern _CurrentPlayer lastgCurrentPlayer;
+
 void zEntPlayerControlOn(zControlOwner owner);
 void CalcJumpImpulse(zJumpParam *param, const zPlayerSettings *settings);
+void zEntPlayer_Update(xEnt *ent, xScene *sc, float dt);
+void zEntPlayer_Render(zEnt *ent);
+int zEntPlayerEventCB(xBase *from, xBase *to, unsigned int toEvent, const float *toParam,
+                      xBase *toParamWidget);
+void zEntPlayerPreReset();
+void zEntPlayerReset(xEnt *ent);
+void zEntPlayer_RestoreSounds();
 void zEntPlayer_Init(xEnt *ent, xEntAsset *asset);
 void zEntPlayer_ShadowModelEnable();
 void zEntPlayer_ShadowModelDisable();

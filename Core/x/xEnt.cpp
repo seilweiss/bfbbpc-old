@@ -187,3 +187,20 @@ xBox *xEntGetAllEntsBox()
 {
     return &all_ents_box;
 }
+
+void xEntInitShadow(xEnt &ent, xEntShadow &shadow)
+{
+    ent.entShadow = &shadow;
+
+    shadow.vec.assign(0.0f, 1.0f, 0.0f);
+    shadow.pos = ent.asset->pos;
+    shadow.shadowModel = NULL;
+    shadow.dst_cast = -1.0f;
+    shadow.radius[0] = -1.0f;
+    shadow.radius[1] = -1.0f;
+}
+
+void xEntShow(xEnt *ent)
+{
+    ent->flags |= XENT_VISIBLE;
+}

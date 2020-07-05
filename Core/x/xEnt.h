@@ -81,7 +81,7 @@ struct xEntShadow
 
 typedef void(*xEntUpdateCallBack)(xEnt *ent, xScene *sc, float dt);
 typedef void(*xEntBoundUpdateCallBack)(xEnt *ent, xVec3 *pos);
-typedef void(*xEntMoveCallBack)(xEnt *, xScene *, float, xEntFrame *);
+typedef void(*xEntMoveCallBack)(xEnt *ent, xScene *sc, float dt, xEntFrame *frame);
 typedef void(*xEntRenderCallBack)(xEnt *ent);
 typedef void(*xEntTranslateCallBack)(xEnt *ent, xVec3 *dpos, xMat4x3 *dmat);
 
@@ -96,6 +96,7 @@ struct anim_coll_data;
 // pflags
 #define XENT_PUNK1 0x1
 #define XENT_PUNK2 0x2
+#define XENT_PUNK4 0x4
 
 // moreFlags
 #define XENT_MESHCOLL 0x2
@@ -163,8 +164,15 @@ void xEntRender(xEnt *ent);
 void xEntDefaultTranslate(xEnt *ent, xVec3 *dpos, xMat4x3 *dmat);
 void xEntInit(xEnt *ent, xEntAsset *asset);
 void xEntInitForType(xEnt *ent);
+void xEntShow(xEnt *ent);
 xModelInstance *xEntLoadModel(xEnt *ent, RpAtomic *imodel);
 xBox *xEntGetAllEntsBox();
+void xEntInitShadow(xEnt &ent, xEntShadow &shadow);
+
+inline void xEntEnable(xEnt *ent)
+{
+    xBaseEnable(ent);
+}
 
 inline unsigned int xEntIsVisible(const xEnt *ent)
 {

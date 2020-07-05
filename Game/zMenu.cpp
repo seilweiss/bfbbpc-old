@@ -100,8 +100,6 @@ void zMenuSetup()
 
 unsigned int zMenuLoop()
 {
-    BFBBSTUB("zMenuLoop");
-
     unsigned int s = 0;
 
     if (sFirstBoot)

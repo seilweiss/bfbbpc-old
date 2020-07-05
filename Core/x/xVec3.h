@@ -8,6 +8,15 @@ struct xVec3
     float z;
 
     static xVec3 m_Null;
+
+    inline xVec3 &assign(float x, float y, float z)
+    {
+        this->x = x;
+        this->y = y;
+        this->z = z;
+
+        return *this;
+    }
 };
 
 float xVec3Normalize(xVec3 *o, const xVec3 *v);

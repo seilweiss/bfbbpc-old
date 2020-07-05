@@ -330,3 +330,32 @@ void zEntParseModelInfo(xEnt *ent, unsigned int assetID)
         ent->model->modelID = assetID;
     }
 }
+
+xModelAssetParam *zEntGetModelParams(unsigned int assetID, unsigned int *size)
+{
+    unsigned int bufsize;
+    void *info;
+    xModelAssetInfo *minf;
+
+    info = xSTFindAsset(assetID, &bufsize);
+
+    if (*(unsigned int *)info == 'FNIM')
+    {
+        minf = (xModelAssetInfo *)info;
+
+        *size = bufsize -
+            (sizeof(xModelAssetInfo) + minf->NumModelInst * sizeof(xModelAssetInst));
+
+        if (*size)
+        {
+            return (xModelAssetParam *)
+                ((xModelAssetInst *)(minf + 1) + minf->NumModelInst);
+        }
+    }
+    else
+    {
+        *size = 0;
+    }
+
+    return NULL;
+}

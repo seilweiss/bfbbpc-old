@@ -612,6 +612,9 @@
     <ClInclude Include="Core\x\xMarkerAsset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\p2\iParMgr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\zMain.cpp">
@@ -1119,6 +1122,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\x\xGrid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\zParEmitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\p2\iParMgr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

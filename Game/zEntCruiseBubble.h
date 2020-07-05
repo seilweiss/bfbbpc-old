@@ -3,6 +3,7 @@
 
 namespace cruise_bubble
 {
+void init();
 void render_screen();
 }
 
