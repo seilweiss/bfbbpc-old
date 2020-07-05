@@ -295,8 +295,6 @@ static void zEntPlayer_SNDInit();
 
 void zEntPlayer_Init(xEnt *ent, xEntAsset *asset)
 {
-    BFBBSTUB("zEntPlayer_Init");
-
     zEntInit((zEnt *)ent, asset, 'PLYR');
     xEntInitShadow(*ent, globals.player.entShadow_embedded);
 
@@ -611,7 +609,7 @@ void zEntPlayer_Init(xEnt *ent, xEntAsset *asset)
     lastgCurrentPlayer = eCurrentPlayerCount;
 
     zEntPlayerPreReset();
-    //zEntPlayerReset(ent);
+    zEntPlayerReset(ent);
     zEntPlayer_SNDInit();
 
     sPlayerDiedLastTime = 0;
@@ -718,6 +716,8 @@ void zEntPlayerPreReset()
 
 void zEntPlayerReset(xEnt *ent)
 {
+    BFBBSTUB("zEntPlayerReset");
+
     xVec3Init(&globals.player.PredictCurrDir, 0.0f, 1.0f, 0.0f);
 
     globals.player.PredictCurrVel = 0.0f;
@@ -854,6 +854,7 @@ void zEntPlayerReset(xEnt *ent)
 
     globals.player.Jump_CurrGravity = globals.player.g.Gravity;
 
+#if 0
     xAnimState *curr = globals.player.ent.model->Anim->Table->StateList;
 
     while (curr)
@@ -866,6 +867,7 @@ void zEntPlayerReset(xEnt *ent)
 
         curr = curr->Next;
     }
+#endif
 
     xModelInstance *minst = globals.player.ent.model;
     unsigned int index = 0;
@@ -926,6 +928,7 @@ void zEntPlayerReset(xEnt *ent)
     mount_tmr = 0.0f;
     sHackStuckTimer = 0.0f;
 
+#if 0
     if (globals.player.model_spongebob)
     {
         xAnimPlaySetState(globals.player.model_spongebob->Anim->Single,
@@ -950,6 +953,7 @@ void zEntPlayerReset(xEnt *ent)
     xAnimPlaySetState(ent->model->Anim->Single,
                       ent->model->Anim->Table->StateList,
                       0.0f);
+#endif
 
     if (globals.sceneCur->sceneID == 'MNU3')
     {
