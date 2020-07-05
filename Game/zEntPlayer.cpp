@@ -370,7 +370,7 @@ void zEntPlayer_Init(xEnt *ent, xEntAsset *asset)
     globals.player.AutoMoveSpeed = 0;
 
     ent->pflags &= ~XENT_PUNK4;
-    ent->collis->chk &= 0x1;
+    ent->collis->chk &= ~0x1;
     ent->update = zEntPlayer_Update;
     ent->move = zEntPlayer_Move;
     ent->render = (xEntRenderCallBack)zEntPlayer_Render;
