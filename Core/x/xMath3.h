@@ -180,4 +180,12 @@ inline float xQuatGetAngle(const xQuat *q)
     return 2.0f * xacos(q->s);
 }
 
+inline void xRotCopy(xRot *o, const xRot *r)
+{
+    o->axis.x = r->axis.x;
+    o->axis.y = r->axis.y;
+    o->axis.z = r->axis.z;
+    o->angle = r->angle;
+}
+
 #endif

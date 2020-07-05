@@ -47,6 +47,13 @@ inline void xVec3SMul(xVec3 *o, const xVec3 *v, float s)
     o->z = v->z * s;
 }
 
+inline void xVec3SMulBy(xVec3 *v, float s)
+{
+    v->x *= s;
+    v->y *= s;
+    v->z *= s;
+}
+
 inline void xVec3Sub(xVec3 *o, const xVec3 *a, const xVec3 *b)
 {
     o->x = a->x - b->x;

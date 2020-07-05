@@ -7,6 +7,7 @@ namespace bungee_state
 {
 void load_settings(xIniFile &ini);
 void init();
+void reset();
 }
 
 #endif

@@ -1130,5 +1130,8 @@
     <ClCompile Include="Core\p2\iParMgr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Core\x\xEntDrive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

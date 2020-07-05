@@ -13,4 +13,9 @@ void init()
 {
     BFBBSTUB("bungee_state::init");
 }
+
+void reset()
+{
+    BFBBSTUB("bungee_state::reset");
+}
 }

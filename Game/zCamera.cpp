@@ -1164,3 +1164,8 @@ void zCameraDisableTracking(camera_owner_enum owner)
 {
     stop_track |= owner;
 }
+
+void zCameraDisableLassoCam()
+{
+    lassocam_enabled = false;
+}

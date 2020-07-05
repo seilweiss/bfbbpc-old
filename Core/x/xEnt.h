@@ -50,7 +50,8 @@ struct xScene;
 struct xEntCollis;
 
 typedef void(*xEntCollisPostCallBack)(xEnt *, xScene *, float, xEntCollis *);
-typedef unsigned int(*xEntCollisDepenqCallBack)(xEnt *, xEnt *, xScene *, float, xCollis *);
+typedef unsigned int(*xEntCollisDepenqCallBack)(xEnt *, xEnt *, xScene *, float,
+                                                xCollis *coll);
 
 struct xEntCollis
 {
@@ -91,6 +92,7 @@ struct anim_coll_data;
 // flags
 #define XENT_VISIBLE   0x1
 #define XENT_STACKABLE 0x2
+#define XENT_UNK40     0x40
 #define XENT_UNK80     0x80
 
 // pflags
@@ -165,7 +167,10 @@ void xEntDefaultTranslate(xEnt *ent, xVec3 *dpos, xMat4x3 *dmat);
 void xEntInit(xEnt *ent, xEntAsset *asset);
 void xEntInitForType(xEnt *ent);
 void xEntShow(xEnt *ent);
+void xEntReset(xEnt *ent);
 xModelInstance *xEntLoadModel(xEnt *ent, RpAtomic *imodel);
+void xEntBeginCollide(xEnt *ent, xScene *, float);
+void xEntSetNostepNormAngle(float angle);
 xBox *xEntGetAllEntsBox();
 void xEntInitShadow(xEnt &ent, xEntShadow &shadow);
 

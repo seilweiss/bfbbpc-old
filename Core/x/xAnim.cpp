@@ -18,6 +18,11 @@ xAnimState *xAnimTableGetState(xAnimTable *table, const char *name)
     return NULL;
 }
 
+void xAnimPlaySetState(xAnimSingle *single, xAnimState *state, float startTime)
+{
+    BFBBSTUB("xAnimPlaySetState");
+}
+
 void xAnimPoolInit(xMemPool *pool, unsigned int count, unsigned int singles,
                    unsigned int blendFlags, unsigned int effectMax)
 {

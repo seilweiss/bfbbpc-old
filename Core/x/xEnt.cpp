@@ -2,6 +2,10 @@
 
 #include "xMemMgr.h"
 #include "iModel.h"
+#include "zBase.h"
+#include "zPlatform.h"
+#include "xEvent.h"
+#include "xString.h"
 
 struct anim_coll_data
 {
@@ -14,10 +18,22 @@ struct anim_coll_data
     xVec3 *normals;
 };
 
+static float nsn_angle = DEG2RAD(30.0f);
 static float sEntityTimePassed;
 
 static xBox all_ents_box;
 static int all_ents_box_init;
+
+namespace
+{
+namespace anim_coll
+{
+void reset(xEnt &ent)
+{
+    BFBBSTUB("anim_coll::reset");
+}
+}
+}
 
 void xEntSetTimePassed(float sec)
 {
@@ -32,6 +48,105 @@ void xEntSceneInit()
 void xEntSceneExit()
 {
     return;
+}
+
+static void xEntAddHittableFlag(xEnt *ent)
+{
+    if (ent->baseType == eBaseTypeNPC ||
+        ent->baseType == eBaseTypeDestructObj ||
+        ent->baseType == eBaseTypeButton ||
+        ent->baseType == eBaseTypeBoulder ||
+        (ent->baseType == eBaseTypePlatform && ent->subType == XPLATFORM_TYPE_PADDLE))
+    {
+        ent->moreFlags |= XENT_HITTABLE;
+    }
+    else
+    {
+        unsigned int i;
+
+        for (i = 0; i < ent->linkCount; i++)
+        {
+            if (ent->link[i].srcEvent == eEventHit ||
+                ent->link[i].srcEvent == eEventHit_Cruise ||
+                ent->link[i].srcEvent == eEventHit_Melee ||
+                ent->link[i].srcEvent == eEventHit_BubbleBounce ||
+                ent->link[i].srcEvent == eEventHit_BubbleBash ||
+                ent->link[i].srcEvent == eEventHit_BubbleBowl ||
+                ent->link[i].srcEvent == eEventHit_PatrickSlam ||
+                ent->link[i].srcEvent == eEventHit_Throw ||
+                ent->link[i].srcEvent == eEventHit_PaddleLeft ||
+                ent->link[i].srcEvent == eEventHit_PaddleRight)
+            {
+                ent->moreFlags |= XENT_HITTABLE;
+                break;
+            }
+        }
+    }
+}
+
+static void hack_receive_shadow(xEnt *ent)
+{
+    static unsigned int receive_models[] =
+    {
+        xStrHash("db03_path_a"),
+        xStrHash("db03_path_b"),
+        xStrHash("db03_path_c"),
+        xStrHash("db03_path_d"),
+        xStrHash("db03_path_e"),
+        xStrHash("db03_path_f"),
+        xStrHash("db03_path_g"),
+        xStrHash("db03_path_h"),
+        xStrHash("db03_path_i"),
+        xStrHash("db03_path_j"),
+        xStrHash("db03_path_k"),
+        xStrHash("db03_path_l"),
+        xStrHash("db03_path_m"),
+        xStrHash("db03_path_o"),
+        xStrHash("db03_path_p")
+    };
+
+    unsigned int *r5 = &receive_models[0];
+    unsigned int *r4 = &receive_models[sizeof(receive_models) / sizeof(unsigned int)];
+
+    while (r5 != r4)
+    {
+        if (ent->asset->modelInfoID == *r5)
+        {
+            ent->baseFlags |= XBASE_RECSHADOW;
+            ent->asset->baseFlags |= XBASE_RECSHADOW;
+
+            break;
+        }
+
+        r5++;
+    }
+}
+
+static void xEntAddShadowRecFlag(xEnt *ent)
+{
+    switch (ent->baseType)
+    {
+    case eBaseTypePlatform:
+    case eBaseTypeStatic:
+    case eBaseTypeButton:
+    case eBaseTypeDestructObj:
+    case eBaseTypeNPC:
+    case eBaseTypeBoulder:
+    {
+        if (ent->model->PipeFlags & XMODEL_PIPE_BLEND_MASK)
+        {
+            ent->baseFlags &= ~XBASE_RECSHADOW;
+        }
+
+        break;
+    }
+    default:
+    {
+        ent->baseFlags &= ~XBASE_RECSHADOW;
+    }
+    }
+
+    hack_receive_shadow(ent);
 }
 
 void xEntInit(xEnt *ent, xEntAsset *asset)
@@ -145,6 +260,103 @@ void xEntInitForType(xEnt *ent)
     ent->baseFlags |= XBASE_ISENT;
 }
 
+namespace
+{
+void setup_stacked_entity(xEnt &ent)
+{
+    ent.pflags = XENT_PUNK4;
+}
+}
+
+void xEntReset(xEnt *ent)
+{
+    xMat4x3 frame;
+    xModelInstance *minst;
+
+    xBaseReset(ent, ent->asset);
+
+    ent->baseFlags |= XBASE_ISENT;
+    ent->flags = ent->asset->flags;
+    ent->miscflags = 0;
+    ent->moreFlags = ent->asset->moreFlags;
+
+    xEntAddHittableFlag(ent);
+    xEntAddShadowRecFlag(ent);
+
+    xMat3x3Euler(&frame, ent->asset->ang.x, ent->asset->ang.y, ent->asset->ang.z);
+    
+    xVec3SMulBy(&frame.right, ent->asset->scale.x);
+    xVec3SMulBy(&frame.up, ent->asset->scale.y);
+    xVec3SMulBy(&frame.at, ent->asset->scale.z);
+
+    xVec3Copy(&frame.pos, &ent->asset->pos);
+
+    frame.flags = 0;
+
+    if (ent->model)
+    {
+        xModelSetFrame(ent->model, &frame);
+
+        if (ent->collModel)
+        {
+            xModelSetFrame(ent->collModel, &frame);
+        }
+
+        if (ent->moreFlags & XENT_ANIMCOLL)
+        {
+            anim_coll::reset(*ent);
+        }
+
+        minst = ent->model;
+
+        while (minst)
+        {
+            minst->RedMultiplier = ent->asset->redMult;
+            minst->GreenMultiplier = ent->asset->greenMult;
+            minst->BlueMultiplier = ent->asset->blueMult;
+
+            minst->Alpha =
+                (minst->Data->geometry->matList.materials[0]->color.alpha) / 255.0f;
+
+            minst->Scale.x = 0.0f;
+            minst->Scale.y = 0.0f;
+            minst->Scale.z = 0.0f;
+
+            minst = minst->Next;
+        }
+    }
+
+    if (ent->frame)
+    {
+        xMat4x3Copy(&ent->frame->mat, &frame);
+        
+        ent->frame->oldmat = ent->frame->mat;
+
+        xVec3Copy(&ent->frame->dpos, &g_O3);
+        xVec3Copy(&ent->frame->dvel, &g_O3);
+        xVec3Copy(&ent->frame->vel, &g_O3);
+        xVec3Copy(&ent->frame->oldvel, &g_O3);
+
+        xVec3Copy(&ent->frame->rot.axis, &ent->asset->ang);
+
+        ent->frame->rot.angle = 0.0f;
+
+        xRotCopy(&ent->frame->oldrot, &ent->frame->rot);
+    }
+
+    if (ent->bupdate && ent->model)
+    {
+        ent->bupdate(ent, (xVec3 *)&ent->model->Mat->pos);
+    }
+
+    ent->num_updates = xrand() & 127;
+
+    if (ent->flags & XENT_STACKABLE)
+    {
+        setup_stacked_entity(*ent);
+    }
+}
+
 xModelInstance *xEntLoadModel(xEnt *ent, RpAtomic *imodel)
 {
     xModelInstance *model = xModelInstanceAlloc(imodel, ent, 0, 0, NULL);
@@ -181,6 +393,16 @@ void xEntDefaultBoundUpdate(xEnt *ent, xVec3 *pos)
 void xEntDefaultTranslate(xEnt *ent, xVec3 *dpos, xMat4x3 *dmat)
 {
     BFBBSTUB("xEntDefaultTranslate");
+}
+
+void xEntBeginCollide(xEnt *ent, xScene *, float)
+{
+    BFBBSTUB("xEntBeginCollide");
+}
+
+void xEntSetNostepNormAngle(float angle)
+{
+    nsn_angle = angle;
 }
 
 xBox *xEntGetAllEntsBox()

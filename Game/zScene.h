@@ -74,6 +74,7 @@ void zSceneSpawnRandomBubbles();
 void zSceneRender();
 void zSceneForAllBase(zSceneForAllBaseCallBack func, int baseType, void *data);
 void zSceneMemLvlChkCB();
+const char *zSceneGetLevelPrefix(unsigned int index);
 unsigned int zScene_ScreenAdjustMode();
 
 #endif

@@ -14,6 +14,12 @@ void init()
     BFBBSTUB("oob_state::init");
 }
 
+bool IsPlayerInControl()
+{
+    BFBBSTUB("oob_state::init");
+    return true;
+}
+
 bool render()
 {
     BFBBSTUB("oob_state::render");

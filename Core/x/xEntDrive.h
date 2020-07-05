@@ -3,6 +3,8 @@
 
 #include "xEnt.h"
 
+#define XENTDRIVE_UNK1 0x1
+
 struct xEntDrive
 {
     struct tri_data : xCollis::tri_data
@@ -29,5 +31,7 @@ struct xEntDrive
     xVec3 dloc;
     tri_data tri;
 };
+
+void xEntDriveInit(xEntDrive *drv, xEnt *driven);
 
 #endif

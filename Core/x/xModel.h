@@ -32,6 +32,8 @@ struct xSurface;
 
 #define XMODEL_PIPE_UNK80000 0x80000
 
+#define XMODEL_PIPE_BLEND_MASK 0xFF00
+
 struct xModelInstance
 {
     xModelInstance *Next;
@@ -133,6 +135,11 @@ void xModel_SceneExit(RpWorld *world);
 inline xMat4x3 *xModelGetFrame(xModelInstance *modelInst)
 {
     return (xMat4x3 *)modelInst->Mat;
+}
+
+inline void xModelSetFrame(xModelInstance *modelInst, const xMat4x3 *frame)
+{
+    xMat4x3Copy((xMat4x3 *)modelInst->Mat, frame);
 }
 
 #endif

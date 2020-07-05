@@ -5,6 +5,22 @@
 #include "xEntMotion.h"
 #include "xEntDrive.h"
 
+#define XPLATFORM_TYPE_PLATFORM    0
+#define XPLATFORM_TYPE_ER          0
+#define XPLATFORM_TYPE_ORBIT       1
+#define XPLATFORM_TYPE_SPLINE      2
+#define XPLATFORM_TYPE_MP          3
+#define XPLATFORM_TYPE_MECH        4
+#define XPLATFORM_TYPE_PEN         5
+#define XPLATFORM_TYPE_CONVBELT    6
+#define XPLATFORM_TYPE_FALLING     7
+#define XPLATFORM_TYPE_FR          8
+#define XPLATFORM_TYPE_BREAKAWAY   9
+#define XPLATFORM_TYPE_SPRINGBOARD 10
+#define XPLATFORM_TYPE_TEETER      11
+#define XPLATFORM_TYPE_PADDLE      12
+#define XPLATFORM_TYPE_FM          13
+
 struct xPlatformERData
 {
     int nodata;

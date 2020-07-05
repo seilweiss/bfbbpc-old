@@ -100,6 +100,8 @@ struct xEntBoulder;
 struct zEntHangable;
 struct zPlatform;
 
+#define LEVEL_COUNT 15
+
 #define SB_MODEL_BODY          0
 #define SB_MODEL_ARM_L         1
 #define SB_MODEL_ARM_R         2
@@ -232,10 +234,10 @@ struct zPlayerGlobals
     int cheat_mode;
     unsigned int Inv_Shiny;
     unsigned int Inv_Spatula;
-    unsigned int Inv_PatsSock[15];
-    unsigned int Inv_PatsSock_Max[15];
+    unsigned int Inv_PatsSock[LEVEL_COUNT];
+    unsigned int Inv_PatsSock_Max[LEVEL_COUNT];
     unsigned int Inv_PatsSock_CurrentLevel;
-    unsigned int Inv_LevelPickups[15];
+    unsigned int Inv_LevelPickups[LEVEL_COUNT];
     unsigned int Inv_LevelPickups_CurrentLevel;
     unsigned int Inv_PatsSock_Total;
     xModelTag BubbleTag;

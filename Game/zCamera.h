@@ -90,5 +90,6 @@ extern int zcam_debug;
 void zCameraReset(xCamera *cam);
 void zCameraDisableTracking(camera_owner_enum owner);
 void zCameraUpdate(xCamera *cam, float dt);
+void zCameraDisableLassoCam();
 
 #endif

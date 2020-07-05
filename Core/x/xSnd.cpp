@@ -27,6 +27,11 @@ void xSndUpdate()
     BFBBSTUB("xSndUpdate");
 }
 
+void xSndSelectListenerMode(sound_listener_game_mode listenerMode)
+{
+    BFBBSTUB("xSndSelectListenerMode");
+}
+
 void xSndExit()
 {
     BFBBSTUB("xSndExit");

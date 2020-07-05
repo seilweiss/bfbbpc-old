@@ -113,6 +113,31 @@ static unsigned int enableScreenAdj;
 static int sMemDepthSceneStart = -1;
 static int sMemDepthJustHIPStart = -1;
 
+struct zSceneLevel
+{
+    const char *desc;
+    const char *prefix;
+};
+
+static zSceneLevel sLevelTable[LEVEL_COUNT] =
+{
+    "Bikini Bottom", "HB",
+    "Jellyfish Fields", "JF",
+    "Downtown Bikini Bottom", "BB",
+    "Goo Lagoon", "GL",
+    "Poseidome", "B1",
+    "Rock Bottom", "RB",
+    "Mermalair", "BC",
+    "Sand Mountain", "SM",
+    "Industrial Park", "B2",
+    "Kelp Forest", "KF",
+    "Flying Dutchman's Graveyard", "GY",
+    "Spongebob's Dream", "DB",
+    "Chum Bucket Lab", "B3",
+    "PLAYGROUND", "PG",
+    "Start", "MN"
+};
+
 static unsigned int zSceneInitFunc_Default(zScene *s, zSceneObjectInstanceDesc *desc,
                                            unsigned int base_idx);
 static unsigned int zSceneInitFunc_DefaultEnt(zScene *s, zSceneObjectInstanceDesc *desc,
@@ -2463,6 +2488,16 @@ static xBase *zSceneExitSoundIteratorCB(xBase *b, zScene *s, void *data)
 void zSceneMemLvlChkCB()
 {
     return;
+}
+
+const char *zSceneGetLevelPrefix(unsigned int index)
+{
+    if (index >= LEVEL_COUNT)
+    {
+        return NULL;
+    }
+
+    return sLevelTable[index].prefix;
 }
 
 void zSceneEnableVisited(zScene *s)

@@ -454,6 +454,7 @@
     <ClCompile Include="Core\x\xDraw.cpp" />
     <ClCompile Include="Core\x\xEnt.cpp" />
     <ClCompile Include="Core\x\xEntBoulder.cpp" />
+    <ClCompile Include="Core\x\xEntDrive.cpp" />
     <ClCompile Include="Core\x\xEntMotion.cpp" />
     <ClCompile Include="Core\x\xEnv.cpp" />
     <ClCompile Include="Core\x\xEvent.cpp" />
