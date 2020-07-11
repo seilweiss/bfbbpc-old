@@ -79,6 +79,8 @@ void xMemInitHeap(xMemHeap_tag *heap, unsigned int base, unsigned int size,
                   unsigned int flags);
 void xMemInit();
 void xMemExit();
+void *xMemGrowAlloc(unsigned int heapID, unsigned int size);
+void *xMemGrowAlloc(unsigned int size);
 void *xMemAlloc(unsigned int heapID, unsigned int size, int align);
 void *xMemAlloc(unsigned int size, int align);
 void *xMemPushTemp(unsigned int size);
@@ -90,5 +92,8 @@ int xMemPopBase(int depth);
 int xMemGetBase(unsigned int heapID);
 void xMemRegisterBaseNotifyFunc(xMemBaseNotifyFunc func);
 int xMemGetBase();
+void xMemPoolSetup(xMemPool *pool, void *buffer, unsigned int nextOffset,
+                   unsigned int flags, xMemPoolInitCallBack initCB, unsigned int size,
+                   unsigned int count, unsigned int numRealloc);
 
 #endif

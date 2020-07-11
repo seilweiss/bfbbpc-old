@@ -615,6 +615,15 @@
     <ClInclude Include="Core\p2\iParMgr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\p2\iAnim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\x\xMorph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\p2\iAnimSKB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\zMain.cpp">
@@ -1131,6 +1140,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\x\xEntDrive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\p2\iAnim.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\x\xMorph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\p2\iAnimSKB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

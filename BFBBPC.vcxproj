@@ -217,6 +217,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Core\p2\iAnim.h" />
+    <ClInclude Include="Core\p2\iAnimSKB.h" />
     <ClInclude Include="Core\p2\iColor.h" />
     <ClInclude Include="Core\p2\iDraw.h" />
     <ClInclude Include="Core\p2\iEnv.h" />
@@ -287,6 +289,7 @@
     <ClInclude Include="Core\x\xMemMgr.h" />
     <ClInclude Include="Core\x\xModel.h" />
     <ClInclude Include="Core\x\xModelBucket.h" />
+    <ClInclude Include="Core\x\xMorph.h" />
     <ClInclude Include="Core\x\xMovePoint.h" />
     <ClInclude Include="Core\x\xNPCBasic.h" />
     <ClInclude Include="Core\x\xordarray.h" />
@@ -420,6 +423,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\p2\bacamval_hack.c" />
+    <ClCompile Include="Core\p2\iAnim.cpp" />
+    <ClCompile Include="Core\p2\iAnimSKB.cpp" />
     <ClCompile Include="Core\p2\iDraw.cpp" />
     <ClCompile Include="Core\p2\iEnv.cpp" />
     <ClCompile Include="Core\p2\iFile.cpp" />
@@ -475,6 +480,7 @@
     <ClCompile Include="Core\x\xMemMgr.cpp" />
     <ClCompile Include="Core\x\xModel.cpp" />
     <ClCompile Include="Core\x\xModelBucket.cpp" />
+    <ClCompile Include="Core\x\xMorph.cpp" />
     <ClCompile Include="Core\x\xMovePoint.cpp" />
     <ClCompile Include="Core\x\xordarray.cpp" />
     <ClCompile Include="Core\x\xPad.cpp" />

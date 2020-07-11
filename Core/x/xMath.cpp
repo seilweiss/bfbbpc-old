@@ -41,6 +41,11 @@ unsigned int xrand()
     return rndseed;
 }
 
+float xurand()
+{
+    return 1.0f / 0xFFFFFFFF * xrand();
+}
+
 float xAngleClampFast(float a)
 {
     if (a < 0.0f)

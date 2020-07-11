@@ -164,6 +164,48 @@ static unsigned int xMemGetBlockInfo(xMemHeap_tag *heap, unsigned int size, int 
     return total;
 }
 
+void *xMemGrowAlloc(unsigned int heapID, unsigned int size)
+{
+    size = size + 3 & ~3;
+
+    xMemHeap_tag *heap = &gxHeap[heapID];
+    xMemBlock_tag *hdr = heap->lastblk;
+    xHeapState_tag *sp = &heap->state[heap->state_idx];
+    void *memptr;
+
+    unsigned int r7 = hdr->size + size - hdr->size;
+
+    if (sp->used + r7 > heap->size)
+    {
+        return NULL;
+    }
+
+    if (heap->flags & XMEMHEAP_UNK100)
+    {
+        hdr->addr -= size;
+        memptr = (void *)hdr->addr;
+
+        sp->curr -= r7;
+    }
+    else
+    {
+        sp->curr += r7;
+        memptr = (void *)(hdr->addr + hdr->size);
+    }
+
+    sp->used += r7;
+    hdr->size += size;
+
+    memset(memptr, 0, size);
+
+    return memptr;
+}
+
+void *xMemGrowAlloc(unsigned int size)
+{
+    return xMemGrowAlloc(gActiveHeap, size);
+}
+
 void *xMemAlloc(unsigned int heapID, unsigned int size, int align)
 {
     xMemHeap_tag *heap = &gxHeap[heapID];
@@ -288,4 +330,52 @@ void xMemRegisterBaseNotifyFunc(xMemBaseNotifyFunc func)
 int xMemGetBase()
 {
     return xMemGetBase(gActiveHeap);
+}
+
+static void xMemPoolAddElements(xMemPool *pool, void *buffer, unsigned int count)
+{
+    int i;
+    void *curr = buffer;
+    xMemPoolInitCallBack initCB = pool->InitCB;
+    unsigned int next = pool->NextOffset;
+    unsigned int size = pool->Size;
+
+    for (i = 0; i < count - 1; i++)
+    {
+        *((size_t *)((char *)curr + next)) = (size_t)((char *)curr + size);
+
+        if (initCB)
+        {
+            initCB(pool, curr);
+        }
+
+        curr = (char *)curr + size;
+    }
+
+    *(void **)((char *)curr + next) = pool->FreeList;
+
+    if (initCB)
+    {
+        initCB(pool, curr);
+    }
+
+    pool->FreeList = buffer;
+    pool->Total += count;
+}
+
+void xMemPoolSetup(xMemPool *pool, void *buffer, unsigned int nextOffset,
+                   unsigned int flags, xMemPoolInitCallBack initCB, unsigned int size,
+                   unsigned int count, unsigned int numRealloc)
+{
+    pool->FreeList = NULL;
+    pool->NextOffset = nextOffset;
+    pool->Flags = flags;
+    pool->UsedList = NULL;
+    pool->InitCB = initCB;
+    pool->Buffer = buffer;
+    pool->Size = size;
+    pool->NumRealloc = numRealloc;
+    pool->Total = 0;
+
+    xMemPoolAddElements(pool, buffer, count);
 }

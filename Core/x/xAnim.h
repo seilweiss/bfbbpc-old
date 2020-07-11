@@ -4,10 +4,15 @@
 #include "xModel.h"
 #include "xMemMgr.h"
 
+#define XANIMFILE_UNK1000 0x1000
+#define XANIMFILE_UNK2000 0x2000
+#define XANIMFILE_UNK4000 0x4000
+#define XANIMFILE_UNK8000 0x8000
+
 struct xAnimFile
 {
     xAnimFile *Next;
-    char *Name;
+    const char *Name;
     unsigned int ID;
     unsigned int FileFlags;
     float Duration;
@@ -62,6 +67,8 @@ typedef void(*xAnimBeforeEnterCallBack)(xAnimPlay *, xAnimState *);
 typedef void(*xAnimStateCallBack)(xAnimState *, xAnimSingle *, void *);
 typedef void(*xAnimBeforeAnimMatricesCallBack)(xAnimPlay *, xQuat *, xVec3 *, int);
 
+#define XANIMSTATE_UNK100 0x100
+
 struct xAnimState
 {
     xAnimState *Next;
@@ -88,6 +95,8 @@ struct xAnimState
 struct xAnimTransition;
 
 typedef unsigned int(*xAnimTransitionCallBack)(xAnimTransition *, xAnimSingle *, void *);
+
+#define XANIMTRANSITION_UNK20 0x20
 
 struct xAnimTransition
 {
@@ -154,8 +163,19 @@ struct xAnimPlay
     xAnimBeforeAnimMatricesCallBack BeforeAnimMatrices;
 };
 
+extern unsigned int gxAnimUseGrowAlloc;
+
 void xAnimInit();
 void xAnimTempTransitionInit(unsigned int count);
+xAnimFile *xAnimFileNewBilinear(void **rawData, const char *name, unsigned int flags,
+                                xAnimFile **linkedList, unsigned int numX,
+                                unsigned int numY);
+xAnimFile *xAnimFileNew(void *rawData, const char *name, unsigned int flags,
+                        xAnimFile **linkedList);
+void xAnimFileSetTime(xAnimFile *data, float duration, float timeOffset);
+float xAnimFileRawTime(xAnimFile *data, float f1);
+void xAnimFileEval(xAnimFile *data, float time, float *bilinear, unsigned int flags,
+                   xVec3 *tran, xQuat *quat, float *);
 xAnimState *xAnimTableGetState(xAnimTable *table, const char *name);
 void xAnimPlaySetState(xAnimSingle *single, xAnimState *state, float startTime);
 void xAnimPoolInit(xMemPool *pool, unsigned int count, unsigned int singles,

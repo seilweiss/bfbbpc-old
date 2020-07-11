@@ -7,6 +7,7 @@
 
 void xMathInit();
 void xMathExit();
+float xurand();
 float xatof(const char *x);
 void xsrand(unsigned int seed);
 unsigned int xrand();
