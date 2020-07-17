@@ -176,11 +176,47 @@ void xAnimFileSetTime(xAnimFile *data, float duration, float timeOffset);
 float xAnimFileRawTime(xAnimFile *data, float f1);
 void xAnimFileEval(xAnimFile *data, float time, float *bilinear, unsigned int flags,
                    xVec3 *tran, xQuat *quat, float *);
+xAnimEffect *xAnimStateNewEffect(xAnimState *state, unsigned int flags, float startTime,
+                                 float endTime, xAnimEffectCallBack callback,
+                                 unsigned int userDataSize);
+xAnimTable *xAnimTableNew(const char *name, xAnimTable **linkedList,
+                          unsigned int userFlags);
+void xAnimDefaultBeforeEnter(xAnimPlay *, xAnimState *state);
+xAnimState *xAnimTableNewState(xAnimTable *table, const char *name, unsigned int flags,
+                               unsigned int userFlags, float speed, float *boneBlend,
+                               float *timeSnap, float fadeRecip,
+                               unsigned short *fadeOffset, void *callbackData,
+                               xAnimBeforeEnterCallBack beforeEnter,
+                               xAnimStateCallBack stateCallback,
+                               xAnimBeforeAnimMatricesCallBack beforeAnimMatrices);
 xAnimState *xAnimTableGetState(xAnimTable *table, const char *name);
+void xAnimTableAddTransition(xAnimTable *table, xAnimTransition *tran,
+                             const char *source);
+xAnimTransition *xAnimTableNewTransition(xAnimTable *table, const char *source,
+                                         const char *dest,
+                                         xAnimTransitionCallBack conditional,
+                                         xAnimTransitionCallBack callback,
+                                         unsigned int flags, unsigned int userFlags,
+                                         float srcTime, float destTime,
+                                         unsigned short priority,
+                                         unsigned short queuePriority, float blendRecip,
+                                         unsigned short *blendOffset);
+xAnimState *xAnimTableAddFileID(xAnimTable *table, xAnimFile *file, unsigned int stateID,
+                                unsigned int subStateID, unsigned int subStateCount);
+void xAnimTableAddFile(xAnimTable *table, xAnimFile *file, const char *states);
+xAnimState *xAnimTableGetStateID(xAnimTable *table, unsigned int ID);
 void xAnimPlaySetState(xAnimSingle *single, xAnimState *state, float startTime);
+void xAnimPlaySetup(xAnimPlay *play, void *object, xAnimTable *table,
+                    xModelInstance *modelInst);
+void xAnimPlayStartTransition(xAnimPlay *play, xAnimTransition *transition);
+void xAnimPlayChooseTransition(xAnimPlay *play);
+void xAnimPlayUpdate(xAnimPlay *play, float timeDelta);
+void xAnimPlayEval(xAnimPlay *play);
+void xAnimPoolCB(xMemPool *pool, void *data);
 void xAnimPoolInit(xMemPool *pool, unsigned int count, unsigned int singles,
                    unsigned int blendFlags, unsigned int effectMax);
 xAnimPlay *xAnimPoolAlloc(xMemPool *pool, void *object, xAnimTable *table,
                           xModelInstance *modelInst);
+void xAnimPoolFree(xAnimPlay *play);
 
 #endif

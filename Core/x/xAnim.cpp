@@ -714,15 +714,189 @@ void xAnimFileEval(xAnimFile *data, float time, float *bilinear, unsigned int fl
 }
 #endif
 
+xAnimEffect *xAnimStateNewEffect(xAnimState *state, unsigned int flags, float startTime,
+                                 float endTime, xAnimEffectCallBack callback,
+                                 unsigned int userDataSize)
+{
+    BFBBSTUB("xAnimStateNewEffect");
+    return NULL;
+}
+
+xAnimTable *xAnimTableNew(const char *name, xAnimTable **linkedList,
+                          unsigned int userFlags)
+{
+    BFBBSTUB("xAnimTableNew");
+    return NULL;
+}
+
+void xAnimDefaultBeforeEnter(xAnimPlay *, xAnimState *state)
+{
+    BFBBSTUB("xAnimDefaultBeforeEnter");
+}
+
+xAnimState *xAnimTableNewState(xAnimTable *table, const char *name, unsigned int flags,
+                               unsigned int userFlags, float speed, float *boneBlend,
+                               float *timeSnap, float fadeRecip,
+                               unsigned short *fadeOffset, void *callbackData,
+                               xAnimBeforeEnterCallBack beforeEnter,
+                               xAnimStateCallBack stateCallback,
+                               xAnimBeforeAnimMatricesCallBack beforeAnimMatrices)
+{
+    BFBBSTUB("xAnimTableNewState");
+    return NULL;
+}
+
+static void _xAnimTableAddTransitionHelper(xAnimState *, xAnimTransition *,
+                                           unsigned int &, unsigned int &, xAnimState **)
+{
+    BFBBSTUB("_xAnimTableAddTransitionHelper");
+}
+
+static void _xAnimTableAddTransition(xAnimTable *table, xAnimTransition *tran,
+                                     const char *source, const char *dest)
+{
+    BFBBSTUB("_xAnimTableAddTransition");
+}
+
+void xAnimTableAddTransition(xAnimTable *table, xAnimTransition *tran,
+                             const char *source)
+{
+    BFBBSTUB("xAnimTableAddTransition");
+}
+
+xAnimTransition *xAnimTableNewTransition(xAnimTable *table, const char *source,
+                                         const char *dest,
+                                         xAnimTransitionCallBack conditional,
+                                         xAnimTransitionCallBack callback,
+                                         unsigned int flags, unsigned int userFlags,
+                                         float srcTime, float destTime,
+                                         unsigned short priority,
+                                         unsigned short queuePriority, float blendRecip,
+                                         unsigned short *blendOffset)
+{
+    BFBBSTUB("xAnimTableNewTransition");
+    return NULL;
+}
+
+void xAnimTableAddFile(xAnimTable *table, xAnimFile *file, const char *states)
+{
+    BFBBSTUB("xAnimTableAddFile");
+}
+
+xAnimState *xAnimTableAddFileID(xAnimTable *table, xAnimFile *file, unsigned int stateID,
+                                unsigned int subStateID, unsigned int subStateCount)
+{
+    BFBBSTUB("xAnimTableAddFileID");
+    return NULL;
+}
+
+xAnimState *xAnimTableGetStateID(xAnimTable *table, unsigned int ID)
+{
+    BFBBSTUB("xAnimTableGetStateID");
+    return NULL;
+}
+
 xAnimState *xAnimTableGetState(xAnimTable *table, const char *name)
 {
     BFBBSTUB("xAnimTableGetState");
     return NULL;
 }
 
+static void EffectActiveInsert(xAnimSingle *, xAnimActiveEffect *)
+{
+    BFBBSTUB("EffectActiveInsert");
+}
+
+static void EffectActiveRemove(xAnimActiveEffect *, unsigned int, unsigned int)
+{
+    BFBBSTUB("EffectActiveRemove");
+}
+
+static int EffectPlaying(xAnimSingle *, xAnimEffect *)
+{
+    BFBBSTUB("EffectPlaying");
+    return 0;
+}
+
+static void EffectSingleStart(xAnimSingle *single)
+{
+    BFBBSTUB("EffectSingleStart");
+}
+
+static void EffectSingleDuration(xAnimSingle *single)
+{
+    BFBBSTUB("EffectSingleDuration");
+}
+
+static void EffectSingleRun(xAnimSingle *single)
+{
+    BFBBSTUB("EffectSingleRun");
+}
+
+static void EffectSingleLoop(xAnimSingle *single)
+{
+    BFBBSTUB("EffectSingleLoop");
+}
+
+static void EffectSingleStop(xAnimSingle *single)
+{
+    BFBBSTUB("EffectSingleStop");
+}
+
+static void StopUpdate(xAnimSingle *)
+{
+    BFBBSTUB("StopUpdate");
+}
+
+static void LoopUpdate(xAnimSingle *)
+{
+    BFBBSTUB("LoopUpdate");
+}
+
 void xAnimPlaySetState(xAnimSingle *single, xAnimState *state, float startTime)
 {
     BFBBSTUB("xAnimPlaySetState");
+}
+
+static void SingleUpdate(xAnimSingle *single, float timeDelta)
+{
+    BFBBSTUB("SingleUpdate");
+}
+
+static void SingleEval(xAnimSingle *, xVec3 *, xQuat *)
+{
+    BFBBSTUB("SingleEval");
+}
+
+void xAnimPlaySetup(xAnimPlay *play, void *object, xAnimTable *table,
+                    xModelInstance *modelInst)
+{
+    BFBBSTUB("xAnimPlaySetup");
+}
+
+void xAnimPlayChooseTransition(xAnimPlay *play)
+{
+    BFBBSTUB("xAnimPlayChooseTransition");
+}
+
+void xAnimPlayStartTransition(xAnimPlay *play, xAnimTransition *transition)
+{
+    BFBBSTUB("xAnimPlayStartTransition");
+}
+
+void xAnimPlayUpdate(xAnimPlay *play, float timeDelta)
+{
+    BFBBSTUB("xAnimPlayUpdate");
+}
+
+void xAnimPlayEval(xAnimPlay *play)
+{
+    BFBBSTUB("xAnimPlayEval");
+}
+
+void xAnimPoolCB(xMemPool *pool, void *data)
+{
+    BFBBSTUB("xAnimPoolCB");
 }
 
 void xAnimPoolInit(xMemPool *pool, unsigned int count, unsigned int singles,
@@ -736,6 +910,11 @@ xAnimPlay *xAnimPoolAlloc(xMemPool *pool, void *object, xAnimTable *table,
 {
     BFBBSTUB("xAnimPoolAlloc");
     return NULL;
+}
+
+void xAnimPoolFree(xAnimPlay *play)
+{
+    BFBBSTUB("xAnimPoolFree");
 }
 
 float xAnimFileRawTime(xAnimFile *data, float f1)
