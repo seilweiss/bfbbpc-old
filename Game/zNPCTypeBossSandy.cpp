@@ -14,6 +14,12 @@ xAnimTable *ZNPC_AnimTable_BossSandyHead()
     return 0;
 }
 
+xAnimTable *ZNPC_AnimTable_BossSandyScoreboard()
+{
+    BFBBSTUB("ZNPC_AnimTable_BossSandyScoreboard");
+    return 0;
+}
+
 void zNPCBSandy_AddBoundEntsToGrid(zScene *zsc)
 {
     BFBBSTUB("zNPCBSandy_AddBoundEntsToGrid");

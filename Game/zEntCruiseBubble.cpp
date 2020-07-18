@@ -18,4 +18,10 @@ void render_screen()
 {
     BFBBSTUB("cruise_bubble::render_screen");
 }
+
+xAnimTable *anim_table()
+{
+    BFBBSTUB("cruise_bubble::anim_table");
+    return NULL;
+}
 }

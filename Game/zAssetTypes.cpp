@@ -200,6 +200,63 @@ static void ATBL_Init();
 
 static RwTexture *TexCB(RwTexture *texture, void *data);
 
+#include "zEntPlayerAnimationTables.h"
+#include "xHudModel.h"
+#include "zNPCHazard.h"
+#include "zEntCruiseBubble.h"
+
+static AnimTableConstructor tableFuncList[48] =
+{
+    zEntPlayer_AnimTable,
+    ZNPC_AnimTable_Common,
+    zPatrick_AnimTable,
+    zSandy_AnimTable,
+    ZNPC_AnimTable_Villager,
+    zSpongeBobTongue_AnimTable,
+    ZNPC_AnimTable_LassoGuide,
+    ZNPC_AnimTable_Hammer,
+    ZNPC_AnimTable_TarTar,
+    ZNPC_AnimTable_GLove,
+    ZNPC_AnimTable_Monsoon,
+    ZNPC_AnimTable_SleepyTime,
+    ZNPC_AnimTable_ArfDog,
+    ZNPC_AnimTable_ArfArf,
+    ZNPC_AnimTable_Chuck,
+    ZNPC_AnimTable_Tubelet,
+    ZNPC_AnimTable_Slick,
+    ZNPC_AnimTable_Ambient,
+    ZNPC_AnimTable_Tiki,
+    ZNPC_AnimTable_Fodder,
+    ZNPC_AnimTable_Duplotron,
+    ZNPC_AnimTable_Jelly,
+    ZNPC_AnimTable_Test,
+    ZNPC_AnimTable_Neptune,
+    ZNPC_AnimTable_KingJelly,
+    ZNPC_AnimTable_Dutchman,
+    ZNPC_AnimTable_Prawn,
+    ZNPC_AnimTable_BossSandy,
+    ZNPC_AnimTable_BossPatrick,
+    ZNPC_AnimTable_BossSB1,
+    ZNPC_AnimTable_BossSB2,
+    ZNPC_AnimTable_BossSBobbyArm,
+    ZNPC_AnimTable_BossPlankton,
+    zEntPlayer_BoulderVehicleAnimTable,
+    ZNPC_AnimTable_BossSandyHead,
+    ZNPC_AnimTable_BalloonBoy,
+    xEnt_AnimTable_AutoEventSmall,
+    ZNPC_AnimTable_SlickShield,
+    ZNPC_AnimTable_SuperFriend,
+    ZNPC_AnimTable_ThunderCloud,
+    XHUD_AnimTable_Idle,
+    ZNPC_AnimTable_NightLight,
+    ZNPC_AnimTable_HazardStd,
+    ZNPC_AnimTable_FloatDevice,
+    cruise_bubble::anim_table,
+    ZNPC_AnimTable_BossSandyScoreboard,
+    zEntPlayer_TreeDomeSBAnimTable,
+    NULL
+};
+
 void zAssetStartup()
 {
     xSTStartup(assetTypeHandlers);

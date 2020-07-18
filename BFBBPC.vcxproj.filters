@@ -624,6 +624,12 @@
     <ClInclude Include="Core\p2\iAnimSKB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Game\zEntPlayerAnimationTables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\x\xHudModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\zMain.cpp">
@@ -1149,6 +1155,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\p2\iAnimSKB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\x\xHudModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

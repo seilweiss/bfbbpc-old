@@ -38,6 +38,18 @@ xAnimTable *ZNPC_AnimTable_Monsoon()
     return 0;
 }
 
+xAnimTable *ZNPC_AnimTable_ThunderCloud()
+{
+    BFBBSTUB("ZNPC_AnimTable_ThunderCloud");
+    return 0;
+}
+
+xAnimTable *ZNPC_AnimTable_NightLight()
+{
+    BFBBSTUB("ZNPC_AnimTable_NightLight");
+    return 0;
+}
+
 xAnimTable *ZNPC_AnimTable_SleepyTime()
 {
     BFBBSTUB("ZNPC_AnimTable_SleepyTime");
@@ -65,6 +77,18 @@ xAnimTable *ZNPC_AnimTable_Chuck()
 xAnimTable *ZNPC_AnimTable_Tubelet()
 {
     BFBBSTUB("ZNPC_AnimTable_Tubelet");
+    return 0;
+}
+
+xAnimTable *ZNPC_AnimTable_FloatDevice()
+{
+    BFBBSTUB("ZNPC_AnimTable_FloatDevice");
+    return 0;
+}
+
+xAnimTable *ZNPC_AnimTable_SlickShield()
+{
+    BFBBSTUB("ZNPC_AnimTable_SlickShield");
     return 0;
 }
 

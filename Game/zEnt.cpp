@@ -331,6 +331,12 @@ void zEntParseModelInfo(xEnt *ent, unsigned int assetID)
     }
 }
 
+xAnimTable *xEnt_AnimTable_AutoEventSmall()
+{
+    BFBBSTUB("xEnt_AnimTable_AutoEventSmall");
+    return NULL;
+}
+
 xModelAssetParam *zEntGetModelParams(unsigned int assetID, unsigned int *size)
 {
     unsigned int bufsize;
