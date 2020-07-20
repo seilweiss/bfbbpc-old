@@ -200,7 +200,7 @@ static void ATBL_Init();
 
 static RwTexture *TexCB(RwTexture *texture, void *data);
 
-#include "zEntPlayerAnimationTables.h"
+#include "zEntPlayer.h"
 #include "xHudModel.h"
 #include "zNPCHazard.h"
 #include "zEntCruiseBubble.h"

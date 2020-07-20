@@ -94,7 +94,8 @@ struct xAnimState
 
 struct xAnimTransition;
 
-typedef unsigned int(*xAnimTransitionCallBack)(xAnimTransition *, xAnimSingle *, void *);
+typedef unsigned int(*xAnimTransitionCallBack)(xAnimTransition *tran, xAnimSingle *anim,
+                                               void *object);
 
 #define XANIMTRANSITION_UNK20 0x20
 

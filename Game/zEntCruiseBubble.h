@@ -8,6 +8,7 @@ namespace cruise_bubble
 void init();
 void reset();
 void render_screen();
+void insert_player_animations(xAnimTable &table);
 xAnimTable *anim_table();
 }
 

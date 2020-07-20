@@ -19,6 +19,11 @@ void render_screen()
     BFBBSTUB("cruise_bubble::render_screen");
 }
 
+void insert_player_animations(xAnimTable &table)
+{
+    BFBBSTUB("cruise_bubble::insert_player_animations");
+}
+
 xAnimTable *anim_table()
 {
     BFBBSTUB("cruise_bubble::anim_table");

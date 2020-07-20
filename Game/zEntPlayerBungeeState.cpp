@@ -18,4 +18,9 @@ void reset()
 {
     BFBBSTUB("bungee_state::reset");
 }
+
+void insert_animations(xAnimTable &table)
+{
+    BFBBSTUB("bungee_state::insert_animations");
+}
 }

@@ -203,6 +203,652 @@ static void HealthReset()
     globals.player.Health = globals.player.MaxHealth;
 }
 
+static unsigned int RunStoicCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("RunStoicCheck");
+    return 0;
+}
+
+static unsigned int RunScaredCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("RunScaredCheck");
+    return 0;
+}
+
+static unsigned int RunVictoryCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("RunVictoryCheck");
+    return 0;
+}
+
+static unsigned int RunSlipCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("RunSlipCheck");
+    return 0;
+}
+
+static unsigned int RunOutOfWorldCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("RunOutOfWorldCheck");
+    return 0;
+}
+
+static unsigned int WalkCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("WalkCheck");
+    return 0;
+}
+
+static unsigned int IdleCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("IdleCheck");
+    return 0;
+}
+
+static unsigned int IdleStoicCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("IdleStoicCheck");
+    return 0;
+}
+
+static unsigned int IdleVictoryCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("IdleVictoryCheck");
+    return 0;
+}
+
+static unsigned int IdleScaredCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("IdleScaredCheck");
+    return 0;
+}
+
+static unsigned int IdleSlipCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("IdleSlipCheck");
+    return 0;
+}
+
+static unsigned int SlipRunCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("SlipRunCB");
+    return 0;
+}
+
+static unsigned int NoSlipCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("NoSlipCB");
+    return 0;
+}
+
+static unsigned int IdleCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("IdleCB");
+    return 0;
+}
+
+static unsigned int InactiveCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("InactiveCheck");
+    return 0;
+}
+
+static unsigned int InactiveCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("InactiveCB");
+    return 0;
+}
+
+static unsigned int InactiveFinishedCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("InactiveFinishedCheck");
+    return 0;
+}
+
+static unsigned int LandCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("LandCheck");
+    return 0;
+}
+
+static unsigned int LandTrackCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("LandTrackCheck");
+    return 0;
+}
+
+static unsigned int LandNoTrackCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("LandNoTrackCheck");
+    return 0;
+}
+
+static unsigned int LandHighCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("LandHighCheck");
+    return 0;
+}
+
+static unsigned int LandRunCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("LandRunCheck");
+    return 0;
+}
+
+static unsigned int LandNoTrackWalkCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("LandNoTrackWalkCheck");
+    return 0;
+}
+
+static unsigned int LandSlipIdleCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("LandSlipIdleCheck");
+    return 0;
+}
+
+static unsigned int LandSlipRunCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("LandSlipRunCheck");
+    return 0;
+}
+
+static unsigned int LandNoTrackFastCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("LandNoTrackFastCheck");
+    return 0;
+}
+
+static unsigned int LandNoTrackSlipRunCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("LandNoTrackSlipRunCheck");
+    return 0;
+}
+
+static unsigned int LandNoTrackSlipIdleCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("LandNoTrackSlipIdleCheck");
+    return 0;
+}
+
+static unsigned int LandCallback(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("LandCallback");
+    return 0;
+}
+
+static unsigned int LandSlipRunCallback(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("LandSlipRunCallback");
+    return 0;
+}
+
+static unsigned int BubbleSpinCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BubbleSpinCheck");
+    return 0;
+}
+
+static unsigned int BubbleSpinCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BubbleSpinCB");
+    return 0;
+}
+
+static unsigned int BubbleBashCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BubbleBashCheck");
+    return 0;
+}
+
+static unsigned int BubbleBashCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BubbleBashCB");
+    return 0;
+}
+
+static unsigned int BBashStrikeCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BBashStrikeCheck");
+    return 0;
+}
+
+static unsigned int BBashStrikeCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BBashStrikeCB");
+    return 0;
+}
+
+static unsigned int BBashToJumpCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BBashToJumpCheck");
+    return 0;
+}
+
+static unsigned int BubbleBounceCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BubbleBounceCheck");
+    return 0;
+}
+
+static unsigned int BubbleBounceCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BubbleBounceCB");
+    return 0;
+}
+
+static unsigned int BBounceAttackCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BBounceAttackCB");
+    return 0;
+}
+
+static unsigned int BBounceStrikeCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BBounceStrikeCheck");
+    return 0;
+}
+
+static unsigned int BBounceStrikeCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BBounceStrikeCB");
+    return 0;
+}
+
+static unsigned int BBounceToJumpCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BBounceToJumpCheck");
+    return 0;
+}
+
+static unsigned int BBounceToJumpCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BBounceToJumpCB");
+    return 0;
+}
+
+static unsigned int BbowlCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BbowlCheck");
+    return 0;
+}
+
+static unsigned int BbowlCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BbowlCB");
+    return 0;
+}
+
+static unsigned int BbowlWindupEndCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BbowlWindupEndCheck");
+    return 0;
+}
+
+static unsigned int BbowlTossEndCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BbowlTossEndCB");
+    return 0;
+}
+
+static unsigned int BbowlRecoverWalkCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BbowlRecoverWalkCheck");
+    return 0;
+}
+
+static unsigned int BbowlRecoverRunCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BbowlRecoverRunCheck");
+    return 0;
+}
+
+static unsigned int BbowlRecoverRunScaredCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BbowlRecoverRunScaredCheck");
+    return 0;
+}
+
+static unsigned int BbowlRecoverRunVictoryCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BbowlRecoverRunVictoryCheck");
+    return 0;
+}
+
+static unsigned int BbowlRecoverRunOutOfWorldCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BbowlRecoverRunOutOfWorldCheck");
+    return 0;
+}
+
+static unsigned int BbowlRecoverRunSlipCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BbowlRecoverRunSlipCheck");
+    return 0;
+}
+
+static unsigned int GooCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("GooCheck");
+    return 0;
+}
+
+static unsigned int GooDeathCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("GooDeathCB");
+    return 0;
+}
+
+static unsigned int Hit01Check(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("Hit01Check");
+    return 0;
+}
+
+static unsigned int Hit01CB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("Hit01CB");
+    return 0;
+}
+
+static unsigned int Hit02Check(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("Hit02Check");
+    return 0;
+}
+
+static unsigned int Hit02CB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("Hit02CB");
+    return 0;
+}
+
+static unsigned int Hit03Check(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("Hit03Check");
+    return 0;
+}
+
+static unsigned int Hit03CB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("Hit03CB");
+    return 0;
+}
+
+static unsigned int Hit04Check(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("Hit04Check");
+    return 0;
+}
+
+static unsigned int Hit04CB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("Hit04CB");
+    return 0;
+}
+
+static unsigned int Hit05Check(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("Hit05Check");
+    return 0;
+}
+
+static unsigned int Hit05CB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("Hit05CB");
+    return 0;
+}
+
+static unsigned int Defeated01Check(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("Defeated01Check");
+    return 0;
+}
+
+static unsigned int Defeated02Check(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("Defeated02Check");
+    return 0;
+}
+
+static unsigned int Defeated03Check(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("Defeated03Check");
+    return 0;
+}
+
+static unsigned int Defeated04Check(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("Defeated04Check");
+    return 0;
+}
+
+static unsigned int Defeated05Check(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("Defeated05Check");
+    return 0;
+}
+
+static unsigned int DefeatedCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("DefeatedCB");
+    return 0;
+}
+
+static unsigned int sSpatulaGrabbed;
+
+static unsigned int SpatulaGrabCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    return sSpatulaGrabbed;
+}
+
+static unsigned int SpatulaGrabCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("SpatulaGrabCB");
+    return 0;
+}
+
+static unsigned int SpatulaGrabStopCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("SpatulaGrabStopCB");
+    return 0;
+}
+
+static unsigned int WallJumpLaunchCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("WallJumpLaunchCheck");
+    return 0;
+}
+
+static unsigned int WallJumpLaunchCallback(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("WallJumpLaunchCallback");
+    return 0;
+}
+
+static unsigned int WallJumpCallback(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("WallJumpCallback");
+    return 0;
+}
+
+static unsigned int WallJumpFlightLandCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("WallJumpFlightLandCheck");
+    return 0;
+}
+
+static unsigned int WallJumpFlightLandCallback(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("WallJumpFlightLandCallback");
+    return 0;
+}
+
+static unsigned int WallJumpLandFlightCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("WallJumpLandFlightCheck");
+    return 0;
+}
+
+static unsigned int WallJumpLandFlightCallback(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("WallJumpLandFlightCallback");
+    return 0;
+}
+
+static unsigned int JumpCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("JumpCheck");
+    return 0;
+}
+
+static unsigned int JumpCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("JumpCB");
+    return 0;
+}
+
+static unsigned int JumpApexCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("JumpApexCheck");
+    return 0;
+}
+
+static unsigned int BounceCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BounceCheck");
+    return 0;
+}
+
+static unsigned int BounceCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BounceCB");
+    return 0;
+}
+
+static unsigned int DblJumpCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("DblJumpCheck");
+    return 0;
+}
+
+static unsigned int DblJumpCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("DblJumpCB");
+    return 0;
+}
+
+static unsigned int TongueDblJumpCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("TongueDblJumpCB");
+    return 0;
+}
+
+static unsigned int TongueDblSpinCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("TongueDblSpinCB");
+    return 0;
+}
+
+static unsigned int FallCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("FallCheck");
+    return 0;
+}
+
+static unsigned int BoulderRollCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BoulderRollCheck");
+    return 0;
+}
+
+static unsigned int BoulderRollWindupCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BoulderRollWindupCB");
+    return 0;
+}
+
+static unsigned int BoulderRollCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("BoulderRollCB");
+    return 0;
+}
+
+static unsigned int SlideTrackCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("SlideTrackCheck");
+    return 0;
+}
+
+static unsigned int SlideTrackCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("SlideTrackCB");
+    return 0;
+}
+
+static unsigned int NoslideTrackCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("NoslideTrackCB");
+    return 0;
+}
+
+static unsigned int NoslideTrackCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("NoslideTrackCheck");
+    return 0;
+}
+
+static unsigned int TrackFallCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("TrackFallCheck");
+    return 0;
+}
+
+static unsigned int TrackFallCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("TrackFallCB");
+    return 0;
+}
+
+static unsigned int TrackPrefallJumpCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("TrackPrefallJumpCheck");
+    return 0;
+}
+
+static unsigned int LedgeGrabCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("LedgeGrabCheck");
+    return 0;
+}
+
+static unsigned int LedgeGrabCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("LedgeGrabCB");
+    return 0;
+}
+
+static unsigned int LedgeFinishCB(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("LedgeFinishCB");
+    return 0;
+}
+
+namespace
+{
+unsigned int TalkCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("TalkCheck");
+    return 0;
+}
+
+unsigned int TalkDoneCheck(xAnimTransition *, xAnimSingle *, void *)
+{
+    BFBBSTUB("TalkDoneCheck");
+    return 0;
+}
+}
+
 void zEntPlayerSpeakStop()
 {
     BFBBSTUB("zEntPlayerSpeakStop");
@@ -1087,3 +1733,5 @@ void zEntPlayer_UnloadSounds()
 {
     BFBBSTUB("zEntPlayer_UnloadSounds");
 }
+
+#include "zEntPlayerAnimationTables.h"

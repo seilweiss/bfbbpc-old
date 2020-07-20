@@ -4,6 +4,13 @@
 #include "zEnt.h"
 #include "zLasso.h"
 
+xAnimTable *zSandy_AnimTable();
+xAnimTable *zPatrick_AnimTable();
+xAnimTable *zEntPlayer_AnimTable();
+xAnimTable *zSpongeBobTongue_AnimTable();
+xAnimTable *zEntPlayer_BoulderVehicleAnimTable();
+xAnimTable *zEntPlayer_TreeDomeSBAnimTable();
+
 enum _zPlayerType
 {
     ePlayer_SB,
